@@ -32,9 +32,9 @@ import { ComposableMap, Geographies, Geography } from "react-simple-maps";
  * Sections: Info / Query / Output / Archives / Profiles / Group Prayer Resonance Detection
  */
 
-// ---------- Water Ripple Background ----------
+// ---------- Enhanced Water Ripple Background ----------
 const DynamicBackground: React.FC = () => {
-  const [ripples, setRipples] = useState<Array<{id: number, x: number, y: number, radius: number, opacity: number, phase: number}>>([]);
+  const [ripples, setRipples] = useState<Array<{id: number, x: number, y: number, radius: number, opacity: number, phase: number, intensity: number}>>([]);
   
   useEffect(() => {
     // Create initial ripples
@@ -42,36 +42,38 @@ const DynamicBackground: React.FC = () => {
       const x = Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200);
       const y = Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800);
       const phase = Math.random() * Math.PI * 2;
+      const intensity = 0.6 + Math.random() * 0.4; // Vary intensity
       
-      setRipples(prev => [...prev.slice(-15), {
+      setRipples(prev => [...prev.slice(-20), {
         id: Date.now() + Math.random(),
         x,
         y,
         radius: 0,
-        opacity: 0.8,
-        phase
+        opacity: 0.9 * intensity,
+        phase,
+        intensity
       }]);
     };
 
     // Create initial ripples
-    for (let i = 0; i < 8; i++) {
-      setTimeout(createRipple, i * 200);
+    for (let i = 0; i < 12; i++) {
+      setTimeout(createRipple, i * 150);
     }
 
     // Animation loop
     const animate = () => {
-      // Add new ripples randomly (like rain drops)
-      if (Math.random() < 0.03) {
+      // Add new ripples more frequently (like heavy rain)
+      if (Math.random() < 0.08) {
         createRipple();
       }
 
       // Update existing ripples
       setRipples(prev => prev.map(ripple => ({
         ...ripple,
-        radius: ripple.radius + 1.5,
-        opacity: ripple.opacity - 0.008,
-        phase: ripple.phase + 0.02
-      })).filter(ripple => ripple.opacity > 0.01));
+        radius: ripple.radius + 2,
+        opacity: ripple.opacity - 0.005,
+        phase: ripple.phase + 0.03
+      })).filter(ripple => ripple.opacity > 0.02));
 
       requestAnimationFrame(animate);
     };
@@ -81,27 +83,30 @@ const DynamicBackground: React.FC = () => {
 
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none">
-      {/* Water Ripples */}
+      {/* Enhanced Water Ripples */}
       {ripples.map(ripple => {
-        const interference = Math.sin(ripple.phase) * 0.3 + 1;
-        const waveCount = Math.floor(ripple.radius / 20);
+        const interference = Math.sin(ripple.phase) * 0.4 + 1;
+        const waveCount = Math.floor(ripple.radius / 15);
         
         return (
           <div key={ripple.id} className="absolute">
             {Array.from({ length: waveCount }, (_, i) => {
-              const waveRadius = (i + 1) * 20;
-              const waveOpacity = (ripple.opacity * (1 - i * 0.1)) * interference;
+              const waveRadius = (i + 1) * 15;
+              const waveOpacity = (ripple.opacity * (1 - i * 0.08)) * interference * ripple.intensity;
+              const borderWidth = Math.max(1, 3 - i * 0.3);
               
               return (
                 <motion.div
                   key={i}
-                  className="absolute border border-white/30 rounded-full"
+                  className="absolute rounded-full"
                   style={{
                     left: ripple.x - waveRadius,
                     top: ripple.y - waveRadius,
                     width: waveRadius * 2,
                     height: waveRadius * 2,
-                    opacity: Math.max(0, waveOpacity)
+                    opacity: Math.max(0, waveOpacity),
+                    border: `${borderWidth}px solid rgba(255,255,255,${0.4 + i * 0.1})`,
+                    boxShadow: `0 0 ${waveRadius * 0.5}px rgba(255,255,255,${waveOpacity * 0.3})`
                   }}
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ 
@@ -109,7 +114,7 @@ const DynamicBackground: React.FC = () => {
                     opacity: Math.max(0, waveOpacity)
                   }}
                   transition={{ 
-                    duration: 0.5,
+                    duration: 0.3,
                     ease: "easeOut"
                   }}
                 />
@@ -119,17 +124,51 @@ const DynamicBackground: React.FC = () => {
         );
       })}
 
-      {/* Subtle grid pattern */}
+      {/* Enhanced grid pattern with subtle animation */}
       <div 
-        className="absolute inset-0 opacity-5"
+        className="absolute inset-0 opacity-8"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+            linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)
           `,
-          backgroundSize: '40px 40px'
+          backgroundSize: '30px 30px'
         }}
       />
+      
+      {/* Additional subtle wave overlay */}
+      <div className="absolute inset-0 opacity-3">
+        <svg className="w-full h-full" viewBox="0 0 1200 800">
+          <defs>
+            <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="rgba(255,255,255,0.05)" />
+              <stop offset="50%" stopColor="rgba(255,255,255,0.02)" />
+              <stop offset="100%" stopColor="rgba(255,255,255,0.05)" />
+            </linearGradient>
+          </defs>
+          {Array.from({ length: 2 }, (_, i) => (
+            <motion.path
+              key={i}
+              d={`M0,${300 + i * 200} Q400,${250 + i * 200} 800,${300 + i * 200} T1600,${300 + i * 200} L1600,800 L0,800 Z`}
+              fill="url(#waveGradient)"
+              initial={{ d: `M0,${300 + i * 200} Q400,${250 + i * 200} 800,${300 + i * 200} T1600,${300 + i * 200} L1600,800 L0,800 Z` }}
+              animate={{
+                d: [
+                  `M0,${300 + i * 200} Q400,${250 + i * 200} 800,${300 + i * 200} T1600,${300 + i * 200} L1600,800 L0,800 Z`,
+                  `M0,${280 + i * 200} Q400,${270 + i * 200} 800,${280 + i * 200} T1600,${280 + i * 200} L1600,800 L0,800 Z`,
+                  `M0,${320 + i * 200} Q400,${230 + i * 200} 800,${320 + i * 200} T1600,${320 + i * 200} L1600,800 L0,800 Z`,
+                  `M0,${300 + i * 200} Q400,${250 + i * 200} 800,${300 + i * 200} T1600,${300 + i * 200} L1600,800 L0,800 Z`
+                ]
+              }}
+              transition={{
+                duration: 12 + i * 3,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+          ))}
+        </svg>
+      </div>
     </div>
   );
 };
@@ -571,10 +610,38 @@ const AudioItem: React.FC = () => {
     <Card className="bg-white/5 border-white/10">
       <CardHeader className="flex items-center justify-between">
         <CardTitle className="flex items-center gap-2 text-sm"><AudioLines className="h-3 w-3"/> <GlitchText>Audio</GlitchText></CardTitle>
+        <div className="text-xs text-white/40 font-mono">FILE-043-AUDIO</div>
       </CardHeader>
       <CardContent className="space-y-4 text-sm">
         <div className="flex items-center justify-between gap-2">
           <div className="truncate">Noesis Institute · Hallucinogenic Research Lab</div>
+        </div>
+        
+        {/* Archive Photo */}
+        <div className="flex gap-4">
+          <div className="w-24 h-16 rounded border border-white/20 bg-white/5 flex items-center justify-center overflow-hidden">
+            <img 
+              src="/case-scene-042-Paris-after-global-resonance.png" 
+              alt="Audio Archive Photo"
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                if (nextElement) {
+                  nextElement.style.display = 'flex';
+                }
+              }}
+            />
+            <div className="text-center text-white/60 text-xs" style={{display: 'none'}}>
+              <div className="text-xs font-mono">PHOTO</div>
+              <div className="text-xs">043</div>
+            </div>
+          </div>
+          <div className="flex-1 text-xs text-white/60 font-mono">
+            <div>Archive Photo: Paris After Global Resonance</div>
+            <div>Classification: AUDIO-043</div>
+            <div>Date: 2047.03.15</div>
+          </div>
         </div>
         
         {/* Audio Player */}
@@ -652,10 +719,38 @@ const VideoItem: React.FC = () => (
   <Card className="bg-white/5 border-white/10">
       <CardHeader className="flex items-center justify-between">
         <CardTitle className="flex items-center gap-2 text-sm"><Video className="h-3 w-3"/> <GlitchText>Video</GlitchText></CardTitle>
+        <div className="text-xs text-white/40 font-mono">FILE-044-VIDEO</div>
       </CardHeader>
     <CardContent className="space-y-3 text-sm">
       <div className="flex items-center justify-between gap-2">
         <div className="truncate">London Apollo Theatre · Prayer Death Scene</div>
+      </div>
+      
+      {/* Archive Photo */}
+      <div className="flex gap-4">
+        <div className="w-24 h-16 rounded border border-white/20 bg-white/5 flex items-center justify-center overflow-hidden">
+          <img 
+            src="/case-scene-042-Paris-after-global-resonance.png" 
+            alt="Video Archive Photo"
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+              const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+              if (nextElement) {
+                nextElement.style.display = 'flex';
+              }
+            }}
+          />
+          <div className="text-center text-white/60 text-xs" style={{display: 'none'}}>
+            <div className="text-xs font-mono">PHOTO</div>
+            <div className="text-xs">044</div>
+          </div>
+        </div>
+        <div className="flex-1 text-xs text-white/60 font-mono">
+          <div>Archive Photo: Paris After Global Resonance</div>
+          <div>Classification: VIDEO-044</div>
+          <div>Date: 2047.03.15</div>
+        </div>
       </div>
       <div className="relative rounded-xl overflow-hidden border border-white/10 bg-black">
         <video 
@@ -687,13 +782,42 @@ const EchoScriptItem: React.FC = () => {
   const base = "Echo Script: glyphs braid through languages — comprehension partial, alignment dangerous.";
   const text = scramble(toMixed(base), 0.83);
   return (
-    <Card className="bg-white/5 border-white/10 h-32 flex flex-col">
-      <CardHeader className="flex items-center justify-between flex-shrink-0">
-        <CardTitle className="flex items-center gap-2 text-sm"><Languages className="h-3 w-3"/> <GlitchText>Echo Script</GlitchText></CardTitle>
+    <Card className="bg-white/5 border-white/10">
+      <CardHeader className="flex items-center justify-between">
+        <CardTitle className="flex items-center gap-2 text-sm">
+          <Languages className="h-3 w-3"/> 
+          <GlitchText>Echo Script</GlitchText>
+        </CardTitle>
+        <div className="text-xs text-white/40 font-mono">FILE-042-ECHO</div>
       </CardHeader>
-      <CardContent className="text-sm text-white/80 font-mono leading-relaxed flex-1 overflow-hidden">
-        <div className="h-full flex items-center">
+      <CardContent className="space-y-4">
+        <div className="text-sm text-white/80 font-mono leading-relaxed">
           {text}
+        </div>
+        <div className="flex gap-4">
+          <div className="w-24 h-16 rounded border border-white/20 bg-white/5 flex items-center justify-center overflow-hidden">
+            <img 
+              src="/case-scene-042-Paris-after-global-resonance.png" 
+              alt="Echo Script Archive Photo"
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                if (nextElement) {
+                  nextElement.style.display = 'flex';
+                }
+              }}
+            />
+            <div className="text-center text-white/60 text-xs" style={{display: 'none'}}>
+              <div className="text-xs font-mono">PHOTO</div>
+              <div className="text-xs">042</div>
+            </div>
+          </div>
+          <div className="flex-1 text-xs text-white/60 font-mono">
+            <div>Archive Photo: Paris After Global Resonance</div>
+            <div>Classification: ECHO-042</div>
+            <div>Date: 2047.03.15</div>
+          </div>
         </div>
       </CardContent>
     </Card>
@@ -704,9 +828,37 @@ const ManuscriptItem: React.FC = () => (
   <Card className="bg-white/5 border-white/10">
       <CardHeader className="flex items-center justify-between">
         <CardTitle className="flex items-center gap-2 text-sm"><FileText className="h-3 w-3"/> <GlitchText>Manuscript / Letters</GlitchText></CardTitle>
+        <div className="text-xs text-white/40 font-mono">FILE-045-MANUSCRIPT</div>
       </CardHeader>
     <CardContent className="space-y-4 text-sm">
       <div className="font-mono text-white/80">Everlyn — field notes in cipher; edges hum at choir convergence.</div>
+      
+      {/* Archive Photo */}
+      <div className="flex gap-4">
+        <div className="w-24 h-16 rounded border border-white/20 bg-white/5 flex items-center justify-center overflow-hidden">
+          <img 
+            src="/case-scene-042-Paris-after-global-resonance.png" 
+            alt="Manuscript Archive Photo"
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+              const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+              if (nextElement) {
+                nextElement.style.display = 'flex';
+              }
+            }}
+          />
+          <div className="text-center text-white/60 text-xs" style={{display: 'none'}}>
+            <div className="text-xs font-mono">PHOTO</div>
+            <div className="text-xs">045</div>
+          </div>
+        </div>
+        <div className="flex-1 text-xs text-white/60 font-mono">
+          <div>Archive Photo: Paris After Global Resonance</div>
+          <div>Classification: MANUSCRIPT-045</div>
+          <div>Date: 2047.03.15</div>
+        </div>
+      </div>
       <div className="relative rounded-xl overflow-hidden border border-white/10 bg-black">
         <img 
           src="/Everlyn Manuscript.png" 
@@ -767,13 +919,43 @@ const LabBookItem: React.FC = () => (
   <Card className="bg-white/5 border-white/10">
       <CardHeader className="flex items-center justify-between">
         <CardTitle className="flex items-center gap-2 text-sm"><BookOpen className="h-3 w-3"/> <GlitchText>Lab Book</GlitchText></CardTitle>
+        <div className="text-xs text-white/40 font-mono">FILE-046-LABBOOK</div>
       </CardHeader>
-    <CardContent className="space-y-2 text-xs text-white/80 font-mono">
-      <p>[T‑00:10] Baseline prayer field (quiet)</p>
-      <p>[T+00:00] Near‑death protocol initiated. Δ‑indices +17%.</p>
-      <p>[T+00:12] Afterimage persists with eyes closed. Mixed‑language intrusions.</p>
-      <p>[T+00:30] Choir slip: one beat late. Interference coherent 4.2 s.</p>
-      <p>[T+00:47] Heartbeat stabilized via external sync. Memory feels shaped.</p>
+    <CardContent className="space-y-4 text-sm">
+      {/* Archive Photo */}
+      <div className="flex gap-4">
+        <div className="w-24 h-16 rounded border border-white/20 bg-white/5 flex items-center justify-center overflow-hidden">
+          <img 
+            src="/case-scene-042-Paris-after-global-resonance.png" 
+            alt="Lab Book Archive Photo"
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+              const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+              if (nextElement) {
+                nextElement.style.display = 'flex';
+              }
+            }}
+          />
+          <div className="text-center text-white/60 text-xs" style={{display: 'none'}}>
+            <div className="text-xs font-mono">PHOTO</div>
+            <div className="text-xs">046</div>
+          </div>
+        </div>
+        <div className="flex-1 text-xs text-white/60 font-mono">
+          <div>Archive Photo: Paris After Global Resonance</div>
+          <div>Classification: LABBOOK-046</div>
+          <div>Date: 2047.03.15</div>
+        </div>
+      </div>
+      
+      <div className="space-y-2 text-xs text-white/80 font-mono">
+        <p>[T‑00:10] Baseline prayer field (quiet)</p>
+        <p>[T+00:00] Near‑death protocol initiated. Δ‑indices +17%.</p>
+        <p>[T+00:12] Afterimage persists with eyes closed. Mixed‑language intrusions.</p>
+        <p>[T+00:30] Choir slip: one beat late. Interference coherent 4.2 s.</p>
+        <p>[T+00:47] Heartbeat stabilized via external sync. Memory feels shaped.</p>
+      </div>
     </CardContent>
   </Card>
 );
