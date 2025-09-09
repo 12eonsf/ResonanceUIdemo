@@ -1104,7 +1104,7 @@ All attempts to define *Resonantia* will converge to recursion.`);
                   {/* Neural Sync and AR Module Labels */}
                   <div className="flex items-center justify-between gap-4">
                     <div className="flex items-center gap-2">
-                      <div className="text-white/70">Neural Sync</div>
+                      <div className="text-green-400">Neural Sync</div>
                       <div className="flex items-center gap-1">
                         <motion.div 
                           className="w-1 h-1 bg-green-400 rounded-full"
