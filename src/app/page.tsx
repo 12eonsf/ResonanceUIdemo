@@ -501,7 +501,7 @@ const ResonanceObserver: React.FC<{ city: CityKey; onCity: (c: CityKey) => void;
   return (
     <Card className="bg-white/5 border-white/10">
       <CardHeader className="flex items-center justify-between">
-        <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> Group Prayer Resonance Detection</CardTitle>
+        <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> <GlitchText>Group Prayer Resonance Detection</GlitchText></CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* City Selection */}
@@ -570,7 +570,7 @@ const ResonanceObserver: React.FC<{ city: CityKey; onCity: (c: CityKey) => void;
                 </defs>
                 <rect width="100%" height="100%" fill="url(#grid)"/>
               </svg>
-            </div>
+        </div>
           </div>
           
           {/* Resonance Ripples */}
@@ -1419,7 +1419,7 @@ All attempts to define *Resonantia* will converge to recursion.`);
         {/* Info */}
         <Card className="bg-white/5 border-white/10">
           <CardHeader className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> Info</CardTitle>
+            <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> <GlitchText>Info</GlitchText></CardTitle>
           </CardHeader>
           <CardContent className="space-y-6 text-xs">
             {/* Version */}
@@ -1488,7 +1488,7 @@ All attempts to define *Resonantia* will converge to recursion.`);
         {/* Query */}
         <Card className="bg-white/5 border-white/10">
           <CardHeader className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> Query</CardTitle>
+            <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> <GlitchText>Query</GlitchText></CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Input Box */}
@@ -1606,7 +1606,7 @@ All attempts to define *Resonantia* will converge to recursion.`);
         {/* Output */}
         <Card className="bg-white/5 border-white/10">
           <CardHeader className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> Output</CardTitle>
+            <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> <GlitchText>Output</GlitchText></CardTitle>
           </CardHeader>
           <CardContent>
             <div className="rounded-xl border border-white/10 p-5 bg-black/40 font-mono text-sm leading-relaxed">
@@ -1618,7 +1618,7 @@ All attempts to define *Resonantia* will converge to recursion.`);
         {/* Archives */}
         <Card className="bg-white/5 border-white/10">
           <CardHeader className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> Archives</CardTitle>
+            <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> <GlitchText>Archives</GlitchText></CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-1 gap-4">
             <EchoScriptItem />
@@ -1634,7 +1634,7 @@ All attempts to define *Resonantia* will converge to recursion.`);
         {/* Profiles */}
         <Card className="bg-white/5 border-white/10">
           <CardHeader className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> Profiles</CardTitle>
+            <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> <GlitchText>Profiles</GlitchText></CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-1 gap-6">
             <ProfileCard 
