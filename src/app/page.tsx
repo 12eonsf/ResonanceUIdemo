@@ -165,13 +165,13 @@ const DynamicBackground: React.FC = () => {
         ></div>
       </div>
 
-      {/* Enhanced grid pattern with balanced opacity */}
+      {/* Subtle grid pattern with very low opacity */}
       <div 
-        className="absolute inset-0 opacity-30"
+        className="absolute inset-0 opacity-10"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.35) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.35) 1px, transparent 1px)
+            linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)
           `,
           backgroundSize: '40px 40px'
         }}
