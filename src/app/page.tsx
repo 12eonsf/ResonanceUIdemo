@@ -1436,28 +1436,73 @@ All attempts to define *Resonantia* will converge to recursion.`);
           <div className="flex flex-col items-center gap-3">
             <div className="flex items-center gap-3">
               <div className="relative w-10 h-10 md:w-12 md:h-12">
-                <motion.svg 
-                  viewBox="0 0 100 100" 
-                  className="absolute inset-0"
-                  animate={{ 
-                    rotate: [0, 2, 0], 
-                    y: [0, -2, 0] 
-                  }}
-                  transition={{ 
-                    duration: 4, 
-                    repeat: Infinity, 
-                    ease: "easeInOut" 
-                  }}
-                >
+                <svg viewBox="0 0 100 100" className="absolute inset-0">
                   <defs>
-                    <linearGradient id="dg" x1="0" x2="1" y1="0" y2="1">
+                    <linearGradient id="dg-header1" x1="0" x2="1" y1="0" y2="1">
                       <stop offset="0%" stopColor="#fff" stopOpacity={0.95} />
                       <stop offset="50%" stopColor="#bfe3ff" stopOpacity={0.9} />
                       <stop offset="100%" stopColor="#efc6ff" stopOpacity={0.9} />
                     </linearGradient>
+                    <linearGradient id="dg-header2" x1="0" x2="1" y1="0" y2="1">
+                      <stop offset="0%" stopColor="#fff" stopOpacity={0.8} />
+                      <stop offset="50%" stopColor="#76a0ff" stopOpacity={0.7} />
+                      <stop offset="100%" stopColor="#ff9af4" stopOpacity={0.7} />
+                    </linearGradient>
+                    <linearGradient id="dg-header3" x1="0" x2="1" y1="0" y2="1">
+                      <stop offset="0%" stopColor="#fff" stopOpacity={0.6} />
+                      <stop offset="50%" stopColor="#4ade80" stopOpacity={0.5} />
+                      <stop offset="100%" stopColor="#f59e0b" stopOpacity={0.5} />
+                    </linearGradient>
                   </defs>
-                  <polygon points="50,10 90,88 10,88" fill="none" stroke="url(#dg)" strokeWidth={2} />
-                </motion.svg>
+                  
+                  {/* First triangle - slow rotation */}
+                  <motion.polygon 
+                    points="50,10 90,88 10,88" 
+                    fill="none" 
+                    stroke="url(#dg-header1)" 
+                    strokeWidth={2}
+                    animate={{ 
+                      rotate: [0, 360],
+                      scale: [1, 1.05, 1]
+                    }}
+                    transition={{ 
+                      rotate: { duration: 8, repeat: Infinity, ease: "linear" },
+                      scale: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+                    }}
+                  />
+                  
+                  {/* Second triangle - medium rotation */}
+                  <motion.polygon 
+                    points="50,15 85,85 15,85" 
+                    fill="none" 
+                    stroke="url(#dg-header2)" 
+                    strokeWidth={1.5}
+                    animate={{ 
+                      rotate: [0, -360],
+                      scale: [1, 0.95, 1]
+                    }}
+                    transition={{ 
+                      rotate: { duration: 6, repeat: Infinity, ease: "linear" },
+                      scale: { duration: 2.5, repeat: Infinity, ease: "easeInOut" }
+                    }}
+                  />
+                  
+                  {/* Third triangle - fast rotation */}
+                  <motion.polygon 
+                    points="50,20 80,82 20,82" 
+                    fill="none" 
+                    stroke="url(#dg-header3)" 
+                    strokeWidth={1}
+                    animate={{ 
+                      rotate: [0, 360],
+                      scale: [1, 1.1, 1]
+                    }}
+                    transition={{ 
+                      rotate: { duration: 4, repeat: Infinity, ease: "linear" },
+                      scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+                    }}
+                  />
+                </svg>
               </div>
               <div className="text-center">
                 <GlitchText className="text-xl md:text-2xl font-bold tracking-wider text-white/90">
