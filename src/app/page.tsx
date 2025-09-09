@@ -101,7 +101,7 @@ const GlitchText: React.FC<{ children: React.ReactNode; className?: string }> = 
         transition={{ 
           duration: 0.2, 
           repeat: Infinity, 
-          repeatDelay: Math.random() * 2 + 1,
+          repeatDelay: 1.5,
           ease: "easeInOut"
         }}
         style={{ zIndex: 2 }}
@@ -119,7 +119,7 @@ const GlitchText: React.FC<{ children: React.ReactNode; className?: string }> = 
         transition={{ 
           duration: 0.1, 
           repeat: Infinity, 
-          repeatDelay: Math.random() * 1.5 + 0.5,
+          repeatDelay: 1.2,
           ease: "easeInOut"
         }}
         style={{ zIndex: 3 }}
@@ -133,9 +133,13 @@ const GlitchText: React.FC<{ children: React.ReactNode; className?: string }> = 
 // ---------- Utils ----------
 const GLYPHS = "ΔΞΨΦΩλκγπσϕημτχθ◬◇⋄◈◊⟟⟊".split("");
 const MIXED = ["Δ", "echo", "afterimage", "λόγος", "συν", "memory", "phase", "φάσμα", "resonance", "mind", "θ"]; 
-const pick = <T,>(arr: T[]) => arr[Math.floor(Math.random() * arr.length)];
-const scramble = (s: string, p = 0.7) => s.split("").map(ch => /[\w]/.test(ch) && Math.random() < p ? pick(GLYPHS) : ch).join("");
-const toMixed = (s: string) => s.split(/(\s+)/).map(tok => Math.random() < 0.25 ? `${tok}${pick(MIXED)}` : tok).join("");
+
+// Client-side random utilities
+const ClientRandomUtils = {
+  pick: <T,>(arr: T[]) => arr[Math.floor(Math.random() * arr.length)],
+  scramble: (s: string, p = 0.7) => s.split("").map(ch => /[\w]/.test(ch) && Math.random() < p ? ClientRandomUtils.pick(GLYPHS) : ch).join(""),
+  toMixed: (s: string) => s.split(/(\s+)/).map(tok => Math.random() < 0.25 ? `${tok}${ClientRandomUtils.pick(MIXED)}` : tok).join("")
+};
 
 // ---------- WebAudio ripple ----------
 function useRippleSound() {
@@ -524,14 +528,14 @@ const AudioItem: React.FC = () => {
   // Generate waveform data
   const generateWaveformData = () => {
     const bars = 50;
-    const data = Array.from({ length: bars }, () => Math.random() * 0.8 + 0.1);
+    const data = Array.from({ length: bars }, (_, i) => (Math.sin(i * 0.1) * 0.4 + 0.5));
     setWaveformData(data);
   };
 
   // Animate waveform when playing
   const animateWaveform = () => {
     if (playing) {
-      setWaveformData(prev => prev.map(() => Math.random() * 0.8 + 0.1));
+      setWaveformData(prev => prev.map((_, i) => (Math.sin(Date.now() * 0.01 + i * 0.1) * 0.4 + 0.5)));
       animationRef.current = requestAnimationFrame(animateWaveform);
     }
   };
@@ -702,7 +706,7 @@ const EchoScriptItem: React.FC = () => {
   const [seed, setSeed] = useState(0);
   useEffect(() => { const id = setInterval(() => setSeed(s => s+1), 1800); return () => clearInterval(id); }, []);
   const base = "Echo Script: glyphs braid through languages — comprehension partial, alignment dangerous.";
-  const text = scramble(toMixed(base), 0.83);
+  const text = ClientRandomUtils.scramble(ClientRandomUtils.toMixed(base), 0.83);
   return (
     <Card className="bg-white/5 border-white/10 h-48 md:h-32 flex flex-col overflow-hidden">
       <CardHeader className="flex items-center justify-between flex-shrink-0 p-4 pb-2">
@@ -965,7 +969,8 @@ All attempts to define *Resonantia* will converge to recursion.`);
     // Only trigger if clicking on the background, not on interactive elements
     if (e.target === e.currentTarget) {
       const reductions = [1, 5, 20];
-      const randomReduction = reductions[Math.floor(Math.random() * reductions.length)];
+      // Use timestamp-based "random" selection for consistency
+      const randomReduction = reductions[Math.floor((Date.now() % 1000) / 1000 * reductions.length)];
       
       setSystemHallucination(prev => Math.max(0, prev - randomReduction));
       setVisitorHallucination(prev => Math.max(0, prev - randomReduction));
