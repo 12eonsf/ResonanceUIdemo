@@ -148,39 +148,57 @@ const GlitchText: React.FC<{ children: React.ReactNode; className?: string }> = 
       <span className="relative z-10">{children}</span>
       
       {/* Glitch layers - Enhanced visibility */}
-      <span 
-        className="absolute top-0 left-0 text-red-500 opacity-80 animate-pulse"
+      <motion.span 
+        className="absolute top-0 left-0 text-red-500 opacity-90"
+        animate={{ 
+          x: [-2, 0, -2],
+          opacity: [0.8, 0.9, 0.8]
+        }}
+        transition={{ 
+          duration: 0.3, 
+          repeat: Infinity, 
+          repeatDelay: 2,
+          ease: "easeInOut"
+        }}
         style={{ 
           clipPath: "polygon(0 0, 100% 0, 100% 35%, 0 35%)",
-          transform: "translate(-2px, 0)",
           zIndex: 1
         }}
       >
         {children}
-      </span>
-      <span 
-        className="absolute top-0 left-0 text-cyan-400 opacity-80 animate-pulse"
+      </motion.span>
+      <motion.span 
+        className="absolute top-0 left-0 text-cyan-400 opacity-90"
+        animate={{ 
+          x: [2, 0, 2],
+          opacity: [0.8, 0.9, 0.8]
+        }}
+        transition={{ 
+          duration: 0.3, 
+          repeat: Infinity, 
+          repeatDelay: 2.2,
+          ease: "easeInOut"
+        }}
         style={{ 
           clipPath: "polygon(0 65%, 100% 65%, 100% 100%, 0 100%)",
-          transform: "translate(2px, 0)",
-          animationDelay: "0.1s",
           zIndex: 1
         }}
       >
         {children}
-      </span>
+      </motion.span>
       
       {/* Random glitch effect - More frequent and visible */}
       <motion.span 
-        className="absolute top-0 left-0 text-white opacity-60"
+        className="absolute top-0 left-0 text-white opacity-70"
         animate={{ 
-          x: [0, -3, 3, 0],
-          opacity: [0, 0.5, 0, 0]
+          x: [0, -4, 4, 0],
+          y: [0, -1, 1, 0],
+          opacity: [0, 0.7, 0, 0]
         }}
         transition={{ 
-          duration: 0.2, 
+          duration: 0.15, 
           repeat: Infinity, 
-          repeatDelay: 1.5,
+          repeatDelay: 1.2,
           ease: "easeInOut"
         }}
         style={{ zIndex: 2 }}
@@ -190,15 +208,16 @@ const GlitchText: React.FC<{ children: React.ReactNode; className?: string }> = 
       
       {/* Additional glitch layer */}
       <motion.span 
-        className="absolute top-0 left-0 text-yellow-400 opacity-40"
+        className="absolute top-0 left-0 text-yellow-400 opacity-50"
         animate={{ 
-          x: [0, 1, -1, 0],
-          y: [0, 1, -1, 0]
+          x: [0, 2, -2, 0],
+          y: [0, 1, -1, 0],
+          opacity: [0, 0.5, 0, 0]
         }}
         transition={{ 
           duration: 0.1, 
           repeat: Infinity, 
-          repeatDelay: 1.2,
+          repeatDelay: 1.8,
           ease: "easeInOut"
         }}
         style={{ zIndex: 3 }}
