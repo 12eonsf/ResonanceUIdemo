@@ -337,28 +337,78 @@ const GlitchTextDynamic: React.FC<{ text: string; className?: string }> = ({ tex
 
 // ---------- Animated Δ Logo ----------
 const DeltaLogo: React.FC = () => {
-  const controls = useAnimation();
   const [hover, setHover] = useState(false);
-  useEffect(() => { controls.start({ rotate: [0, 2, 0], y: [0, -2, 0], transition: { duration: 4, repeat: Infinity, ease: "easeInOut" } }); }, [controls]);
+  
   return (
     <div className="flex items-center gap-3 select-none">
       <div className="relative w-12 h-12">
-        <motion.svg viewBox="0 0 100 100" className="absolute inset-0" animate={controls} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+        <svg viewBox="0 0 100 100" className="absolute inset-0">
           <defs>
-            <linearGradient id="dg" x1="0" x2="1" y1="0" y2="1">
+            <linearGradient id="dg1" x1="0" x2="1" y1="0" y2="1">
               <stop offset="0%" stopColor="#fff" stopOpacity={0.95} />
               <stop offset="50%" stopColor="#bfe3ff" stopOpacity={0.9} />
               <stop offset="100%" stopColor="#efc6ff" stopOpacity={0.9} />
             </linearGradient>
+            <linearGradient id="dg2" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stopColor="#fff" stopOpacity={0.8} />
+              <stop offset="50%" stopColor="#76a0ff" stopOpacity={0.7} />
+              <stop offset="100%" stopColor="#ff9af4" stopOpacity={0.7} />
+            </linearGradient>
+            <linearGradient id="dg3" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stopColor="#fff" stopOpacity={0.6} />
+              <stop offset="50%" stopColor="#4ade80" stopOpacity={0.5} />
+              <stop offset="100%" stopColor="#f59e0b" stopOpacity={0.5} />
+            </linearGradient>
           </defs>
-          <motion.polygon points="50,10 90,88 10,88" fill="none" stroke="url(#dg)" strokeWidth={2} />
-          {hover && (
-            <g>
-              <polygon points="50,14 86,84 14,84" fill="none" stroke="#76a0ff" strokeWidth={1} opacity={0.35} />
-              <polygon points="50,6 94,92 6,92" fill="none" stroke="#ff9af4" strokeWidth={1} opacity={0.3} />
-            </g>
-          )}
-        </motion.svg>
+          
+          {/* First triangle - slow rotation */}
+          <motion.polygon 
+            points="50,10 90,88 10,88" 
+            fill="none" 
+            stroke="url(#dg1)" 
+            strokeWidth={2}
+            animate={{ 
+              rotate: [0, 360],
+              scale: [1, 1.05, 1]
+            }}
+            transition={{ 
+              rotate: { duration: 8, repeat: Infinity, ease: "linear" },
+              scale: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+            }}
+          />
+          
+          {/* Second triangle - medium rotation */}
+          <motion.polygon 
+            points="50,15 85,85 15,85" 
+            fill="none" 
+            stroke="url(#dg2)" 
+            strokeWidth={1.5}
+            animate={{ 
+              rotate: [0, -360],
+              scale: [1, 0.95, 1]
+            }}
+            transition={{ 
+              rotate: { duration: 6, repeat: Infinity, ease: "linear" },
+              scale: { duration: 2.5, repeat: Infinity, ease: "easeInOut" }
+            }}
+          />
+          
+          {/* Third triangle - fast rotation */}
+          <motion.polygon 
+            points="50,20 80,82 20,82" 
+            fill="none" 
+            stroke="url(#dg3)" 
+            strokeWidth={1}
+            animate={{ 
+              rotate: [0, 360],
+              scale: [1, 1.1, 1]
+            }}
+            transition={{ 
+              rotate: { duration: 4, repeat: Infinity, ease: "linear" },
+              scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+            }}
+          />
+        </svg>
       </div>
       <div>
         <div className="text-lg tracking-[0.18em] font-semibold">Δ RESONANTIA · INTERNAL INTERFACE</div>
@@ -655,23 +705,25 @@ const AudioItem: React.FC = () => {
     setDuration(audioRef.current.duration);
   };
 
-  // Generate simple waveform data
+  // Generate traditional audio waveform data
   const generateWaveformData = () => {
-    const bars = 40;
+    const bars = 50;
     const data = Array.from({ length: bars }, (_, i) => {
-      const wave = Math.sin(i * 0.2) * 0.3 + 0.5;
-      return Math.max(0.2, Math.min(0.8, wave));
+      // Create traditional audio waveform with varying amplitudes
+      const baseHeight = 0.1 + Math.random() * 0.6; // Random height between 0.1-0.7
+      return baseHeight;
     });
     setWaveformData(data);
   };
 
-  // Simple waveform animation
+  // Traditional waveform animation
   const animateWaveform = () => {
     if (playing) {
-      const time = Date.now() * 0.003;
       setWaveformData(prev => prev.map((_, i) => {
-        const wave = Math.sin(time + i * 0.2) * 0.3 + 0.5;
-        return Math.max(0.2, Math.min(0.8, wave));
+        // Random height changes for traditional audio visualization
+        const variation = (Math.random() - 0.5) * 0.3;
+        const newHeight = Math.max(0.1, Math.min(0.8, prev[i] + variation));
+        return newHeight;
       }));
       animationRef.current = requestAnimationFrame(animateWaveform);
     }
@@ -711,23 +763,25 @@ const AudioItem: React.FC = () => {
         <div className="bg-black/20 border border-white/10 rounded-lg p-4 space-y-3">
           {/* Waveform Visualization */}
           <div className="flex items-center justify-center h-12 bg-black/20 rounded border border-white/5 p-2 mx-0 overflow-hidden">
-            <div className="grid items-end gap-px h-full w-full" style={{ gridTemplateColumns: 'repeat(40, minmax(0, 1fr))' }}>
+            <div className="flex items-end justify-center gap-0.5 h-full w-full">
               {waveformData.map((height, index) => (
                 <motion.div
                   key={index}
-                  className="bg-white/70 rounded-sm"
+                  className="bg-white/80"
                   style={{
-                    width: '100%',
+                    width: '2px',
                     height: `${height * 100}%`,
                     minHeight: '2px'
                   }}
                   animate={playing ? {
-                    opacity: [0.7, 1, 0.7]
+                    height: [`${height * 100}%`, `${(height + 0.2) * 100}%`, `${height * 100}%`],
+                    opacity: [0.6, 1, 0.6]
                   } : {}}
                   transition={{
-                    duration: 0.5,
+                    duration: 0.1,
                     repeat: playing ? Infinity : 0,
-                    ease: "easeInOut"
+                    ease: "easeInOut",
+                    delay: index * 0.01
                   }}
                 />
               ))}
