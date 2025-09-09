@@ -1197,7 +1197,7 @@ const PhotoArchiveItem: React.FC = () => (
       <div className="space-y-2 text-xs text-white/60 font-mono">
         <div>Classification: PHOTO-047</div>
         <div>Date: 2047.03.15</div>
-        <div>Location: Paris, France</div>
+        <div>Location: ████████████ Paris, France</div>
         <div>Event: Post-Global Resonance Documentation</div>
         <div>Status: Classified - Internal Use Only</div>
       </div>
