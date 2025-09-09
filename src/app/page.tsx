@@ -528,7 +528,7 @@ const AudioItem: React.FC = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [waveformData, setWaveformData] = useState<number[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | undefined>(undefined);
 
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
