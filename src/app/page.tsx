@@ -482,7 +482,7 @@ const ResonanceObserver: React.FC<{ city: CityKey; onCity: (c: CityKey) => void;
   return (
     <Card className="bg-white/5 border-white/10">
       <CardHeader className="flex items-center justify-between">
-        <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> <GlitchText>Group Prayer Resonance Detection</GlitchText></CardTitle>
+        <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> Group Prayer Resonance Detection</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* City Selection */}
@@ -673,7 +673,7 @@ const AudioItem: React.FC = () => {
   return (
     <Card className="bg-white/5 border-white/10">
       <CardHeader className="flex items-center justify-between">
-        <CardTitle className="flex items-center gap-2 text-sm"><AudioLines className="h-3 w-3"/> <GlitchText>Audio</GlitchText></CardTitle>
+        <CardTitle className="flex items-center gap-2 text-sm"><AudioLines className="h-3 w-3"/> Audio</CardTitle>
         <div className="text-xs text-white/40 font-mono">FILE-043-AUDIO</div>
       </CardHeader>
       <CardContent className="space-y-4 text-sm">
@@ -781,7 +781,7 @@ const AudioItem: React.FC = () => {
 const VideoItem: React.FC = () => (
   <Card className="bg-white/5 border-white/10">
       <CardHeader className="flex items-center justify-between">
-        <CardTitle className="flex items-center gap-2 text-sm"><Video className="h-3 w-3"/> <GlitchText>Video</GlitchText></CardTitle>
+        <CardTitle className="flex items-center gap-2 text-sm"><Video className="h-3 w-3"/> Video</CardTitle>
         <div className="text-xs text-white/40 font-mono">FILE-044-VIDEO</div>
       </CardHeader>
     <CardContent className="space-y-3 text-sm">
@@ -827,7 +827,7 @@ const EchoScriptItem: React.FC = () => {
       <CardHeader className="flex items-center justify-between flex-shrink-0 p-4 pb-2">
         <CardTitle className="flex items-center gap-2 text-sm">
           <Languages className="h-3 w-3"/> 
-          <GlitchText>Echo Script</GlitchText>
+          Echo Script
         </CardTitle>
         <div className="text-xs text-white/40 font-mono">FILE-042-ECHO</div>
       </CardHeader>
@@ -843,7 +843,7 @@ const EchoScriptItem: React.FC = () => {
 const ManuscriptItem: React.FC = () => (
   <Card className="bg-white/5 border-white/10">
       <CardHeader className="flex items-center justify-between">
-        <CardTitle className="flex items-center gap-2 text-sm"><FileText className="h-3 w-3"/> <GlitchText>Manuscript / Letters</GlitchText></CardTitle>
+        <CardTitle className="flex items-center gap-2 text-sm"><FileText className="h-3 w-3"/> Manuscript / Letters</CardTitle>
         <div className="text-xs text-white/40 font-mono">FILE-045-MANUSCRIPT</div>
       </CardHeader>
     <CardContent className="space-y-4 text-sm">
@@ -990,7 +990,7 @@ const ManuscriptItem: React.FC = () => (
 const LabBookItem: React.FC = () => (
   <Card className="bg-white/5 border-white/10">
       <CardHeader className="flex items-center justify-between">
-        <CardTitle className="flex items-center gap-2 text-sm"><BookOpen className="h-3 w-3"/> <GlitchText>Lab Book</GlitchText></CardTitle>
+        <CardTitle className="flex items-center gap-2 text-sm"><BookOpen className="h-3 w-3"/> Lab Book</CardTitle>
         <div className="text-xs text-white/40 font-mono">FILE-046-LABBOOK</div>
       </CardHeader>
     <CardContent className="space-y-3 text-xs text-white/80 font-mono leading-relaxed">
@@ -1073,7 +1073,7 @@ const LabBookItem: React.FC = () => (
 const LabBookItem2: React.FC = () => (
   <Card className="bg-white/5 border-white/10">
       <CardHeader className="flex items-center justify-between">
-        <CardTitle className="flex items-center gap-2 text-sm"><BookOpen className="h-3 w-3"/> <GlitchText>Lab Book</GlitchText></CardTitle>
+        <CardTitle className="flex items-center gap-2 text-sm"><BookOpen className="h-3 w-3"/> Lab Book</CardTitle>
         <div className="text-xs text-white/40 font-mono">FILE-047-LABBOOK</div>
       </CardHeader>
     <CardContent className="space-y-3 text-xs text-white/80 font-mono leading-relaxed">
@@ -1165,7 +1165,7 @@ const PhotoArchiveItem: React.FC = () => (
     <CardHeader className="flex items-center justify-between">
       <CardTitle className="flex items-center gap-2 text-sm">
         <MapPin className="h-3 w-3"/> 
-        <GlitchText>Photo</GlitchText>
+        Photo
       </CardTitle>
       <div className="text-xs text-white/40 font-mono">FILE-047-PHOTO</div>
     </CardHeader>
@@ -1400,7 +1400,7 @@ All attempts to define *Resonantia* will converge to recursion.`);
         {/* Info */}
         <Card className="bg-white/5 border-white/10">
           <CardHeader className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> <GlitchText>Info</GlitchText></CardTitle>
+            <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> Info</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6 text-xs">
             {/* Version */}
@@ -1469,7 +1469,7 @@ All attempts to define *Resonantia* will converge to recursion.`);
         {/* Query */}
         <Card className="bg-white/5 border-white/10">
           <CardHeader className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> <GlitchText>Query</GlitchText></CardTitle>
+            <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> Query</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Input Box */}
@@ -1587,11 +1587,11 @@ All attempts to define *Resonantia* will converge to recursion.`);
         {/* Output */}
         <Card className="bg-white/5 border-white/10">
           <CardHeader className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> <GlitchText>Output</GlitchText></CardTitle>
+            <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> Output</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="rounded-xl border border-white/10 p-5 bg-black/40 font-mono text-sm leading-relaxed">
-              <GlitchTextDynamic text={output} />
+              {output}
             </div>
           </CardContent>
         </Card>
@@ -1599,7 +1599,7 @@ All attempts to define *Resonantia* will converge to recursion.`);
         {/* Archives */}
         <Card className="bg-white/5 border-white/10">
           <CardHeader className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> <GlitchText>Archives</GlitchText></CardTitle>
+            <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> Archives</CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-1 gap-4">
             <EchoScriptItem />
@@ -1615,7 +1615,7 @@ All attempts to define *Resonantia* will converge to recursion.`);
         {/* Profiles */}
         <Card className="bg-white/5 border-white/10">
           <CardHeader className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> <GlitchText>Profiles</GlitchText></CardTitle>
+            <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> Profiles</CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-1 gap-6">
             <ProfileCard 
@@ -1687,13 +1687,13 @@ All attempts to define *Resonantia* will converge to recursion.`);
               <div className="flex items-center justify-between gap-4">
                 <div className="text-xs text-white/70 font-mono">System</div>
                 <div className="text-lg font-mono">
-                  <GlitchTextDynamic text={systemHallucination.toString()} />
+                  {systemHallucination}
                 </div>
               </div>
               <div className="flex items-center justify-between gap-4">
                 <div className="text-xs text-white/70 font-mono">Visitor</div>
                 <div className="text-lg font-mono">
-                  <GlitchTextDynamic text={visitorHallucination.toString()} />
+                  {visitorHallucination}
                 </div>
               </div>
             </div>

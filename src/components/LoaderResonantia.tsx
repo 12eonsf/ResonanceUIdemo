@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 
 export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: { onComplete?: () => void; minDurationMs?: number }) {
   const [progress, setProgress] = useState(0);
+  const [showAccessButton, setShowAccessButton] = useState(false);
   const bootMessages = useMemo(
     () => [
       "Initializing core protocols…",
@@ -51,7 +52,7 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
       setCurrentMessage(bootMessages[idx]);
 
       if (elapsed >= minDurationMs && p >= 0.995) {
-        onComplete && onComplete();
+        setShowAccessButton(true);
         return;
       }
       raf = requestAnimationFrame(tick);
@@ -115,24 +116,36 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
           <GlitchText text="Δ RESONANTIA · INTERNAL INTERFACE" className="text-xl md:text-2xl" />
           <div className="text-sm uppercase tracking-[0.25em] text-neutral-400">Noesis Institute</div>
 
-          {/* Progress / Stability */}
-          <div className="w-[min(560px,90vw)]">
-            <div className="mb-2 flex items-center justify-between text-xs text-neutral-400">
-              <span>Boot sequence</span>
-              <span>{progress}%</span>
+          {/* Progress / Stability or Access Button */}
+          {!showAccessButton ? (
+            <div className="w-[min(560px,90vw)]">
+              <div className="mb-2 flex items-center justify-between text-xs text-neutral-400">
+                <span>Boot sequence</span>
+                <span>{progress}%</span>
+              </div>
+              <div className="relative h-2 overflow-hidden rounded-full bg-white/10">
+                <motion.div
+                  className="absolute left-0 top-0 h-full bg-white/70"
+                  animate={{ width: `${progress}%` }}
+                  transition={{ ease: "easeOut", duration: 0.3 }}
+                />
+              </div>
+              <div className="mt-2 flex items-center justify-between text-[11px] text-neutral-500">
+                <span className="font-mono">{currentMessage}</span>
+                <span>System Stability: {stability.toFixed(0)}%</span>
+              </div>
             </div>
-            <div className="relative h-2 overflow-hidden rounded-full bg-white/10">
-              <motion.div
-                className="absolute left-0 top-0 h-full bg-white/70"
-                animate={{ width: `${progress}%` }}
-                transition={{ ease: "easeOut", duration: 0.3 }}
-              />
-            </div>
-            <div className="mt-2 flex items-center justify-between text-[11px] text-neutral-500">
-              <span className="font-mono">{currentMessage}</span>
-              <span>System Stability: {stability.toFixed(0)}%</span>
-            </div>
-          </div>
+          ) : (
+            <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              onClick={() => onComplete && onComplete()}
+              className="px-8 py-4 bg-white/10 border border-white/20 rounded-lg text-white font-mono text-lg hover:bg-white/20 hover:border-white/30 transition-all duration-300 backdrop-blur-sm"
+            >
+              Access Δ Resonantia
+            </motion.button>
+          )}
         </div>
       </div>
 
