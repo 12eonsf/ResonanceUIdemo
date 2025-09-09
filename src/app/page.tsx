@@ -43,25 +43,25 @@ const DynamicBackground: React.FC = () => {
       const y = Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800);
       const phase = Math.random() * Math.PI * 2;
       
-      setRipples(prev => [...prev.slice(-15), {
+      setRipples(prev => [...prev.slice(-10), {
         id: Date.now() + Math.random(),
         x,
         y,
         radius: 0,
-        opacity: 0.8,
+        opacity: 0.4,
         phase
       }]);
     };
 
     // Create initial ripples
-    for (let i = 0; i < 8; i++) {
-      setTimeout(createRipple, i * 200);
+    for (let i = 0; i < 5; i++) {
+      setTimeout(createRipple, i * 300);
     }
 
     // Animation loop
     const animate = () => {
       // Add new ripples randomly (like rain drops)
-      if (Math.random() < 0.03) {
+      if (Math.random() < 0.015) {
         createRipple();
       }
 
@@ -95,7 +95,7 @@ const DynamicBackground: React.FC = () => {
               return (
                 <motion.div
                   key={i}
-                  className="absolute border border-white/30 rounded-full"
+                  className="absolute border border-white/15 rounded-full"
                   style={{
                     left: ripple.x - waveRadius,
                     top: ripple.y - waveRadius,
@@ -689,7 +689,7 @@ const EchoScriptItem: React.FC = () => {
   const base = "Echo Script: glyphs braid through languages — comprehension partial, alignment dangerous.";
   const text = scramble(toMixed(base), 0.83);
   return (
-    <Card className="bg-white/5 border-white/10 min-h-48 md:min-h-32 flex flex-col">
+    <Card className="bg-white/5 border-white/10 h-48 md:h-32 flex flex-col">
       <CardHeader className="flex items-center justify-between flex-shrink-0">
         <CardTitle className="flex items-center gap-2 text-sm">
           <Languages className="h-3 w-3"/> 
