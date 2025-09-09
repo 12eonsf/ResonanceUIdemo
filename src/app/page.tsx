@@ -792,7 +792,7 @@ const PhotoArchiveItem: React.FC = () => (
     <CardHeader className="flex items-center justify-between">
       <CardTitle className="flex items-center gap-2 text-sm">
         <MapPin className="h-3 w-3"/> 
-        <GlitchText>photo</GlitchText>
+        <GlitchText>Photo</GlitchText>
       </CardTitle>
       <div className="text-xs text-white/40 font-mono">FILE-047-PHOTO</div>
     </CardHeader>
