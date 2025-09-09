@@ -35,28 +35,28 @@ import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 // ---------- Water Ripple Background ----------
 const DynamicBackground: React.FC = () => {
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none -z-20">
-      {/* Enhanced CSS ripple animations */}
-      <div className="absolute top-1/4 left-1/4 w-32 h-32 border border-white/30 rounded-full animate-ping" style={{ animationDuration: '3s' }}></div>
-      <div className="absolute top-3/4 right-1/4 w-24 h-24 border border-white/25 rounded-full animate-ping" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
-      <div className="absolute bottom-1/4 left-1/3 w-28 h-28 border border-white/35 rounded-full animate-ping" style={{ animationDuration: '5s', animationDelay: '2s' }}></div>
-      <div className="absolute top-1/2 right-1/3 w-20 h-20 border border-white/20 rounded-full animate-ping" style={{ animationDuration: '6s', animationDelay: '0.5s' }}></div>
+    <div className="fixed inset-0 overflow-hidden pointer-events-none -z-30">
+      {/* Enhanced CSS ripple animations with higher opacity */}
+      <div className="absolute top-1/4 left-1/4 w-32 h-32 border-2 border-white/50 rounded-full animate-ping" style={{ animationDuration: '3s' }}></div>
+      <div className="absolute top-3/4 right-1/4 w-24 h-24 border-2 border-white/45 rounded-full animate-ping" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
+      <div className="absolute bottom-1/4 left-1/3 w-28 h-28 border-2 border-white/55 rounded-full animate-ping" style={{ animationDuration: '5s', animationDelay: '2s' }}></div>
+      <div className="absolute top-1/2 right-1/3 w-20 h-20 border-2 border-white/40 rounded-full animate-ping" style={{ animationDuration: '6s', animationDelay: '0.5s' }}></div>
       
       {/* Additional ripples with higher opacity */}
-      <div className="absolute top-1/6 right-1/6 w-16 h-16 border border-white/25 rounded-full animate-pulse" style={{ animationDuration: '8s' }}></div>
-      <div className="absolute bottom-1/6 left-1/6 w-12 h-12 border border-white/30 rounded-full animate-pulse" style={{ animationDuration: '7s', animationDelay: '3s' }}></div>
+      <div className="absolute top-1/6 right-1/6 w-16 h-16 border-2 border-white/45 rounded-full animate-pulse" style={{ animationDuration: '8s' }}></div>
+      <div className="absolute bottom-1/6 left-1/6 w-12 h-12 border-2 border-white/50 rounded-full animate-pulse" style={{ animationDuration: '7s', animationDelay: '3s' }}></div>
       
       {/* More ripples for better visibility */}
-      <div className="absolute top-1/3 right-1/2 w-20 h-20 border border-white/20 rounded-full animate-ping" style={{ animationDuration: '4.5s', animationDelay: '1.5s' }}></div>
-      <div className="absolute bottom-1/3 left-1/4 w-16 h-16 border border-white/25 rounded-full animate-pulse" style={{ animationDuration: '6.5s', animationDelay: '2.5s' }}></div>
+      <div className="absolute top-1/3 right-1/2 w-20 h-20 border-2 border-white/40 rounded-full animate-ping" style={{ animationDuration: '4.5s', animationDelay: '1.5s' }}></div>
+      <div className="absolute bottom-1/3 left-1/4 w-16 h-16 border-2 border-white/45 rounded-full animate-pulse" style={{ animationDuration: '6.5s', animationDelay: '2.5s' }}></div>
 
-      {/* Enhanced grid pattern */}
+      {/* Enhanced grid pattern with higher opacity */}
       <div 
-        className="absolute inset-0 opacity-10"
+        className="absolute inset-0 opacity-20"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)
+            linear-gradient(rgba(255,255,255,0.25) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.25) 1px, transparent 1px)
           `,
           backgroundSize: '40px 40px'
         }}
@@ -1024,7 +1024,7 @@ All attempts to define *Resonantia* will converge to recursion.`);
       {/* Dynamic Background */}
       <DynamicBackground />
       {/* Background grid / glitch */}
-      <div className="fixed inset-0 -z-10 pointer-events-none">
+      <div className="fixed inset-0 -z-20 pointer-events-none">
         <div className="absolute inset-0 opacity-15" style={{ backgroundImage: "linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.35) 1px, transparent 1px)", backgroundSize: "18px 18px" }} />
       </div>
