@@ -34,90 +34,17 @@ import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 
 // ---------- Water Ripple Background ----------
 const DynamicBackground: React.FC = () => {
-  const [ripples, setRipples] = useState<Array<{id: number, x: number, y: number, radius: number, opacity: number}>>([]);
-  
-  useEffect(() => {
-    console.log('DynamicBackground useEffect running');
-    
-    // Create initial ripples
-    const createRipple = () => {
-      const x = Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200);
-      const y = Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800);
-      
-      console.log('Creating ripple at:', x, y);
-      
-      setRipples(prev => {
-        const newRipples = [...prev.slice(-5), {
-          id: Date.now() + Math.random(),
-          x,
-          y,
-          radius: 0,
-          opacity: 0.8
-        }];
-        console.log('New ripples count:', newRipples.length);
-        return newRipples;
-      });
-    };
-
-    // Create initial ripples immediately
-    createRipple();
-    createRipple();
-    createRipple();
-
-    // Animation loop
-    const animate = () => {
-      // Add new ripples randomly
-      if (Math.random() < 0.01) {
-        createRipple();
-      }
-
-      // Update existing ripples
-      setRipples(prev => {
-        const updated = prev.map(ripple => ({
-          ...ripple,
-          radius: ripple.radius + 2,
-          opacity: ripple.opacity - 0.01
-        })).filter(ripple => ripple.opacity > 0.05);
-        
-        return updated;
-      });
-
-      requestAnimationFrame(animate);
-    };
-    
-    animate();
-  }, []);
-
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none -z-20">
-      {/* Test ripple - always visible */}
-      <div className="absolute top-1/2 left-1/2 w-20 h-20 border border-white/50 rounded-full transform -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
+      {/* Simple CSS ripple animations */}
+      <div className="absolute top-1/4 left-1/4 w-32 h-32 border border-white/20 rounded-full animate-ping" style={{ animationDuration: '3s' }}></div>
+      <div className="absolute top-3/4 right-1/4 w-24 h-24 border border-white/15 rounded-full animate-ping" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
+      <div className="absolute bottom-1/4 left-1/3 w-28 h-28 border border-white/25 rounded-full animate-ping" style={{ animationDuration: '5s', animationDelay: '2s' }}></div>
+      <div className="absolute top-1/2 right-1/3 w-20 h-20 border border-white/10 rounded-full animate-ping" style={{ animationDuration: '6s', animationDelay: '0.5s' }}></div>
       
-      {/* Water Ripples */}
-      {ripples.map(ripple => {
-        return (
-          <motion.div
-            key={ripple.id}
-            className="absolute border border-white/30 rounded-full"
-            style={{
-              left: ripple.x - ripple.radius,
-              top: ripple.y - ripple.radius,
-              width: ripple.radius * 2,
-              height: ripple.radius * 2,
-              opacity: ripple.opacity
-            }}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ 
-              scale: 1,
-              opacity: ripple.opacity
-            }}
-            transition={{ 
-              duration: 0.3,
-              ease: "easeOut"
-            }}
-          />
-        );
-      })}
+      {/* Additional subtle ripples */}
+      <div className="absolute top-1/6 right-1/6 w-16 h-16 border border-white/15 rounded-full animate-pulse" style={{ animationDuration: '8s' }}></div>
+      <div className="absolute bottom-1/6 left-1/6 w-12 h-12 border border-white/20 rounded-full animate-pulse" style={{ animationDuration: '7s', animationDelay: '3s' }}></div>
 
       {/* Subtle grid pattern */}
       <div 
