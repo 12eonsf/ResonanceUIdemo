@@ -1664,7 +1664,7 @@ All attempts to define *Resonantia* will converge to recursion.`);
       </main>
 
       {/* Floating Hallucination Monitor - Auto-collapsed */}
-      <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50" style={{ position: 'fixed', bottom: '1rem', right: '1rem' }}>
+      <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-[9999]" style={{ position: 'fixed', bottom: '1rem', right: '1rem' }}>
         <details className="group">
           <summary className="cursor-pointer bg-black/90 border border-white/20 rounded-lg p-2 md:p-3 backdrop-blur-sm hover:bg-black/95 transition-colors">
             <div className="text-xs text-white/60 font-mono">HALLUCINATION MONITOR</div>
@@ -1698,7 +1698,7 @@ All attempts to define *Resonantia* will converge to recursion.`);
                   <span className="ml-2 text-red-400/60 group-open:hidden">[Click to expand]</span>
                   <span className="ml-2 text-red-400/60 hidden group-open:inline">[Click to collapse]</span>
                 </summary>
-                <div className="absolute bottom-full right-0 mb-2 w-72 md:w-80 p-3 bg-red-900/20 border border-red-500/30 rounded text-xs text-red-300/80 font-mono backdrop-blur-sm z-10">
+                <div className="absolute bottom-full right-0 mb-2 w-72 md:w-80 p-3 bg-red-900/60 border border-red-500/30 rounded text-xs text-red-100 font-mono backdrop-blur-sm z-10">
                   Maintain low hallucination levels at all times. If values exceed 50, seek medical department for anti-hallucinogenic medication. Rapid hallucination spikes may trigger epilepsy and mania.
                 </div>
               </details>
