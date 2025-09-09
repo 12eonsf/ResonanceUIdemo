@@ -175,7 +175,7 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
       <div className="absolute bottom-10 left-0 right-0 z-20 flex items-center justify-center text-[11px] uppercase tracking-[0.2em] text-neutral-500">
         <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
           <span className="mr-3">Visitor ID: ███-Δ</span>
-          <span>Permission Level: MEDIUM</span>
+          <span>Permission: MEDIUM</span>
         </div>
       </div>
 
