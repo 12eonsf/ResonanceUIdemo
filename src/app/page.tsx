@@ -655,17 +655,31 @@ const AudioItem: React.FC = () => {
     setDuration(audioRef.current.duration);
   };
 
-  // Generate waveform data
+  // Generate waveform data with more realistic audio wave pattern
   const generateWaveformData = () => {
-    const bars = 50;
-    const data = Array.from({ length: bars }, (_, i) => (Math.sin(i * 0.1) * 0.4 + 0.5));
+    const bars = 60;
+    const data = Array.from({ length: bars }, (_, i) => {
+      // Create more realistic audio wave with multiple frequencies
+      const baseWave = Math.sin(i * 0.15) * 0.3;
+      const highFreq = Math.sin(i * 0.4) * 0.2;
+      const lowFreq = Math.sin(i * 0.05) * 0.1;
+      const noise = (Math.random() - 0.5) * 0.1;
+      return Math.max(0.1, Math.min(0.9, baseWave + highFreq + lowFreq + noise + 0.5));
+    });
     setWaveformData(data);
   };
 
-  // Animate waveform when playing
+  // Animate waveform when playing with more dynamic patterns
   const animateWaveform = () => {
     if (playing) {
-      setWaveformData(prev => prev.map((_, i) => (Math.sin(Date.now() * 0.01 + i * 0.1) * 0.4 + 0.5)));
+      const time = Date.now() * 0.005;
+      setWaveformData(prev => prev.map((_, i) => {
+        const baseWave = Math.sin(time + i * 0.15) * 0.3;
+        const highFreq = Math.sin(time * 2 + i * 0.4) * 0.2;
+        const lowFreq = Math.sin(time * 0.5 + i * 0.05) * 0.1;
+        const noise = (Math.random() - 0.5) * 0.15;
+        return Math.max(0.1, Math.min(0.9, baseWave + highFreq + lowFreq + noise + 0.5));
+      }));
       animationRef.current = requestAnimationFrame(animateWaveform);
     }
   };
@@ -703,25 +717,32 @@ const AudioItem: React.FC = () => {
         {/* Audio Player */}
         <div className="bg-black/20 border border-white/10 rounded-lg p-4 space-y-3">
           {/* Waveform Visualization */}
-          <div className="flex items-center justify-center h-12 bg-black/30 rounded border border-white/5 p-2 mx-0 overflow-hidden">
-            <div className="grid items-end gap-px h-full w-full" style={{ gridTemplateColumns: 'repeat(50, minmax(0, 1fr))' }}>
+          <div className="flex items-center justify-center h-16 bg-gradient-to-r from-black/40 to-black/20 rounded-lg border border-white/10 p-3 mx-0 overflow-hidden">
+            <div className="grid items-end gap-0.5 h-full w-full" style={{ gridTemplateColumns: 'repeat(60, minmax(0, 1fr))' }}>
               {waveformData.map((height, index) => (
                 <motion.div
                   key={index}
-                  className="bg-white/60 rounded-sm"
+                  className="bg-gradient-to-t from-cyan-400/80 to-white/90 rounded-full shadow-sm"
                   style={{
                     width: '100%',
                     height: `${height * 100}%`,
-                    minHeight: '2px'
+                    minHeight: '3px',
+                    boxShadow: playing ? '0 0 4px rgba(34, 211, 238, 0.3)' : 'none'
                   }}
                   animate={playing ? {
-                    height: [`${height * 100}%`, `${(height + 0.3) * 100}%`, `${height * 100}%`],
-                    opacity: [0.6, 1, 0.6]
+                    height: [`${height * 100}%`, `${(height + 0.2) * 100}%`, `${height * 100}%`],
+                    opacity: [0.7, 1, 0.7],
+                    boxShadow: [
+                      '0 0 4px rgba(34, 211, 238, 0.3)',
+                      '0 0 8px rgba(34, 211, 238, 0.6)',
+                      '0 0 4px rgba(34, 211, 238, 0.3)'
+                    ]
                   } : {}}
                   transition={{
-                    duration: 0.5,
+                    duration: 0.3,
                     repeat: playing ? Infinity : 0,
-                    ease: "easeInOut"
+                    ease: "easeInOut",
+                    delay: index * 0.01
                   }}
                 />
               ))}
@@ -842,7 +863,7 @@ const EchoScriptItem: React.FC = () => {
   }, []);
   
   return (
-    <Card className="bg-white/5 border-white/10 h-48 md:h-32 flex flex-col overflow-hidden">
+    <Card className="bg-white/5 border-white/10 h-64 md:h-48 flex flex-col overflow-hidden">
       <CardHeader className="flex items-center justify-between flex-shrink-0 p-4 pb-2">
         <CardTitle className="flex items-center gap-2 text-sm">
           <Languages className="h-3 w-3"/> 
