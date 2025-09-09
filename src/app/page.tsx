@@ -986,6 +986,95 @@ const LabBookItem: React.FC = () => (
   </Card>
 );
 
+const LabBookItem2: React.FC = () => (
+  <Card className="bg-white/5 border-white/10">
+      <CardHeader className="flex items-center justify-between">
+        <CardTitle className="flex items-center gap-2 text-sm"><BookOpen className="h-3 w-3"/> <GlitchText>Lab Book</GlitchText></CardTitle>
+        <div className="text-xs text-white/40 font-mono">FILE-047-LABBOOK</div>
+      </CardHeader>
+    <CardContent className="space-y-3 text-xs text-white/80 font-mono leading-relaxed">
+      <div className="space-y-2">
+        <p className="text-white/90 font-semibold">Experiment Log — Restricted Access</p>
+        <p>Researcher: Dr. Lucian Varga</p>
+        <p>Date: [REDACTED]</p>
+        <p>Experiment ID: QI-Δ-47</p>
+        <p>Objective: Controlled observation of anomalous residual traces within a quantum interference framework.</p>
+      </div>
+      
+      <div className="border-t border-white/20 pt-2">
+      </div>
+      
+      <div className="space-y-2">
+        <p className="text-white/90 font-semibold">Entry 01 — Baseline Calibration</p>
+        <p>Mach-Zehnder interferometer aligned.</p>
+        <p>Photon source stabilized at 532 nm.</p>
+        <p>Vacuum chamber integrity confirmed.</p>
+        <p>Initial interference pattern matches prediction. Visibility = 0.93.</p>
+        <p className="mt-2">No anomalies detected.</p>
+      </div>
+      
+      <div className="space-y-2">
+        <p className="text-white/50">—</p>
+      </div>
+      
+      <div className="space-y-2">
+        <p className="text-white/90 font-semibold">Entry 02 — Residual Injection</p>
+        <p>Introduced encoded "Echo fragment" into phase modulator (external script provided by Noesis Institute).</p>
+        <p>Expected outcome: pattern disruption with statistical noise.</p>
+        <p className="mt-2">Actual outcome:</p>
+        <ul className="list-disc list-inside space-y-1 ml-4">
+          <li>Interference visibility collapsed to 0.14 within 2.3s.</li>
+          <li>Spontaneous formation of secondary fringe lattice not predicted by quantum model.</li>
+          <li>Pattern resembled recursive glyphs (Δ, ∴, ʘ).</li>
+        </ul>
+        <p className="mt-2">Note: detector logs showed phantom counts at positions with no incident photons.</p>
+      </div>
+      
+      <div className="space-y-2">
+        <p className="text-white/50">—</p>
+      </div>
+      
+      <div className="space-y-2">
+        <p className="text-white/90 font-semibold">Entry 03 — Observer Effect</p>
+        <p>Repeated trial with additional shielding.</p>
+        <p>Despite no external observers in chamber, sensors registered phase collapse identical to "measurement-induced collapse."</p>
+        <p className="mt-2">Hypothesis: system responding to potential observation, not actual detection.</p>
+        <p>This is not consistent with quantum mechanics as we understand it.</p>
+      </div>
+      
+      <div className="space-y-2">
+        <p className="text-white/50">—</p>
+      </div>
+      
+      <div className="space-y-2">
+        <p className="text-white/90 font-semibold">Entry 04 — Incident Report</p>
+        <p>During final run, anomalous auditory interference recorded via control room microphone:</p>
+        <p className="text-white/70 italic ml-4">"…the lattice is closed… divergence impossible…"</p>
+        <p className="mt-2">No personnel spoke at the time.</p>
+        <p>Sound signature matched neither lab staff nor environmental noise.</p>
+      </div>
+      
+      <div className="space-y-2">
+        <p className="text-white/50">—</p>
+      </div>
+      
+      <div className="space-y-2">
+        <p className="text-white/90 font-semibold">Researcher's Note (Varga)</p>
+        <ul className="list-disc list-inside space-y-1 ml-4">
+          <li>Statistical impossibility exceeds 10⁻⁸ threshold.</li>
+          <li>The "residual lattice" behaves as if it anticipates measurement, not merely reacting.</li>
+          <li>Conclusion: Experiment confirms closed-loop causality between observer and artifact.</li>
+          <li>Personal remark (not for publication): I fear that every attempt to measure only strengthens the cage.</li>
+        </ul>
+      </div>
+      
+      <div className="space-y-2">
+        <p className="text-white/50">—</p>
+      </div>
+    </CardContent>
+  </Card>
+);
+
 // ---------- Photo Archive ----------
 const PhotoArchiveItem: React.FC = () => (
   <Card className="bg-white/5 border-white/10">
@@ -1426,6 +1515,7 @@ All attempts to define *Resonantia* will converge to recursion.`);
             <VideoItem />
             <ManuscriptItem />
             <LabBookItem />
+            <LabBookItem2 />
             <PhotoArchiveItem />
           </CardContent>
         </Card>
