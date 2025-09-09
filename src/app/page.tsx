@@ -621,14 +621,13 @@ const AudioItem: React.FC = () => {
           </div>
         </div>
 
-        <audio 
-          ref={audioRef} 
+        <audio
+          ref={audioRef}
           src="/audio/noesis-hallucinogenic-lab.mp3" 
           onPlay={() => setPlaying(true)} 
           onPause={() => setPlaying(false)}
           onTimeUpdate={handleTimeUpdate}
           onLoadedMetadata={handleLoadedMetadata}
-          volume={volume}
         />
       </CardContent>
     </Card>
@@ -652,7 +651,10 @@ const VideoItem: React.FC = () => (
           onError={(e) => {
             // Fallback to placeholder if video fails to load
             e.currentTarget.style.display = 'none';
-            e.currentTarget.nextElementSibling.style.display = 'flex';
+            const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+            if (nextElement) {
+              nextElement.style.display = 'flex';
+            }
           }}
         >
           Your browser does not support the video tag.
@@ -697,7 +699,10 @@ const ManuscriptItem: React.FC = () => (
           onError={(e) => {
             // Fallback to placeholder if image fails to load
             e.currentTarget.style.display = 'none';
-            e.currentTarget.nextElementSibling.style.display = 'flex';
+            const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+            if (nextElement) {
+              nextElement.style.display = 'flex';
+            }
           }}
         />
         <div className="w-full h-48 flex items-center justify-center bg-gray-900" style={{display: 'none'}}>
@@ -785,7 +790,10 @@ const ProfileCard: React.FC<{
               onError={(e) => {
                 // Fallback to initials if photo fails to load
                 e.currentTarget.style.display = 'none';
-                e.currentTarget.nextElementSibling.style.display = 'flex';
+                const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                if (nextElement) {
+                  nextElement.style.display = 'flex';
+                }
               }}
             />
             <div className="text-center text-white/60 text-xs" style={{display: 'none'}}>
