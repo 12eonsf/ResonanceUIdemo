@@ -918,10 +918,6 @@ const LabBookItem: React.FC = () => (
         <p>Lead Investigator: Dr. Katherine Li-Weston</p>
       </div>
       
-      <div className="border-t border-white/20 pt-2">
-        <p className="text-white/50">—</p>
-      </div>
-      
       <div className="space-y-2">
         <p className="text-white/90 font-semibold">Entry 01 — Baseline</p>
         <p>Vitals stable. EEG shows irregular but non-pathological theta activity. Subject G.S. reports a sense of anticipation and claims to have "heard fragments before" despite no prior exposure to Echo scripts. Cognitive baseline intact.</p>
