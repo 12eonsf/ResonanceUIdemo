@@ -36,19 +36,134 @@ import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 const DynamicBackground: React.FC = () => {
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
-      {/* Enhanced CSS ripple animations with balanced opacity */}
-      <div className="absolute top-1/4 left-1/4 w-32 h-32 border-2 border-white/70 rounded-full animate-ping" style={{ animationDuration: '3s' }}></div>
-      <div className="absolute top-3/4 right-1/4 w-24 h-24 border-2 border-white/65 rounded-full animate-ping" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
-      <div className="absolute bottom-1/4 left-1/3 w-28 h-28 border-2 border-white/75 rounded-full animate-ping" style={{ animationDuration: '5s', animationDelay: '2s' }}></div>
-      <div className="absolute top-1/2 right-1/3 w-20 h-20 border-2 border-white/60 rounded-full animate-ping" style={{ animationDuration: '6s', animationDelay: '0.5s' }}></div>
+      {/* Concentric circles expanding outward with fade in/out */}
       
-      {/* Additional ripples with balanced opacity */}
-      <div className="absolute top-1/6 right-1/6 w-16 h-16 border-2 border-white/65 rounded-full animate-pulse" style={{ animationDuration: '8s' }}></div>
-      <div className="absolute bottom-1/6 left-1/6 w-12 h-12 border-2 border-white/70 rounded-full animate-pulse" style={{ animationDuration: '7s', animationDelay: '3s' }}></div>
-      
-      {/* More ripples for better visibility */}
-      <div className="absolute top-1/3 right-1/2 w-20 h-20 border-2 border-white/60 rounded-full animate-ping" style={{ animationDuration: '4.5s', animationDelay: '1.5s' }}></div>
-      <div className="absolute bottom-1/3 left-1/4 w-16 h-16 border-2 border-white/65 rounded-full animate-pulse" style={{ animationDuration: '6.5s', animationDelay: '2.5s' }}></div>
+      {/* Center point ripples */}
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        {/* Inner circle */}
+        <div 
+          className="absolute w-4 h-4 border border-white/80 rounded-full"
+          style={{
+            animation: 'ripple-expand 3s ease-out infinite',
+            animationDelay: '0s'
+          }}
+        ></div>
+        <div 
+          className="absolute w-8 h-8 border border-white/70 rounded-full"
+          style={{
+            animation: 'ripple-expand 3s ease-out infinite',
+            animationDelay: '0.3s'
+          }}
+        ></div>
+        <div 
+          className="absolute w-16 h-16 border border-white/60 rounded-full"
+          style={{
+            animation: 'ripple-expand 3s ease-out infinite',
+            animationDelay: '0.6s'
+          }}
+        ></div>
+        <div 
+          className="absolute w-32 h-32 border border-white/50 rounded-full"
+          style={{
+            animation: 'ripple-expand 3s ease-out infinite',
+            animationDelay: '0.9s'
+          }}
+        ></div>
+        <div 
+          className="absolute w-64 h-64 border border-white/40 rounded-full"
+          style={{
+            animation: 'ripple-expand 3s ease-out infinite',
+            animationDelay: '1.2s'
+          }}
+        ></div>
+      </div>
+
+      {/* Secondary ripple points */}
+      <div className="absolute top-1/4 left-1/4 transform -translate-x-1/2 -translate-y-1/2">
+        <div 
+          className="absolute w-2 h-2 border border-white/70 rounded-full"
+          style={{
+            animation: 'ripple-expand 4s ease-out infinite',
+            animationDelay: '0.5s'
+          }}
+        ></div>
+        <div 
+          className="absolute w-8 h-8 border border-white/60 rounded-full"
+          style={{
+            animation: 'ripple-expand 4s ease-out infinite',
+            animationDelay: '1s'
+          }}
+        ></div>
+        <div 
+          className="absolute w-24 h-24 border border-white/50 rounded-full"
+          style={{
+            animation: 'ripple-expand 4s ease-out infinite',
+            animationDelay: '1.5s'
+          }}
+        ></div>
+        <div 
+          className="absolute w-48 h-48 border border-white/40 rounded-full"
+          style={{
+            animation: 'ripple-expand 4s ease-out infinite',
+            animationDelay: '2s'
+          }}
+        ></div>
+      </div>
+
+      <div className="absolute top-3/4 right-1/4 transform -translate-x-1/2 -translate-y-1/2">
+        <div 
+          className="absolute w-3 h-3 border border-white/65 rounded-full"
+          style={{
+            animation: 'ripple-expand 5s ease-out infinite',
+            animationDelay: '1s'
+          }}
+        ></div>
+        <div 
+          className="absolute w-12 h-12 border border-white/55 rounded-full"
+          style={{
+            animation: 'ripple-expand 5s ease-out infinite',
+            animationDelay: '1.8s'
+          }}
+        ></div>
+        <div 
+          className="absolute w-36 h-36 border border-white/45 rounded-full"
+          style={{
+            animation: 'ripple-expand 5s ease-out infinite',
+            animationDelay: '2.6s'
+          }}
+        ></div>
+      </div>
+
+      <div className="absolute bottom-1/4 left-1/3 transform -translate-x-1/2 -translate-y-1/2">
+        <div 
+          className="absolute w-2 h-2 border border-white/75 rounded-full"
+          style={{
+            animation: 'ripple-expand 6s ease-out infinite',
+            animationDelay: '0.8s'
+          }}
+        ></div>
+        <div 
+          className="absolute w-10 h-10 border border-white/65 rounded-full"
+          style={{
+            animation: 'ripple-expand 6s ease-out infinite',
+            animationDelay: '1.6s'
+          }}
+        ></div>
+        <div 
+          className="absolute w-28 h-28 border border-white/55 rounded-full"
+          style={{
+            animation: 'ripple-expand 6s ease-out infinite',
+            animationDelay: '2.4s'
+          }}
+        ></div>
+        <div 
+          className="absolute w-56 h-56 border border-white/45 rounded-full"
+          style={{
+            animation: 'ripple-expand 6s ease-out infinite',
+            animationDelay: '3.2s'
+          }}
+        ></div>
+      </div>
 
       {/* Enhanced grid pattern with balanced opacity */}
       <div 
@@ -61,6 +176,23 @@ const DynamicBackground: React.FC = () => {
           backgroundSize: '40px 40px'
         }}
       />
+
+      {/* CSS Animation Keyframes */}
+      <style jsx>{`
+        @keyframes ripple-expand {
+          0% {
+            transform: scale(0);
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.8;
+          }
+          100% {
+            transform: scale(1);
+            opacity: 0;
+          }
+        }
+      `}</style>
     </div>
   );
 };
