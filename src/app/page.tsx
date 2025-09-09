@@ -32,49 +32,46 @@ import { ComposableMap, Geographies, Geography } from "react-simple-maps";
  * Sections: Info / Query / Output / Archives / Profiles / Group Prayer Resonance Detection
  */
 
-// ---------- Dynamic Background ----------
+// ---------- Water Ripple Background ----------
 const DynamicBackground: React.FC = () => {
-  const [nodes, setNodes] = useState<Array<{id: number, x: number, y: number, vx: number, vy: number}>>([]);
-  const [ripples, setRipples] = useState<Array<{id: number, x: number, y: number, radius: number, opacity: number}>>([]);
+  const [ripples, setRipples] = useState<Array<{id: number, x: number, y: number, radius: number, opacity: number, phase: number}>>([]);
   
   useEffect(() => {
-    // Initialize network nodes
-    const initialNodes = Array.from({ length: 50 }, (_, i) => ({
-      id: i,
-      x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200),
-      y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800),
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5
-    }));
-    setNodes(initialNodes);
+    // Create initial ripples
+    const createRipple = () => {
+      const x = Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200);
+      const y = Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800);
+      const phase = Math.random() * Math.PI * 2;
+      
+      setRipples(prev => [...prev.slice(-15), {
+        id: Date.now() + Math.random(),
+        x,
+        y,
+        radius: 0,
+        opacity: 0.8,
+        phase
+      }]);
+    };
+
+    // Create initial ripples
+    for (let i = 0; i < 8; i++) {
+      setTimeout(createRipple, i * 200);
+    }
 
     // Animation loop
     const animate = () => {
-      setNodes(prev => prev.map(node => ({
-        ...node,
-        x: node.x + node.vx,
-        y: node.y + node.vy,
-        vx: node.x <= 0 || node.x >= (typeof window !== 'undefined' ? window.innerWidth : 1200) ? -node.vx : node.vx,
-        vy: node.y <= 0 || node.y >= (typeof window !== 'undefined' ? window.innerHeight : 800) ? -node.vy : node.vy
-      })));
-
-      // Add random ripples
-      if (Math.random() < 0.02) {
-        setRipples(prev => [...prev.slice(-10), {
-          id: Date.now(),
-          x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200),
-          y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800),
-          radius: 0,
-          opacity: 0.6
-        }]);
+      // Add new ripples randomly (like rain drops)
+      if (Math.random() < 0.03) {
+        createRipple();
       }
 
-      // Update ripples
+      // Update existing ripples
       setRipples(prev => prev.map(ripple => ({
         ...ripple,
-        radius: ripple.radius + 2,
-        opacity: ripple.opacity - 0.01
-      })).filter(ripple => ripple.opacity > 0));
+        radius: ripple.radius + 1.5,
+        opacity: ripple.opacity - 0.008,
+        phase: ripple.phase + 0.02
+      })).filter(ripple => ripple.opacity > 0.01));
 
       requestAnimationFrame(animate);
     };
@@ -84,99 +81,53 @@ const DynamicBackground: React.FC = () => {
 
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none">
-      {/* Wave Background */}
-      <div className="absolute inset-0">
-        <svg className="w-full h-full" viewBox="0 0 1200 800">
-          <defs>
-            <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="rgba(255,255,255,0.03)" />
-              <stop offset="50%" stopColor="rgba(255,255,255,0.01)" />
-              <stop offset="100%" stopColor="rgba(255,255,255,0.03)" />
-            </linearGradient>
-          </defs>
-          {Array.from({ length: 3 }, (_, i) => (
-            <motion.path
-              key={i}
-              d={`M0,${200 + i * 200} Q300,${150 + i * 200} 600,${200 + i * 200} T1200,${200 + i * 200} L1200,800 L0,800 Z`}
-              fill="url(#waveGradient)"
-              initial={{ d: `M0,${200 + i * 200} Q300,${150 + i * 200} 600,${200 + i * 200} T1200,${200 + i * 200} L1200,800 L0,800 Z` }}
-              animate={{
-                d: [
-                  `M0,${200 + i * 200} Q300,${150 + i * 200} 600,${200 + i * 200} T1200,${200 + i * 200} L1200,800 L0,800 Z`,
-                  `M0,${180 + i * 200} Q300,${170 + i * 200} 600,${180 + i * 200} T1200,${180 + i * 200} L1200,800 L0,800 Z`,
-                  `M0,${220 + i * 200} Q300,${130 + i * 200} 600,${220 + i * 200} T1200,${220 + i * 200} L1200,800 L0,800 Z`,
-                  `M0,${200 + i * 200} Q300,${150 + i * 200} 600,${200 + i * 200} T1200,${200 + i * 200} L1200,800 L0,800 Z`
-                ]
-              }}
-              transition={{
-                duration: 8 + i * 2,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
-          ))}
-        </svg>
-      </div>
-
-      {/* Network Nodes and Connections */}
-      <svg className="absolute inset-0 w-full h-full">
-        {nodes.map(node => (
-          <g key={node.id}>
-            <circle
-              cx={node.x}
-              cy={node.y}
-              r="1"
-              fill="rgba(255,255,255,0.1)"
-            />
-            {nodes
-              .filter(other => {
-                const distance = Math.sqrt(
-                  Math.pow(node.x - other.x, 2) + Math.pow(node.y - other.y, 2)
-                );
-                return distance < 150 && other.id !== node.id;
-              })
-              .map(other => (
-                <line
-                  key={`${node.id}-${other.id}`}
-                  x1={node.x}
-                  y1={node.y}
-                  x2={other.x}
-                  y2={other.y}
-                  stroke="rgba(255,255,255,0.05)"
-                  strokeWidth="0.5"
+      {/* Water Ripples */}
+      {ripples.map(ripple => {
+        const interference = Math.sin(ripple.phase) * 0.3 + 1;
+        const waveCount = Math.floor(ripple.radius / 20);
+        
+        return (
+          <div key={ripple.id} className="absolute">
+            {Array.from({ length: waveCount }, (_, i) => {
+              const waveRadius = (i + 1) * 20;
+              const waveOpacity = (ripple.opacity * (1 - i * 0.1)) * interference;
+              
+              return (
+                <motion.div
+                  key={i}
+                  className="absolute border border-white/30 rounded-full"
+                  style={{
+                    left: ripple.x - waveRadius,
+                    top: ripple.y - waveRadius,
+                    width: waveRadius * 2,
+                    height: waveRadius * 2,
+                    opacity: Math.max(0, waveOpacity)
+                  }}
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ 
+                    scale: 1,
+                    opacity: Math.max(0, waveOpacity)
+                  }}
+                  transition={{ 
+                    duration: 0.5,
+                    ease: "easeOut"
+                  }}
                 />
-              ))}
-          </g>
-        ))}
-      </svg>
+              );
+            })}
+          </div>
+        );
+      })}
 
-      {/* Ripples */}
-      {ripples.map(ripple => (
-        <motion.div
-          key={ripple.id}
-          className="absolute border border-white/20 rounded-full"
-          style={{
-            left: ripple.x - ripple.radius,
-            top: ripple.y - ripple.radius,
-            width: ripple.radius * 2,
-            height: ripple.radius * 2,
-            opacity: ripple.opacity
-          }}
-          initial={{ scale: 0, opacity: 0.6 }}
-          animate={{ scale: 1, opacity: 0 }}
-          transition={{ duration: 2, ease: "easeOut" }}
-        />
-      ))}
-
-      {/* Grid Pattern */}
+      {/* Subtle grid pattern */}
       <div 
-        className="absolute inset-0 opacity-10"
+        className="absolute inset-0 opacity-5"
         style={{
           backgroundImage: `
             linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
             linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
           `,
-          backgroundSize: '50px 50px'
+          backgroundSize: '40px 40px'
         }}
       />
     </div>
@@ -354,6 +305,69 @@ const Bar: React.FC<{ value: number; animated?: boolean }> = ({ value, animated 
     />
   </div>
 );
+
+// ---------- Circular Progress ----------
+const CircularProgress: React.FC<{ value: number; label: string; unit: string; animated?: boolean }> = ({ 
+  value, 
+  label, 
+  unit, 
+  animated = false 
+}) => {
+  const radius = 20;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDasharray = circumference;
+  const strokeDashoffset = circumference - (value / 100) * circumference;
+
+  return (
+    <div className="flex flex-col items-center">
+      <div className="relative w-12 h-12">
+        <svg className="w-12 h-12 transform -rotate-90" viewBox="0 0 48 48">
+          {/* Background circle */}
+          <circle
+            cx="24"
+            cy="24"
+            r={radius}
+            stroke="rgba(255,255,255,0.1)"
+            strokeWidth="3"
+            fill="none"
+          />
+          {/* Progress circle */}
+          <motion.circle
+            cx="24"
+            cy="24"
+            r={radius}
+            stroke="white"
+            strokeWidth="3"
+            fill="none"
+            strokeLinecap="round"
+            strokeDasharray={strokeDasharray}
+            initial={{ strokeDashoffset: circumference }}
+            animate={{ 
+              strokeDashoffset,
+              ...(animated ? {
+                opacity: [0.7, 1, 0.7]
+              } : {})
+            }}
+            transition={{ 
+              strokeDashoffset: { duration: 0.8, ease: "easeOut" },
+              ...(animated ? {
+                opacity: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+              } : {})
+            }}
+          />
+        </svg>
+        {/* Center text */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-xs font-mono text-white/80">{value}%</div>
+        </div>
+      </div>
+      <div className="text-xs text-white/70 font-mono mt-1 text-center">
+        <div>{label}</div>
+        <div className="text-white/50">{unit}</div>
+      </div>
+    </div>
+  );
+};
 
 // ---------- Observer (map + ripples) ----------
 type CityKey = "london" | "nyc" | "shanghai";
@@ -673,12 +687,14 @@ const EchoScriptItem: React.FC = () => {
   const base = "Echo Script: glyphs braid through languages — comprehension partial, alignment dangerous.";
   const text = scramble(toMixed(base), 0.83);
   return (
-    <Card className="bg-white/5 border-white/10">
-      <CardHeader className="flex items-center justify-between">
+    <Card className="bg-white/5 border-white/10 h-32 flex flex-col">
+      <CardHeader className="flex items-center justify-between flex-shrink-0">
         <CardTitle className="flex items-center gap-2 text-sm"><Languages className="h-3 w-3"/> <GlitchText>Echo Script</GlitchText></CardTitle>
       </CardHeader>
-      <CardContent className="text-sm text-white/80 font-mono leading-relaxed">
-        {text}
+      <CardContent className="text-sm text-white/80 font-mono leading-relaxed flex-1 overflow-hidden">
+        <div className="h-full flex items-center">
+          {text}
+        </div>
       </CardContent>
     </Card>
   );
@@ -780,9 +796,9 @@ const ProfileCard: React.FC<{
   return (
     <Card className="bg-white/5 border-white/10">
       <CardContent className="p-6">
-        <div className="flex gap-6">
-          {/* Left: Photo */}
-          <div className="w-24 h-32 rounded-lg overflow-hidden border border-white/20 bg-white/5 flex items-center justify-center">
+        <div className="flex flex-col md:flex-row gap-6">
+          {/* Photo - Top on mobile, Left on desktop */}
+          <div className="w-full md:w-24 h-32 rounded-lg overflow-hidden border border-white/20 bg-white/5 flex items-center justify-center mx-auto md:mx-0">
             <img 
               src={getPhotoSrc(name)} 
               alt={`${name} photo`}
@@ -802,7 +818,7 @@ const ProfileCard: React.FC<{
             </div>
           </div>
           
-          {/* Right: Profile Info */}
+          {/* Profile Info - Bottom on mobile, Right on desktop */}
           <div className="flex-1 space-y-3 text-sm">
             <div className="font-mono text-white/90">
               <div className="text-white/60 mb-1">Name: {name}</div>
@@ -938,21 +954,10 @@ export default function ResonantiaInterface() {
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <div className="text-white/60 mb-3">System Dashboard</div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <div className="flex items-center justify-between mb-1">
-                      <div className="text-white/70 text-xs">Inference Speed</div>
-                      <div className="text-white/60 text-xs">2.4 TFLOPS</div>
-                    </div>
-                    <Bar value={78} />
-                  </div>
-                  <div>
-                    <div className="flex items-center justify-between mb-1">
-                      <div className="text-white/70 text-xs">Neural Engine Power</div>
-                      <div className="text-white/60 text-xs">156W</div>
-                    </div>
-                    <Bar value={62} />
-                  </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <CircularProgress value={78} label="Inference Speed" unit="2.4 TFLOPS" animated={true} />
+                  <CircularProgress value={62} label="Neural Engine Power" unit="156W" animated={true} />
+                  <CircularProgress value={85} label="Stability" unit="85%" animated={true} />
                 </div>
               </div>
               
@@ -1204,40 +1209,48 @@ export default function ResonantiaInterface() {
       </footer>
       </main>
 
-      {/* Floating Hallucination Monitor */}
+      {/* Floating Hallucination Monitor - Auto-collapsed */}
       <div className="fixed bottom-6 right-6 z-50">
-        <div className="bg-black/90 border border-white/20 rounded-lg p-4 backdrop-blur-sm">
-          <div className="text-xs text-white/60 mb-3 font-mono">HALLUCINATION MONITOR</div>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between gap-4">
-              <div className="text-xs text-white/70 font-mono">System</div>
-              <div className="text-lg font-mono">
-                <GlitchTextDynamic text={systemHallucination.toString()} />
+        <details className="group">
+          <summary className="cursor-pointer bg-black/90 border border-white/20 rounded-lg p-3 backdrop-blur-sm hover:bg-black/95 transition-colors">
+            <div className="text-xs text-white/60 font-mono">HALLUCINATION MONITOR</div>
+            <div className="flex items-center justify-between gap-4 mt-2">
+              <div className="text-xs text-white/70 font-mono">S:{systemHallucination} V:{visitorHallucination}</div>
+              <div className="text-xs text-white/40 font-mono">▼</div>
+            </div>
+          </summary>
+          <div className="mt-2 bg-black/90 border border-white/20 rounded-lg p-4 backdrop-blur-sm">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between gap-4">
+                <div className="text-xs text-white/70 font-mono">System</div>
+                <div className="text-lg font-mono">
+                  <GlitchTextDynamic text={systemHallucination.toString()} />
+                </div>
+              </div>
+              <div className="flex items-center justify-between gap-4">
+                <div className="text-xs text-white/70 font-mono">Visitor</div>
+                <div className="text-lg font-mono">
+                  <GlitchTextDynamic text={visitorHallucination.toString()} />
+                </div>
               </div>
             </div>
-            <div className="flex items-center justify-between gap-4">
-              <div className="text-xs text-white/70 font-mono">Visitor</div>
-              <div className="text-lg font-mono">
-                <GlitchTextDynamic text={visitorHallucination.toString()} />
-              </div>
+            <div className="mt-2 text-xs text-white/40 font-mono">Max: 100</div>
+            
+            {/* Warning Message - Collapsible */}
+            <div className="mt-3">
+              <details className="group">
+                <summary className="cursor-pointer p-2 bg-red-900/20 border border-red-500/30 rounded text-xs text-red-300/80 font-mono hover:bg-red-900/30 transition-colors">
+                  <span className="font-semibold text-red-200">⚠️ WARNING</span>
+                  <span className="ml-2 text-red-400/60 group-open:hidden">[Click to expand]</span>
+                  <span className="ml-2 text-red-400/60 hidden group-open:inline">[Click to collapse]</span>
+                </summary>
+                <div className="absolute bottom-full right-0 mb-2 w-80 p-3 bg-red-900/20 border border-red-500/30 rounded text-xs text-red-300/80 font-mono backdrop-blur-sm z-10">
+                  Maintain low hallucination levels at all times. If values exceed 50, seek medical department for anti-hallucinogenic medication. Rapid hallucination spikes may trigger epilepsy and mania.
+                </div>
+              </details>
             </div>
           </div>
-          <div className="mt-2 text-xs text-white/40 font-mono">Max: 100</div>
-          
-          {/* Warning Message - Collapsible */}
-          <div className="mt-3">
-            <details className="group">
-              <summary className="cursor-pointer p-2 bg-red-900/20 border border-red-500/30 rounded text-xs text-red-300/80 font-mono hover:bg-red-900/30 transition-colors">
-                <span className="font-semibold text-red-200">⚠️ WARNING</span>
-                <span className="ml-2 text-red-400/60 group-open:hidden">[Click to expand]</span>
-                <span className="ml-2 text-red-400/60 hidden group-open:inline">[Click to collapse]</span>
-              </summary>
-              <div className="absolute bottom-full right-0 mb-2 w-80 p-3 bg-red-900/20 border border-red-500/30 rounded text-xs text-red-300/80 font-mono backdrop-blur-sm z-10">
-                Maintain low hallucination levels at all times. If values exceed 50, seek medical department for anti-hallucinogenic medication. Rapid hallucination spikes may trigger epilepsy and mania.
-              </div>
-            </details>
-          </div>
-        </div>
+        </details>
       </div>
     </div>
   );
