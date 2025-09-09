@@ -134,11 +134,17 @@ const GlitchText: React.FC<{ children: React.ReactNode; className?: string }> = 
 const GLYPHS = "ΔΞΨΦΩλκγπσϕημτχθ◬◇⋄◈◊⟟⟊".split("");
 const MIXED = ["Δ", "echo", "afterimage", "λόγος", "συν", "memory", "phase", "φάσμα", "resonance", "mind", "θ"]; 
 
-// Client-side random utilities
-const ClientRandomUtils = {
-  pick: <T,>(arr: T[]) => arr[Math.floor(Math.random() * arr.length)],
-  scramble: (s: string, p = 0.7) => s.split("").map(ch => /[\w]/.test(ch) && Math.random() < p ? ClientRandomUtils.pick(GLYPHS) : ch).join(""),
-  toMixed: (s: string) => s.split(/(\s+)/).map(tok => Math.random() < 0.25 ? `${tok}${ClientRandomUtils.pick(MIXED)}` : tok).join("")
+// Deterministic utilities for SSR consistency
+const DeterministicUtils = {
+  pick: <T,>(arr: T[], seed: number) => arr[Math.floor(seed * arr.length)],
+  scramble: (s: string, seed: number, p = 0.7) => s.split("").map((ch, i) => {
+    const charSeed = (seed + i * 0.1) % 1;
+    return /[\w]/.test(ch) && charSeed < p ? DeterministicUtils.pick(GLYPHS, charSeed) : ch;
+  }).join(""),
+  toMixed: (s: string, seed: number) => s.split(/(\s+)/).map((tok, i) => {
+    const tokSeed = (seed + i * 0.1) % 1;
+    return tokSeed < 0.25 ? `${tok}${DeterministicUtils.pick(MIXED, tokSeed)}` : tok;
+  }).join("")
 };
 
 // ---------- WebAudio ripple ----------
@@ -703,18 +709,12 @@ const VideoItem: React.FC = () => (
 );
 
 const EchoScriptItem: React.FC = () => {
-  const [text, setText] = useState("Echo Script: glyphs braid through languages — comprehension partial, alignment dangerous.");
+  const [seed, setSeed] = useState(0);
+  const base = "Echo Script: glyphs braid through languages — comprehension partial, alignment dangerous.";
+  const text = DeterministicUtils.scramble(DeterministicUtils.toMixed(base, seed), seed, 0.83);
   
   useEffect(() => {
-    const base = "Echo Script: glyphs braid through languages — comprehension partial, alignment dangerous.";
-    const scrambled = ClientRandomUtils.scramble(ClientRandomUtils.toMixed(base), 0.83);
-    setText(scrambled);
-    
-    const id = setInterval(() => {
-      const newScrambled = ClientRandomUtils.scramble(ClientRandomUtils.toMixed(base), 0.83);
-      setText(newScrambled);
-    }, 1800);
-    
+    const id = setInterval(() => setSeed(s => s + 1), 1800);
     return () => clearInterval(id);
   }, []);
   
