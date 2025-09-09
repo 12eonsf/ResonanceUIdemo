@@ -157,11 +157,23 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
                   onComplete && onComplete();
                 }, 600);
               }}
-              className={`px-6 py-2 bg-transparent border border-white/30 text-white font-mono text-sm hover:bg-white/5 hover:border-white/50 transition-all duration-200 tracking-wider ${
-                isGlitching ? 'text-red-400 border-red-400/50' : ''
+              className={`relative px-8 py-3 bg-gradient-to-r from-white/5 to-white/10 border border-white/20 text-white font-mono text-sm hover:from-white/10 hover:to-white/15 hover:border-white/40 hover:shadow-lg hover:shadow-white/10 transition-all duration-300 tracking-widest uppercase backdrop-blur-sm group overflow-hidden ${
+                isGlitching ? 'text-red-400 border-red-400/60 shadow-red-400/20' : ''
               }`}
             >
-              {isGlitching ? 'ACCESS' : 'Access'}
+              {/* Animated background effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+              
+              {/* Button text */}
+              <span className="relative z-10">
+                {isGlitching ? 'ACCESS' : 'Access'}
+              </span>
+              
+              {/* Corner accents */}
+              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/30" />
+              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/30" />
+              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/30" />
+              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/30" />
             </motion.button>
           )}
         </div>
