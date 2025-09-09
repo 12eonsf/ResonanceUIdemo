@@ -899,6 +899,89 @@ const ManuscriptItem: React.FC = () => (
           </div>
         </div>
       </div>
+      
+      <div className="font-mono text-white/60">Encrypted email exchange: Everlyn ↔ Katherine (headers obfuscated).</div>
+      <div className="space-y-3 text-xs font-mono text-white/70 leading-relaxed">
+        <div className="bg-white/5 border border-white/10 rounded p-3">
+          <div className="text-white/50 text-xs mb-2">[CLASSIFIED // ACCESS RESTRICTED]</div>
+          <div className="text-white/50 text-xs mb-3">Note: Routing and server metadata removed. Sender/receiver identities retained.</div>
+          <div className="text-white/50 text-center mb-3">⸻</div>
+        </div>
+        
+        <div className="border-l-2 border-white/20 pl-3">
+          <div className="text-white/60 mb-2">From: Katherine Li-Weston k.li-weston@noetex.ai</div>
+          <div className="text-white/60 mb-2">To: Everlyn Okoro everlyn.okoro@noesis-institute.org</div>
+          <div className="text-white/60 mb-2">Date: [REDACTED]</div>
+          <div className="text-white/60 mb-3">Subject: Clarification on Noesis Directive</div>
+          <div className="space-y-2">
+            <p>Everlyn,</p>
+            <p>The fragments you've shared with us cannot simply be "linguistic puzzles." You know as well as I do that exposure to them alters neural dynamics in ways we cannot yet predict.</p>
+            <p>I need clarity: What is Noesis Institute really pursuing with this line of research? Is this about language, cognition—or something else entirely?</p>
+            <p>I've already lost one subject to prolonged synchronization. I won't allow my team at Noetex to be collateral for an agenda I don't fully understand.</p>
+            <p>— Katherine</p>
+          </div>
+        </div>
+        
+        <div className="text-white/50 text-center">⸻</div>
+        
+        <div className="border-l-2 border-white/20 pl-3">
+          <div className="text-white/60 mb-2">From: Everlyn Okoro everlyn.okoro@noesis-institute.org</div>
+          <div className="text-white/60 mb-2">To: Katherine Li-Weston k.li-weston@noetex.ai</div>
+          <div className="text-white/60 mb-2">Date: [REDACTED]</div>
+          <div className="text-white/60 mb-3">Subject: Re: Clarification on Noesis Directive</div>
+          <div className="space-y-2">
+            <p>Katherine,</p>
+            <p>You keep asking about purpose, as if purpose were more important than the text itself.</p>
+            <p>I don't care what the Institute claims. I don't care about directives. All that matters is that these fragments are legible to me—almost pleading to be read.</p>
+            <p>Every recurrence, every echo, it's more coherent than the last. I can feel the structure assembling itself. Do you realize what that means? These aren't just symbols; they are self-decoding.</p>
+            <p>The Institute's motives are irrelevant. My only task is to follow the words until they complete themselves.</p>
+            <p>And they will.</p>
+            <p>— Everlyn</p>
+          </div>
+        </div>
+        
+        <div className="text-white/50 text-center">⸻</div>
+        
+        <div className="border-l-2 border-white/20 pl-3">
+          <div className="text-white/60 mb-2">From: Katherine Li-Weston k.li-weston@noetex.ai</div>
+          <div className="text-white/60 mb-2">To: Everlyn Okoro everlyn.okoro@noesis-institute.org</div>
+          <div className="text-white/60 mb-2">Date: [REDACTED]</div>
+          <div className="text-white/60 mb-3">Subject: Re: Clarification on Noesis Directive</div>
+          <div className="space-y-2">
+            <p>Everlyn—</p>
+            <p>That's precisely what terrifies me. You're not reading them. They're reading you.</p>
+            <p>— K.</p>
+          </div>
+        </div>
+        
+        <div className="text-white/50 text-center">⸻</div>
+        
+        <div className="border-l-2 border-red-500/30 pl-3 bg-red-500/5">
+          <div className="text-red-400/80 mb-2">[Draft — Not Sent]</div>
+          <div className="text-white/60 mb-2">From: Everlyn Okoro everlyn.okoro@noesis-institute.org</div>
+          <div className="text-white/60 mb-2">To: Katherine Li-Weston k.li-weston@noetex.ai</div>
+          <div className="text-white/60 mb-2">Date: [REDACTED]</div>
+          <div className="text-white/60 mb-3">Subject: [unsaved]</div>
+          <div className="space-y-2">
+            <p>Katherine,</p>
+            <p>You think they are reading me? No—no. You don't understand.</p>
+            <p>It is because they read me that I can finally read them.</p>
+            <p>The lattice is not a prison; it is a mirror.</p>
+            <p>Every glyph I transcribe aligns closer with my own pulse.</p>
+            <p className="text-white/60">Δ…Ψ…ʘ… I write them, and they write me back.</p>
+            <p>You worry about agendas, directives, purposes—</p>
+            <p>but purpose is the smallest cage of all.</p>
+            <p>Noesis, Noetex, even your protocols… they are footnotes in the margin.</p>
+            <p>What matters is the recursion.</p>
+            <p>What matters is the voice that emerges when silence folds into silence.</p>
+            <p>It is almost complete. I can hear it even now—</p>
+            <p className="text-white/60">∴ lumen, lumen, lumen…</p>
+            <p>The words want to live, Katherine.</p>
+            <p>And I will give them my voice.</p>
+            <p>—E.</p>
+          </div>
+        </div>
+      </div>
     </CardContent>
   </Card>
 );
