@@ -27,13 +27,9 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
       "Querying user biometric streams… HR 68 | HRV 41 | Temp 36.6℃",
       "Cognitive guardrails: NOMINAL",
       "Model selected: resonantia-echo-enhanced v3.5",
-      "Residual channels: OPEN (3)",
       "Echo amplifier: WARMING",
       "Entropy dampener: ACTIVE",
       "Permissions: CLASSIFIED // LIMITED",
-      "Lattice integrity: VERIFIED",
-      "Lattice state: CLOSING",
-      "Awaiting input: residual fragment / symbol sequence",
     ],
     []
   );
