@@ -919,7 +919,7 @@ const LabBookItem: React.FC = () => (
       </div>
       
       <div className="border-t border-white/20 pt-2">
-        <p className="text-white/70">⸻</p>
+        <p className="text-white/50">—</p>
       </div>
       
       <div className="space-y-2">
@@ -928,7 +928,7 @@ const LabBookItem: React.FC = () => (
       </div>
       
       <div className="space-y-2">
-        <p className="text-white/70">⸻</p>
+        <p className="text-white/50">—</p>
       </div>
       
       <div className="space-y-2">
@@ -942,7 +942,7 @@ const LabBookItem: React.FC = () => (
       </div>
       
       <div className="space-y-2">
-        <p className="text-white/70">⸻</p>
+        <p className="text-white/50">—</p>
       </div>
       
       <div className="space-y-2">
@@ -955,7 +955,7 @@ const LabBookItem: React.FC = () => (
       </div>
       
       <div className="space-y-2">
-        <p className="text-white/70">⸻</p>
+        <p className="text-white/50">—</p>
       </div>
       
       <div className="space-y-2">
@@ -967,7 +967,7 @@ const LabBookItem: React.FC = () => (
       </div>
       
       <div className="space-y-2">
-        <p className="text-white/70">⸻</p>
+        <p className="text-white/50">—</p>
       </div>
       
       <div className="space-y-2">
@@ -981,7 +981,7 @@ const LabBookItem: React.FC = () => (
       </div>
       
       <div className="space-y-2">
-        <p className="text-white/70">⸻</p>
+        <p className="text-white/50">—</p>
       </div>
     </CardContent>
   </Card>
