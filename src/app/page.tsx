@@ -617,12 +617,12 @@ const AudioItem: React.FC = () => {
         {/* Audio Player */}
         <div className="bg-black/20 border border-white/10 rounded-lg p-4 space-y-3">
           {/* Waveform Visualization */}
-          <div className="flex items-center justify-center h-12 bg-black/30 rounded border border-white/5 p-2">
-            <div className="flex items-end gap-1 h-full">
+          <div className="flex items-center justify-center h-12 bg-black/30 rounded border border-white/5 p-2 mx-0">
+            <div className="flex items-end gap-1 h-full w-full max-w-full">
               {waveformData.map((height, index) => (
                 <motion.div
                   key={index}
-                  className="bg-white/60 rounded-sm"
+                  className="bg-white/60 rounded-sm flex-shrink-0"
                   style={{
                     width: '2px',
                     height: `${height * 100}%`,
