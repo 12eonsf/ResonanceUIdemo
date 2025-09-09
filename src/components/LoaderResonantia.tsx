@@ -15,6 +15,7 @@ import { motion } from "framer-motion";
 export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: { onComplete?: () => void; minDurationMs?: number }) {
   const [progress, setProgress] = useState(0);
   const [showAccessButton, setShowAccessButton] = useState(false);
+  const [isGlitching, setIsGlitching] = useState(false);
   const bootMessages = useMemo(
     () => [
       "Initializing core protocols…",
@@ -113,8 +114,12 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
           </div>
 
           {/* Glitch title */}
-          <GlitchText text="Δ RESONANTIA · INTERNAL INTERFACE" className="text-xl md:text-2xl" />
+          <div className="text-center">
+            <GlitchText text="Δ RESONANTIA" className="text-xl md:text-2xl" />
+            <GlitchText text="INTERNAL INTERFACE" className="text-lg md:text-xl mt-1" />
+          </div>
           <div className="text-sm uppercase tracking-[0.25em] text-neutral-400">Noesis Institute</div>
+          <div className="text-xs text-neutral-500 font-mono">Resonance: An Experimental Interactive Novel</div>
 
           {/* Progress / Stability or Access Button */}
           {!showAccessButton ? (
@@ -138,12 +143,29 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
           ) : (
             <motion.button
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              onClick={() => onComplete && onComplete()}
-              className="px-8 py-4 bg-white/10 border border-white/20 rounded-lg text-white font-mono text-lg hover:bg-white/20 hover:border-white/30 transition-all duration-300 backdrop-blur-sm"
+              animate={{ 
+                opacity: 1, 
+                y: 0,
+                x: isGlitching ? [0, -2, 2, -1, 1, 0] : 0,
+                scale: isGlitching ? [1, 1.02, 0.98, 1] : 1
+              }}
+              transition={{ 
+                duration: 0.8, 
+                ease: "easeOut",
+                x: isGlitching ? { duration: 0.3, repeat: 2 } : undefined,
+                scale: isGlitching ? { duration: 0.3, repeat: 2 } : undefined
+              }}
+              onClick={() => {
+                setIsGlitching(true);
+                setTimeout(() => {
+                  onComplete && onComplete();
+                }, 600);
+              }}
+              className={`px-6 py-2 bg-transparent border border-white/30 text-white font-mono text-sm hover:bg-white/5 hover:border-white/50 transition-all duration-200 tracking-wider ${
+                isGlitching ? 'text-red-400 border-red-400/50' : ''
+              }`}
             >
-              Access Δ Resonantia
+              {isGlitching ? 'ACCESS' : 'Access'}
             </motion.button>
           )}
         </div>
