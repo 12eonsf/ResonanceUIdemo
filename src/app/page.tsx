@@ -48,20 +48,20 @@ const DynamicBackground: React.FC = () => {
         x,
         y,
         radius: 0,
-        opacity: 0.8,
+        opacity: 0.3,
         phase
       }]);
     };
 
     // Create initial ripples
-    for (let i = 0; i < 8; i++) {
-      setTimeout(createRipple, i * 200);
+    for (let i = 0; i < 3; i++) {
+      setTimeout(createRipple, i * 500);
     }
 
     // Animation loop
     const animate = () => {
       // Add new ripples randomly (like rain drops)
-      if (Math.random() < 0.03) {
+      if (Math.random() < 0.008) {
         createRipple();
       }
 
@@ -95,7 +95,7 @@ const DynamicBackground: React.FC = () => {
               return (
                 <motion.div
                   key={i}
-                  className="absolute border border-white/30 rounded-full"
+                  className="absolute border border-white/10 rounded-full"
                   style={{
                     left: ripple.x - waveRadius,
                     top: ripple.y - waveRadius,
