@@ -131,19 +131,45 @@ const GlitchText: React.FC<{ children: React.ReactNode; className?: string }> = 
 };
 
 // ---------- Utils ----------
-const GLYPHS = "ΔΞΨΦΩλκγπσϕημτχθ◬◇⋄◈◊⟟⟊".split("");
-const MIXED = ["Δ", "echo", "afterimage", "λόγος", "συν", "memory", "phase", "φάσμα", "resonance", "mind", "θ"]; 
+const GLYPHS = "ΔΞΨΦΩλκγπσϕημτχθ◬◇⋄◈◊⟟⟊αβγδεζηθικλμνξοπρστυφχψω".split("");
+const CORRUPT_CHARS = "█▓▒░▄▀▐▌▬▫▪▫▬▄▀▐▌█▓▒░".split("");
+const MIXED = [
+  "Δ", "echo", "afterimage", "λόγος", "συν", "memory", "phase", "φάσμα", "resonance", "mind", "θ",
+  "共振", "共鸣", "回响", "记忆", "感知", "量子", "干涉", "痕迹", "重叠", "状态",
+  "共鳴", "記憶", "知覚", "量子", "干渉", "痕跡", "重複", "状態", "響き", "波",
+  "resonantia", "memoria", "perceptio", "quantum", "interferentia", "vestigium", "superpositio", "status",
+  "glitch", "error", "corrupt", "fragment", "noise", "static", "distort", "fade"
+]; 
 
-// Deterministic utilities for SSR consistency
+// Multi-language text base
+const MULTI_LANG_BASE = "Echo Script: glyphs braid through languages — comprehension partial, alignment dangerous. 共振状态下的记忆碎片 — 量子干涉痕迹重叠。記憶の断片が共鳴する — 知覚の境界が曖昧になる。Resonantia memoriae fragmenta — quantum interferentia vestigia superposita.";
+
+// Enhanced deterministic utilities for multi-language corruption
 const DeterministicUtils = {
   pick: <T,>(arr: T[], seed: number) => arr[Math.floor(seed * arr.length)],
-  scramble: (s: string, seed: number, p = 0.7) => s.split("").map((ch, i) => {
-    const charSeed = (seed * 0.7 + i * 0.3) % 1;
-    return /[\w]/.test(ch) && charSeed < p ? DeterministicUtils.pick(GLYPHS, charSeed) : ch;
+  scramble: (s: string, seed: number, p = 0.6) => s.split("").map((ch, i) => {
+    const charSeed = (seed * 0.8 + i * 0.2) % 1;
+    const corruptSeed = (seed * 0.6 + i * 0.4) % 1;
+    
+    if (/[\w\u4e00-\u9fff\u3040-\u309f\u30a0-\u30ff]/.test(ch)) {
+      if (charSeed < p) {
+        return DeterministicUtils.pick(GLYPHS, charSeed);
+      } else if (corruptSeed < 0.4) {
+        return DeterministicUtils.pick(CORRUPT_CHARS, corruptSeed);
+      }
+    }
+    return ch;
   }).join(""),
   toMixed: (s: string, seed: number) => s.split(/(\s+)/).map((tok, i) => {
-    const tokSeed = (seed * 0.5 + i * 0.2) % 1;
-    return tokSeed < 0.25 ? `${tok}${DeterministicUtils.pick(MIXED, tokSeed)}` : tok;
+    const tokSeed = (seed * 0.7 + i * 0.3) % 1;
+    const corruptSeed = (seed * 0.5 + i * 0.4) % 1;
+    
+    if (tokSeed < 0.3) {
+      return `${tok}${DeterministicUtils.pick(MIXED, tokSeed)}`;
+    } else if (corruptSeed < 0.25) {
+      return `${tok}${DeterministicUtils.pick(CORRUPT_CHARS, corruptSeed)}`;
+    }
+    return tok;
   }).join("")
 };
 
@@ -710,11 +736,10 @@ const VideoItem: React.FC = () => (
 
 const EchoScriptItem: React.FC = () => {
   const [seed, setSeed] = useState(0);
-  const base = "Echo Script: glyphs braid through languages — comprehension partial, alignment dangerous.";
-  const text = DeterministicUtils.scramble(DeterministicUtils.toMixed(base, seed), seed, 0.83);
+  const text = DeterministicUtils.scramble(DeterministicUtils.toMixed(MULTI_LANG_BASE, seed), seed, 0.7);
   
   useEffect(() => {
-    const id = setInterval(() => setSeed(s => s + 0.3), 1200);
+    const id = setInterval(() => setSeed(s => s + 0.4), 600);
     return () => clearInterval(id);
   }, []);
   
