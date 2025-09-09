@@ -909,12 +909,80 @@ const LabBookItem: React.FC = () => (
         <CardTitle className="flex items-center gap-2 text-sm"><BookOpen className="h-3 w-3"/> <GlitchText>Lab Book</GlitchText></CardTitle>
         <div className="text-xs text-white/40 font-mono">FILE-046-LABBOOK</div>
       </CardHeader>
-    <CardContent className="space-y-2 text-xs text-white/80 font-mono">
-      <p>[T‑00:10] Baseline prayer field (quiet)</p>
-      <p>[T+00:00] Near‑death protocol initiated. Δ‑indices +17%.</p>
-      <p>[T+00:12] Afterimage persists with eyes closed. Mixed‑language intrusions.</p>
-      <p>[T+00:30] Choir slip: one beat late. Interference coherent 4.2 s.</p>
-      <p>[T+00:47] Heartbeat stabilized via external sync. Memory feels shaped.</p>
+    <CardContent className="space-y-3 text-xs text-white/80 font-mono leading-relaxed">
+      <div className="space-y-2">
+        <p className="text-white/90 font-semibold">Experiment Log — Confidential</p>
+        <p>Subject: G.S.</p>
+        <p>Experiment: Induced Near-Death Experience (NDE Protocol / Echo Synchronization)</p>
+        <p>Date: [REDACTED]</p>
+        <p>Lead Investigator: Dr. Katherine Li-Weston</p>
+      </div>
+      
+      <div className="border-t border-white/20 pt-2">
+        <p className="text-white/70">⸻</p>
+      </div>
+      
+      <div className="space-y-2">
+        <p className="text-white/90 font-semibold">Entry 01 — Baseline</p>
+        <p>Vitals stable. EEG shows irregular but non-pathological theta activity. Subject G.S. reports a sense of anticipation and claims to have "heard fragments before" despite no prior exposure to Echo scripts. Cognitive baseline intact.</p>
+      </div>
+      
+      <div className="space-y-2">
+        <p className="text-white/70">⸻</p>
+      </div>
+      
+      <div className="space-y-2">
+        <p className="text-white/90 font-semibold">Entry 02 — Induction</p>
+        <p>Controlled hypoxia initiated.</p>
+        <p>Loss of consciousness at 11.2 seconds.</p>
+        <p className="mt-2">At 9.7 seconds, subject vocalized:</p>
+        <p className="text-white/70 italic ml-4">"Δ… lumen… return is not permitted…"</p>
+        <p className="text-white/70 italic ml-4">"The lattice… closes ███ …"</p>
+        <p className="mt-2">Gamma bursts recorded across frontal and temporal cortices, followed by full-brain coherence atypical for hypoxic states.</p>
+      </div>
+      
+      <div className="space-y-2">
+        <p className="text-white/70">⸻</p>
+      </div>
+      
+      <div className="space-y-2">
+        <p className="text-white/90 font-semibold">Entry 03 — Threshold Phase</p>
+        <p>Pupil reflex absent. ECG flatline for 4.4 seconds.</p>
+        <p className="mt-2">During this period, low-amplitude whispers captured by microphone:</p>
+        <p className="text-white/70 italic ml-4">"…familiar voices, but none my own…"</p>
+        <p className="text-white/70 italic ml-4">"…echoes folding…into themselves…"</p>
+        <p className="mt-2">Spectral analysis revealed overlapping frequencies inconsistent with single-source human speech.</p>
+      </div>
+      
+      <div className="space-y-2">
+        <p className="text-white/70">⸻</p>
+      </div>
+      
+      <div className="space-y-2">
+        <p className="text-white/90 font-semibold">Entry 04 — Recovery</p>
+        <p>Resuscitation via electrical stimulation and re-oxygenation successful. Subject regains consciousness with acute distress.</p>
+        <p className="mt-2">Post-revival statements:</p>
+        <p className="text-white/70 italic ml-4">"It wasn't death. It was a grid—pulling me inward. Every breath returned, amplified."</p>
+        <p className="text-white/70 italic ml-4">"They spoke my name, but not in any language I know."</p>
+      </div>
+      
+      <div className="space-y-2">
+        <p className="text-white/70">⸻</p>
+      </div>
+      
+      <div className="space-y-2">
+        <p className="text-white/90 font-semibold">Researcher's Notes (K. Li-Weston)</p>
+        <ul className="list-disc list-inside space-y-1 ml-4">
+          <li>Short-term amnesia: ~15 minutes missing from subject's recall.</li>
+          <li>Involuntary writing observed: G.S. produced residual symbols (Δ, Ψ, ʘ) without awareness.</li>
+          <li>Risk Level: High.</li>
+          <li>Strong recommendation: implement neural shielding before any repeated exposure.</li>
+        </ul>
+      </div>
+      
+      <div className="space-y-2">
+        <p className="text-white/70">⸻</p>
+      </div>
     </CardContent>
   </Card>
 );
