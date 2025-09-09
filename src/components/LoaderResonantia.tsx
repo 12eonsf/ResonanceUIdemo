@@ -1,0 +1,186 @@
+"use client";
+
+import { useEffect, useState, useMemo } from "react";
+import { motion } from "framer-motion";
+
+/**
+ * Δ Resonantia — Loading Screen (JS v4)
+ * - Multi-triangle logo rotation
+ * - Dynamic glitch text
+ * - Boot sequence
+ * - Footer with Visitor ID & permission
+ * - Bottom-most warning in English
+ */
+
+export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: { onComplete?: () => void; minDurationMs?: number }) {
+  const [progress, setProgress] = useState(0);
+  const bootMessages = useMemo(
+    () => [
+      "Initializing core protocols…",
+      "Program start: OK",
+      "Calibrating lattice parameters…",
+      "Establishing neural link…",
+      "Neural link: SYNCHRONIZED [100%]",
+      "Deploying AR modules…",
+      "Querying user biometric streams… HR 68 | HRV 41 | Temp 36.6℃",
+      "Cognitive guardrails: NOMINAL",
+      "Model selected: resonantia-echo-enhanced v3.5",
+      "Residual channels: OPEN (3)",
+      "Echo amplifier: WARMING",
+      "Entropy dampener: ACTIVE",
+      "Permissions: CLASSIFIED // LIMITED",
+      "Lattice integrity: VERIFIED",
+      "Lattice state: CLOSING",
+      "Awaiting input: residual fragment / symbol sequence",
+    ],
+    []
+  );
+  const [currentMessage, setCurrentMessage] = useState(bootMessages[0]);
+
+  useEffect(() => {
+    let raf: number;
+    const start = performance.now();
+    const tick = (t: number) => {
+      const elapsed = t - start;
+      const base = Math.min(1, elapsed / minDurationMs);
+      const wobble = Math.sin(elapsed / 140) * 0.03 + Math.random() * 0.01;
+      const p = Math.min(1, base * (0.96 + wobble));
+      setProgress(Math.round(p * 100));
+
+      const idx = Math.min(bootMessages.length - 1, Math.floor(bootMessages.length * p));
+      setCurrentMessage(bootMessages[idx]);
+
+      if (elapsed >= minDurationMs && p >= 0.995) {
+        onComplete && onComplete();
+        return;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [minDurationMs, onComplete, bootMessages]);
+
+  const stability = Math.max(0, 100 - progress + Math.sin(progress / 6) * 2);
+
+  return (
+    <div className="relative h-screen w-screen overflow-hidden bg-black text-neutral-200">
+      {/* Background grid */}
+      <div
+        className="absolute inset-0 opacity-30"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)",
+          backgroundSize: "32px 32px, 32px 32px",
+        }}
+      />
+
+      {/* Scanlines */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-15 mix-blend-overlay"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(0deg, rgba(255,255,255,0.06) 0px, rgba(255,255,255,0.06) 1px, transparent 2px, transparent 4px)",
+        }}
+      />
+
+      {/* Center */}
+      <div className="relative z-10 flex h-full w-full items-center justify-center">
+        <div className="flex flex-col items-center gap-6 px-6 text-center">
+          {/* Multi-Δ logo */}
+          <div className="relative h-[120px] w-[120px]">
+            <motion.div
+              className="absolute inset-0 grid place-items-center font-serif text-[96px] leading-none text-white/25 select-none"
+              animate={{ rotate: -360 }}
+              transition={{ repeat: Infinity, duration: 16, ease: "linear" }}
+            >
+              Δ
+            </motion.div>
+            <motion.div
+              className="absolute inset-0 grid place-items-center font-serif text-[96px] leading-none text-white/60 select-none"
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
+            >
+              Δ
+            </motion.div>
+            <motion.div
+              className="absolute inset-0 grid place-items-center font-serif text-[96px] leading-none text-white select-none"
+              animate={{ rotate: -360 }}
+              transition={{ repeat: Infinity, duration: 6, ease: "linear" }}
+            >
+              Δ
+            </motion.div>
+          </div>
+
+          {/* Glitch title */}
+          <GlitchText text="Δ RESONANTIA · INTERNAL INTERFACE" className="text-xl md:text-2xl" />
+          <div className="text-sm uppercase tracking-[0.25em] text-neutral-400">Noesis Institute</div>
+
+          {/* Progress / Stability */}
+          <div className="w-[min(560px,90vw)]">
+            <div className="mb-2 flex items-center justify-between text-xs text-neutral-400">
+              <span>Boot sequence</span>
+              <span>{progress}%</span>
+            </div>
+            <div className="relative h-2 overflow-hidden rounded-full bg-white/10">
+              <motion.div
+                className="absolute left-0 top-0 h-full bg-white/70"
+                animate={{ width: `${progress}%` }}
+                transition={{ ease: "easeOut", duration: 0.3 }}
+              />
+            </div>
+            <div className="mt-2 flex items-center justify-between text-[11px] text-neutral-500">
+              <span className="font-mono">{currentMessage}</span>
+              <span>System Stability: {stability.toFixed(0)}%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="absolute bottom-10 left-0 right-0 z-20 flex items-center justify-center text-[11px] uppercase tracking-[0.2em] text-neutral-500">
+        <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+          <span className="mr-3">Visitor ID: ███-Δ</span>
+          <span>Permission Level: MEDIUM</span>
+        </div>
+      </div>
+
+      {/* Warning at very bottom */}
+      <div className="absolute bottom-2 left-0 right-0 z-20 flex items-center justify-center text-[11px] text-red-400">
+        WARNING: Maintain hallucination levels at all times during use.
+      </div>
+
+      {/* Vignette */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.75)_100%)]" />
+    </div>
+  );
+}
+
+function GlitchText({ text, className = "" }: { text: string; className?: string }) {
+  return (
+    <div className={`relative select-none font-mono ${className}`}>
+      <motion.span
+        className="relative z-20"
+        animate={{ x: [0, 0.2, -0.2, 0], y: [0, -0.2, 0.2, 0] }}
+        transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
+      >
+        {text}
+      </motion.span>
+      <motion.span
+        aria-hidden
+        className="absolute left-0 top-0 z-10 text-red-400/40 blur-[0.4px]"
+        animate={{ x: [-1, 0, -1], y: [0, -0.6, 0] }}
+        transition={{ repeat: Infinity, duration: 0.9, ease: "easeInOut" }}
+      >
+        {text}
+      </motion.span>
+      <motion.span
+        aria-hidden
+        className="absolute left-0 top-0 z-0 text-cyan-300/40 blur-[0.4px]"
+        animate={{ x: [1, 0, 1], y: [0, 0.6, 0] }}
+        transition={{ repeat: Infinity, duration: 1.1, ease: "easeInOut" }}
+      >
+        {text}
+      </motion.span>
+    </div>
+  );
+}

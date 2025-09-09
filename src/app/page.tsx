@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
+import LoaderResonantia from "../components/LoaderResonantia";
 import {
   Triangle,
   Brain,
@@ -1267,6 +1268,9 @@ const ProfileCard: React.FC<{
 
 // ---------- Main ----------
 export default function ResonantiaInterface() {
+  // Loading state
+  const [isLoading, setIsLoading] = useState(true);
+  
   const playRipple = useRippleSound();
   const [mode, setMode] = useState<"interpretation"|"translation"|"ar"|"sync">("translation");
   const [city, setCity] = useState<CityKey>("london");
@@ -1331,6 +1335,11 @@ All attempts to define *Resonantia* will converge to recursion.`);
       playRipple(0.3);
     }
   };
+
+  // Show loading screen if still loading
+  if (isLoading) {
+    return <LoaderResonantia onComplete={() => setIsLoading(false)} minDurationMs={3000} />;
+  }
 
   return (
     <div className="min-h-screen text-white relative" onClick={handlePageClick}>
