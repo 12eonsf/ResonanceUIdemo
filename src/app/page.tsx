@@ -853,11 +853,11 @@ const ProfileCard: React.FC<{
       <CardContent className="p-6">
         <div className="flex flex-col md:flex-row gap-6">
           {/* Photo - Top on mobile, Left on desktop */}
-          <div className="w-full md:w-24 h-48 md:h-32 rounded-lg overflow-hidden border border-white/20 bg-white/5 flex items-center justify-center mx-auto md:mx-0">
+          <div className="w-full md:w-24 h-56 md:h-32 rounded-lg overflow-hidden border border-white/20 bg-white/5 flex items-center justify-center mx-auto md:mx-0">
             <img 
               src={getPhotoSrc(name)} 
               alt={`${name} photo`}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
               onError={(e) => {
                 // Fallback to initials if photo fails to load
                 e.currentTarget.style.display = 'none';
