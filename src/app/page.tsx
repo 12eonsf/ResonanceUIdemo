@@ -35,7 +35,7 @@ import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 // ---------- Water Ripple Background ----------
 const DynamicBackground: React.FC = () => {
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none -z-30">
+    <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
       {/* Enhanced CSS ripple animations with higher opacity */}
       <div className="absolute top-1/4 left-1/4 w-32 h-32 border-2 border-white/50 rounded-full animate-ping" style={{ animationDuration: '3s' }}></div>
       <div className="absolute top-3/4 right-1/4 w-24 h-24 border-2 border-white/45 rounded-full animate-ping" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
@@ -1020,11 +1020,11 @@ All attempts to define *Resonantia* will converge to recursion.`);
   };
 
   return (
-    <div className="min-h-screen bg-black text-white relative" onClick={handlePageClick}>
+    <div className="min-h-screen text-white relative" onClick={handlePageClick}>
       {/* Dynamic Background */}
       <DynamicBackground />
       {/* Background grid / glitch */}
-      <div className="fixed inset-0 -z-20 pointer-events-none">
+      <div className="fixed inset-0 -z-5 pointer-events-none">
         <div className="absolute inset-0 opacity-15" style={{ backgroundImage: "linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.35) 1px, transparent 1px)", backgroundSize: "18px 18px" }} />
       </div>
