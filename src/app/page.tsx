@@ -689,7 +689,7 @@ const EchoScriptItem: React.FC = () => {
   const base = "Echo Script: glyphs braid through languages — comprehension partial, alignment dangerous.";
   const text = scramble(toMixed(base), 0.83);
   return (
-    <Card className="bg-white/5 border-white/10 min-h-32 flex flex-col">
+    <Card className="bg-white/5 border-white/10 min-h-48 md:min-h-32 flex flex-col">
       <CardHeader className="flex items-center justify-between flex-shrink-0">
         <CardTitle className="flex items-center gap-2 text-sm">
           <Languages className="h-3 w-3"/> 
@@ -792,7 +792,7 @@ const PhotoArchiveItem: React.FC = () => (
     <CardHeader className="flex items-center justify-between">
       <CardTitle className="flex items-center gap-2 text-sm">
         <MapPin className="h-3 w-3"/> 
-        <GlitchText>Photo Archive</GlitchText>
+        <GlitchText>photo</GlitchText>
       </CardTitle>
       <div className="text-xs text-white/40 font-mono">FILE-047-PHOTO</div>
     </CardHeader>
