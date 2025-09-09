@@ -178,21 +178,23 @@ const DynamicBackground: React.FC = () => {
       />
 
       {/* CSS Animation Keyframes */}
-      <style jsx>{`
-        @keyframes ripple-expand {
-          0% {
-            transform: scale(0);
-            opacity: 1;
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @keyframes ripple-expand {
+            0% {
+              transform: scale(0);
+              opacity: 1;
+            }
+            50% {
+              opacity: 0.8;
+            }
+            100% {
+              transform: scale(1);
+              opacity: 0;
+            }
           }
-          50% {
-            opacity: 0.8;
-          }
-          100% {
-            transform: scale(1);
-            opacity: 0;
-          }
-        }
-      `}</style>
+        `
+      }} />
     </div>
   );
 };
