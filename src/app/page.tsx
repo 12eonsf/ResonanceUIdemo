@@ -131,19 +131,36 @@ const GlitchText: React.FC<{ children: React.ReactNode; className?: string }> = 
 };
 
 // ---------- Utils ----------
-const GLYPHS = "ΔΞΨΦΩλκγπσϕημτχθ◬◇⋄◈◊⟟⟊".split("");
-const MIXED = ["Δ", "echo", "afterimage", "λόγος", "συν", "memory", "phase", "φάσμα", "resonance", "mind", "θ"]; 
+const GLYPHS = "ΔΞΨΦΩλκγπσϕημτχθ◬◇⋄◈◊⟟⟊αβγδεζηθικλμνξοπρστυφχψω".split("");
+const MIXED = ["Δ", "echo", "afterimage", "λόγος", "συν", "memory", "phase", "φάσμα", "resonance", "mind", "θ", "glitch", "error", "corrupt", "fragment"]; 
+const CORRUPT_CHARS = "█▓▒░▄▀▐▌▬▫▪▫▬▄▀▐▌█▓▒░".split("");
 
-// Deterministic utilities for SSR consistency
+// Enhanced deterministic utilities for dynamic text corruption
 const DeterministicUtils = {
   pick: <T,>(arr: T[], seed: number) => arr[Math.floor(seed * arr.length)],
-  scramble: (s: string, seed: number, p = 0.7) => s.split("").map((ch, i) => {
-    const charSeed = (seed * 0.7 + i * 0.3) % 1;
-    return /[\w]/.test(ch) && charSeed < p ? DeterministicUtils.pick(GLYPHS, charSeed) : ch;
+  scramble: (s: string, seed: number, p = 0.8) => s.split("").map((ch, i) => {
+    const charSeed = (seed * 0.8 + i * 0.2) % 1;
+    const corruptSeed = (seed * 0.6 + i * 0.4) % 1;
+    
+    if (/[\w]/.test(ch)) {
+      if (charSeed < p) {
+        return DeterministicUtils.pick(GLYPHS, charSeed);
+      } else if (corruptSeed < 0.3) {
+        return DeterministicUtils.pick(CORRUPT_CHARS, corruptSeed);
+      }
+    }
+    return ch;
   }).join(""),
   toMixed: (s: string, seed: number) => s.split(/(\s+)/).map((tok, i) => {
-    const tokSeed = (seed * 0.5 + i * 0.2) % 1;
-    return tokSeed < 0.25 ? `${tok}${DeterministicUtils.pick(MIXED, tokSeed)}` : tok;
+    const tokSeed = (seed * 0.6 + i * 0.3) % 1;
+    const corruptSeed = (seed * 0.4 + i * 0.5) % 1;
+    
+    if (tokSeed < 0.4) {
+      return `${tok}${DeterministicUtils.pick(MIXED, tokSeed)}`;
+    } else if (corruptSeed < 0.2) {
+      return `${tok}${DeterministicUtils.pick(CORRUPT_CHARS, corruptSeed)}`;
+    }
+    return tok;
   }).join("")
 };
 
@@ -711,10 +728,10 @@ const VideoItem: React.FC = () => (
 const EchoScriptItem: React.FC = () => {
   const [seed, setSeed] = useState(0);
   const base = "Echo Script: glyphs braid through languages — comprehension partial, alignment dangerous.";
-  const text = DeterministicUtils.scramble(DeterministicUtils.toMixed(base, seed), seed, 0.83);
+  const text = DeterministicUtils.scramble(DeterministicUtils.toMixed(base, seed), seed, 0.85);
   
   useEffect(() => {
-    const id = setInterval(() => setSeed(s => s + 0.3), 1200);
+    const id = setInterval(() => setSeed(s => s + 0.5), 800);
     return () => clearInterval(id);
   }, []);
   
