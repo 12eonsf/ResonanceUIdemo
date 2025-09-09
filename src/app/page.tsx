@@ -703,10 +703,21 @@ const VideoItem: React.FC = () => (
 );
 
 const EchoScriptItem: React.FC = () => {
-  const [seed, setSeed] = useState(0);
-  useEffect(() => { const id = setInterval(() => setSeed(s => s+1), 1800); return () => clearInterval(id); }, []);
-  const base = "Echo Script: glyphs braid through languages — comprehension partial, alignment dangerous.";
-  const text = ClientRandomUtils.scramble(ClientRandomUtils.toMixed(base), 0.83);
+  const [text, setText] = useState("Echo Script: glyphs braid through languages — comprehension partial, alignment dangerous.");
+  
+  useEffect(() => {
+    const base = "Echo Script: glyphs braid through languages — comprehension partial, alignment dangerous.";
+    const scrambled = ClientRandomUtils.scramble(ClientRandomUtils.toMixed(base), 0.83);
+    setText(scrambled);
+    
+    const id = setInterval(() => {
+      const newScrambled = ClientRandomUtils.scramble(ClientRandomUtils.toMixed(base), 0.83);
+      setText(newScrambled);
+    }, 1800);
+    
+    return () => clearInterval(id);
+  }, []);
+  
   return (
     <Card className="bg-white/5 border-white/10 h-48 md:h-32 flex flex-col overflow-hidden">
       <CardHeader className="flex items-center justify-between flex-shrink-0 p-4 pb-2">
