@@ -689,7 +689,7 @@ const EchoScriptItem: React.FC = () => {
   const base = "Echo Script: glyphs braid through languages — comprehension partial, alignment dangerous.";
   const text = scramble(toMixed(base), 0.83);
   return (
-    <Card className="bg-white/5 border-white/10 h-32 flex flex-col">
+    <Card className="bg-white/5 border-white/10 min-h-32 flex flex-col">
       <CardHeader className="flex items-center justify-between flex-shrink-0">
         <CardTitle className="flex items-center gap-2 text-sm">
           <Languages className="h-3 w-3"/> 
@@ -697,8 +697,8 @@ const EchoScriptItem: React.FC = () => {
         </CardTitle>
         <div className="text-xs text-white/40 font-mono">FILE-042-ECHO</div>
       </CardHeader>
-      <CardContent className="text-sm text-white/80 font-mono leading-relaxed flex-1 overflow-hidden">
-        <div className="h-full flex items-center">
+      <CardContent className="text-sm text-white/80 font-mono leading-relaxed flex-1 p-4">
+        <div className="break-words overflow-wrap-anywhere">
           {text}
         </div>
       </CardContent>
