@@ -526,7 +526,9 @@ const AudioItem: React.FC = () => {
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.7);
   const [isDragging, setIsDragging] = useState(false);
+  const [waveformData, setWaveformData] = useState<number[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const animationRef = useRef<number>();
 
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
@@ -567,6 +569,40 @@ const AudioItem: React.FC = () => {
     setDuration(audioRef.current.duration);
   };
 
+  // Generate waveform data
+  const generateWaveformData = () => {
+    const bars = 50;
+    const data = Array.from({ length: bars }, () => Math.random() * 0.8 + 0.1);
+    setWaveformData(data);
+  };
+
+  // Animate waveform when playing
+  const animateWaveform = () => {
+    if (playing) {
+      setWaveformData(prev => prev.map(() => Math.random() * 0.8 + 0.1));
+      animationRef.current = requestAnimationFrame(animateWaveform);
+    }
+  };
+
+  useEffect(() => {
+    generateWaveformData();
+  }, []);
+
+  useEffect(() => {
+    if (playing) {
+      animateWaveform();
+    } else {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    }
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, [playing]);
+
   return (
     <Card className="bg-white/5 border-white/10">
       <CardHeader className="flex items-center justify-between">
@@ -580,6 +616,32 @@ const AudioItem: React.FC = () => {
         
         {/* Audio Player */}
         <div className="bg-black/20 border border-white/10 rounded-lg p-4 space-y-3">
+          {/* Waveform Visualization */}
+          <div className="flex items-center justify-center h-12 bg-black/30 rounded border border-white/5 p-2">
+            <div className="flex items-end gap-1 h-full">
+              {waveformData.map((height, index) => (
+                <motion.div
+                  key={index}
+                  className="bg-white/60 rounded-sm"
+                  style={{
+                    width: '2px',
+                    height: `${height * 100}%`,
+                    minHeight: '2px'
+                  }}
+                  animate={playing ? {
+                    height: [`${height * 100}%`, `${(height + 0.3) * 100}%`, `${height * 100}%`],
+                    opacity: [0.6, 1, 0.6]
+                  } : {}}
+                  transition={{
+                    duration: 0.5,
+                    repeat: playing ? Infinity : 0,
+                    ease: "easeInOut"
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+
           {/* Progress Bar */}
           <div className="space-y-2">
             <div className="flex justify-between text-xs text-white/60">
@@ -853,7 +915,7 @@ const ProfileCard: React.FC<{
       <CardContent className="p-6">
         <div className="flex flex-col md:flex-row gap-6">
           {/* Photo - Top on mobile, Left on desktop */}
-          <div className="w-full md:w-24 h-56 md:h-32 rounded-lg overflow-hidden border border-white/20 bg-white/5 flex items-center justify-center mx-auto md:mx-0">
+          <div className="w-full h-56 md:h-32 rounded-lg overflow-hidden border border-white/20 bg-white/5 flex items-center justify-center mx-auto md:mx-0">
             <img 
               src={getPhotoSrc(name)} 
               alt={`${name} photo`}
