@@ -34,44 +34,53 @@ import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 
 // ---------- Water Ripple Background ----------
 const DynamicBackground: React.FC = () => {
-  const [ripples, setRipples] = useState<Array<{id: number, x: number, y: number, radius: number, opacity: number, phase: number}>>([]);
+  const [ripples, setRipples] = useState<Array<{id: number, x: number, y: number, radius: number, opacity: number}>>([]);
   
   useEffect(() => {
+    console.log('DynamicBackground useEffect running');
+    
     // Create initial ripples
     const createRipple = () => {
       const x = Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200);
       const y = Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800);
-      const phase = Math.random() * Math.PI * 2;
       
-      setRipples(prev => [...prev.slice(-10), {
-        id: Date.now() + Math.random(),
-        x,
-        y,
-        radius: 0,
-        opacity: 0.3,
-        phase
-      }]);
+      console.log('Creating ripple at:', x, y);
+      
+      setRipples(prev => {
+        const newRipples = [...prev.slice(-5), {
+          id: Date.now() + Math.random(),
+          x,
+          y,
+          radius: 0,
+          opacity: 0.8
+        }];
+        console.log('New ripples count:', newRipples.length);
+        return newRipples;
+      });
     };
 
-    // Create initial ripples
-    for (let i = 0; i < 3; i++) {
-      setTimeout(createRipple, i * 500);
-    }
+    // Create initial ripples immediately
+    createRipple();
+    createRipple();
+    createRipple();
 
     // Animation loop
     const animate = () => {
-      // Add new ripples randomly (like rain drops)
-      if (Math.random() < 0.008) {
+      // Add new ripples randomly
+      if (Math.random() < 0.01) {
         createRipple();
       }
 
       // Update existing ripples
-      setRipples(prev => prev.map(ripple => ({
-        ...ripple,
-        radius: ripple.radius + 1.5,
-        opacity: ripple.opacity - 0.008,
-        phase: ripple.phase + 0.02
-      })).filter(ripple => ripple.opacity > 0.01));
+      setRipples(prev => {
+        const updated = prev.map(ripple => ({
+          ...ripple,
+          radius: ripple.radius + 2,
+          opacity: ripple.opacity - 0.01
+        })).filter(ripple => ripple.opacity > 0.05);
+        
+        return updated;
+      });
 
       requestAnimationFrame(animate);
     };
@@ -80,42 +89,33 @@ const DynamicBackground: React.FC = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none">
+    <div className="fixed inset-0 overflow-hidden pointer-events-none -z-20">
+      {/* Test ripple - always visible */}
+      <div className="absolute top-1/2 left-1/2 w-20 h-20 border border-white/50 rounded-full transform -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
+      
       {/* Water Ripples */}
       {ripples.map(ripple => {
-        const interference = Math.sin(ripple.phase) * 0.3 + 1;
-        const waveCount = Math.floor(ripple.radius / 20);
-        
         return (
-          <div key={ripple.id} className="absolute">
-            {Array.from({ length: waveCount }, (_, i) => {
-              const waveRadius = (i + 1) * 20;
-              const waveOpacity = (ripple.opacity * (1 - i * 0.1)) * interference;
-              
-              return (
-                <motion.div
-                  key={i}
-                  className="absolute border border-white/10 rounded-full"
-                  style={{
-                    left: ripple.x - waveRadius,
-                    top: ripple.y - waveRadius,
-                    width: waveRadius * 2,
-                    height: waveRadius * 2,
-                    opacity: Math.max(0, waveOpacity)
-                  }}
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ 
-                    scale: 1,
-                    opacity: Math.max(0, waveOpacity)
-                  }}
-                  transition={{ 
-                    duration: 0.5,
-                    ease: "easeOut"
-                  }}
-                />
-              );
-            })}
-          </div>
+          <motion.div
+            key={ripple.id}
+            className="absolute border border-white/30 rounded-full"
+            style={{
+              left: ripple.x - ripple.radius,
+              top: ripple.y - ripple.radius,
+              width: ripple.radius * 2,
+              height: ripple.radius * 2,
+              opacity: ripple.opacity
+            }}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ 
+              scale: 1,
+              opacity: ripple.opacity
+            }}
+            transition={{ 
+              duration: 0.3,
+              ease: "easeOut"
+            }}
+          />
         );
       })}
 
