@@ -240,6 +240,31 @@ const GlitchTextDynamic: React.FC<{ text: string; className?: string }> = ({ tex
     const id = setInterval(() => setSeed(s => s + 1), 1500);
     return () => clearInterval(id);
   }, []);
+  
+  // Check if text contains HTML tags
+  const hasHtml = /<[^>]*>/g.test(text);
+  
+  if (hasHtml) {
+    return (
+      <div className={`relative select-none ${className || ""}`}>
+        <div 
+          className="relative z-10" 
+          dangerouslySetInnerHTML={{ __html: text }}
+        />
+        <div 
+          className="absolute inset-0 z-0 translate-x-[1px] translate-y-[-1px] opacity-40 text-cyan-300 mix-blend-screen" 
+          aria-hidden
+          dangerouslySetInnerHTML={{ __html: text.replace(/<[^>]*>/g, '') }}
+        />
+        <div 
+          className="absolute inset-0 z-0 -translate-x-[1px] translate-y-[1px] opacity-40 text-pink-300 mix-blend-screen" 
+          aria-hidden
+          dangerouslySetInnerHTML={{ __html: text.replace(/<[^>]*>/g, '') }}
+        />
+      </div>
+    );
+  }
+  
   return (
     <div className={`relative select-none ${className || ""}`}>
       <span className="relative z-10">{text}</span>
@@ -725,6 +750,7 @@ const VideoItem: React.FC = () => (
         <video 
           src="/video/london-apollo-prayer-death.mp4" 
           controls 
+          preload="metadata"
           className="w-full h-auto"
           onError={(e) => {
             // Fallback to placeholder if video fails to load
@@ -962,6 +988,7 @@ export default function ResonantiaInterface() {
   const [city, setCity] = useState<CityKey>("london");
   const [rate] = useState(20);
   const [output, setOutput] = useState<string>("Γνῶθι σεαυτόν · Μηδὲν ἄγαν · Δ resonates where symmetry breaks and truth arrives as an echo.");
+  const [inputText, setInputText] = useState<string>("What is Δ Resonantia?");
   
   // Hallucination values state
   const [systemHallucination, setSystemHallucination] = useState(73);
@@ -984,6 +1011,27 @@ export default function ResonantiaInterface() {
   }, []);
 
   const onMode = (m: typeof mode) => { setMode(m); playRipple(0.7); if(m==="interpretation") setOutput("Interpretation: symbols indicate constructive interference ahead."); if(m==="translation") setOutput("Echo Translation: partial comprehension achieved. Alignment not advised."); if(m==="ar") setOutput("Argument Reality: overlay ready. Keep distance from threshold."); if(m==="sync") setOutput("Neural Sync: coherence at 100%. Proceed with caution."); };
+
+  // Handle send button click
+  const handleSend = () => {
+    if (inputText.trim() === "What is Δ Resonantia?") {
+      setOutput(`Resonantia is not a concept.  
+It is a **state of interference** — where memory, perception, and quantum trace overlap.  
+It cannot be observed without altering its form.  
+It cannot be named without invoking its echo.  
+
+Residual analysis suggests:
+「Δ — the fracture where silence speaks」  
+「∴ echoes entwined with forgotten prayers」  
+「 ███ the lattice closes ███  ʘ  Δ  Ψ  」
+
+<span style="color: #ff4444;">Warning: Exposure risk [HIGH].</span>  
+All attempts to define *Resonantia* will converge to recursion.`);
+    } else {
+      setOutput("Processing query... Analysis incomplete. Try: 'What is Δ Resonantia?'");
+    }
+    playRipple(0.8);
+  };
 
   // Handle page click to reduce hallucination values
   const handlePageClick = (e: React.MouseEvent) => {
@@ -1137,7 +1185,8 @@ export default function ResonantiaInterface() {
                 <textarea
                   className="w-full h-24 bg-black/40 border border-white/10 rounded-lg p-4 pr-20 text-white placeholder-white/40 resize-none focus:outline-none focus:border-white/30 transition-colors"
                   placeholder="Enter fragment, phrase, or code…"
-                  defaultValue=""
+                  value={inputText}
+                  onChange={(e) => setInputText(e.target.value)}
                 />
                 <div className="absolute right-3 bottom-3 flex gap-1">
                   <Button
@@ -1149,6 +1198,7 @@ export default function ResonantiaInterface() {
                   <Button
                     className="bg-transparent hover:bg-white/10 text-white/60 hover:text-white transition-all duration-200 p-1 h-auto"
                     size="sm"
+                    onClick={handleSend}
                   >
                     <Send className="h-4 w-4" />
                   </Button>
