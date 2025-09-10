@@ -1466,8 +1466,11 @@ export default function ResonantiaInterface() {
     };
   }, [isVisitorModalOpen]);
 
-  // Physiological metrics animation - using deterministic values
+  // Physiological metrics animation - only start after loading is complete
   useEffect(() => {
+    // Don't start physiological metrics until loading is complete
+    if (isLoading) return;
+    
     const interval = setInterval(() => {
       const now = Date.now();
       
@@ -1497,7 +1500,7 @@ export default function ResonantiaInterface() {
     }, 2000); // Update every 2 seconds
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isLoading]); // Depend on isLoading state
 
   const onMode = (m: typeof mode) => { setMode(m); playRipple(0.7); if(m==="interpretation") setOutput("Interpretation: symbols indicate constructive interference ahead."); if(m==="translation") setOutput("Echo Translation: partial comprehension achieved. Alignment not advised."); if(m==="ar") setOutput("Augument Reality: overlay ready. Keep distance from threshold."); if(m==="sync") setOutput("Neural Sync: coherence at 100%. Proceed with caution."); };
 
@@ -1748,53 +1751,55 @@ export default function ResonantiaInterface() {
                     </div>
                   </div>
 
-                  {/* Physiological Metrics */}
-                  <div className="pt-3 border-t border-white/10">
-                    <div className="text-white/60 text-xs mb-2">Physiological Metrics</div>
-                    <div className="grid grid-cols-2 gap-3">
-                      {/* Heart Rate */}
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
-                          <span className="text-white/70 text-xs">HR</span>
-                        </div>
-                        <span className="text-white font-mono text-sm">{Math.round(heartRate)} BPM</span>
-                      </div>
-
-                      {/* Temperature */}
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
-                          <span className="text-white/70 text-xs">Temp</span>
-                        </div>
-                        <span className="text-white font-mono text-sm">{temperature.toFixed(1)}°C</span>
-                      </div>
-
-                      {/* Blood Oxygen */}
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                          <span className="text-white/70 text-xs">SpO₂</span>
-                        </div>
-                        <span className="text-white font-mono text-sm">{Math.round(bloodOxygen)}%</span>
-                      </div>
-
-                      {/* Neural Oscillation */}
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 bg-purple-400 rounded-full">
-                            <motion.div 
-                              className="w-full h-full bg-purple-400 rounded-full"
-                              animate={{ scale: [1, 1.2, 1] }}
-                              transition={{ duration: 2, repeat: Infinity }}
-                            />
+                  {/* Physiological Metrics - Only show after loading */}
+                  {!isLoading && (
+                    <div className="pt-3 border-t border-white/10">
+                      <div className="text-white/60 text-xs mb-2">Physiological Metrics</div>
+                      <div className="grid grid-cols-2 gap-3">
+                        {/* Heart Rate */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+                            <span className="text-white/70 text-xs">HR</span>
                           </div>
-                          <span className="text-white/70 text-xs">Neural</span>
+                          <span className="text-white font-mono text-sm">{Math.round(heartRate)} BPM</span>
                         </div>
-                        <span className="text-white font-mono text-sm">{neuralOscillation.toFixed(1)} Hz</span>
+
+                        {/* Temperature */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
+                            <span className="text-white/70 text-xs">Temp</span>
+                          </div>
+                          <span className="text-white font-mono text-sm">{temperature.toFixed(1)}°C</span>
+                        </div>
+
+                        {/* Blood Oxygen */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                            <span className="text-white/70 text-xs">SpO₂</span>
+                          </div>
+                          <span className="text-white font-mono text-sm">{Math.round(bloodOxygen)}%</span>
+                        </div>
+
+                        {/* Neural Oscillation */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-purple-400 rounded-full">
+                              <motion.div 
+                                className="w-full h-full bg-purple-400 rounded-full"
+                                animate={{ scale: [1, 1.2, 1] }}
+                                transition={{ duration: 2, repeat: Infinity }}
+                              />
+                            </div>
+                            <span className="text-white/70 text-xs">Neural</span>
+                          </div>
+                          <span className="text-white font-mono text-sm">{neuralOscillation.toFixed(1)} Hz</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
