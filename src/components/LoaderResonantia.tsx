@@ -62,24 +62,108 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
 
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-black text-neutral-200">
-      {/* Background grid */}
-      <div
-        className="absolute inset-0 opacity-30"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)",
-          backgroundSize: "32px 32px, 32px 32px",
-        }}
-      />
+      {/* Dynamic Background - same as main page */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+        {/* Multiple random ripple points with varying sizes and ultra-subtle colors */}
+        
+        {/* Center point ripples */}
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <div className="absolute w-3 h-3 border border-white/8 rounded-full" style={{ animation: 'ripple-expand 3.2s ease-out infinite', animationDelay: '0s' }}></div>
+          <div className="absolute w-6 h-6 border border-white/6 rounded-full" style={{ animation: 'ripple-expand 3.2s ease-out infinite', animationDelay: '0.4s' }}></div>
+          <div className="absolute w-12 h-12 border border-white/5 rounded-full" style={{ animation: 'ripple-expand 3.2s ease-out infinite', animationDelay: '0.8s' }}></div>
+          <div className="absolute w-24 h-24 border border-white/4 rounded-full" style={{ animation: 'ripple-expand 3.2s ease-out infinite', animationDelay: '1.2s' }}></div>
+          <div className="absolute w-48 h-48 border border-white/3 rounded-full" style={{ animation: 'ripple-expand 3.2s ease-out infinite', animationDelay: '1.6s' }}></div>
+          <div className="absolute w-96 h-96 border border-white/2 rounded-full" style={{ animation: 'ripple-expand 3.2s ease-out infinite', animationDelay: '2s' }}></div>
+        </div>
 
-      {/* Scanlines */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-15 mix-blend-overlay"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(0deg, rgba(255,255,255,0.06) 0px, rgba(255,255,255,0.06) 1px, transparent 2px, transparent 4px)",
-        }}
-      />
+        {/* Top-left ripples */}
+        <div className="absolute top-1/4 left-1/4 transform -translate-x-1/2 -translate-y-1/2">
+          <div className="absolute w-2 h-2 border border-white/7 rounded-full" style={{ animation: 'ripple-expand 4.1s ease-out infinite', animationDelay: '0.3s' }}></div>
+          <div className="absolute w-5 h-5 border border-white/6 rounded-full" style={{ animation: 'ripple-expand 4.1s ease-out infinite', animationDelay: '0.7s' }}></div>
+          <div className="absolute w-10 h-10 border border-white/5 rounded-full" style={{ animation: 'ripple-expand 4.1s ease-out infinite', animationDelay: '1.1s' }}></div>
+          <div className="absolute w-20 h-20 border border-white/4 rounded-full" style={{ animation: 'ripple-expand 4.1s ease-out infinite', animationDelay: '1.5s' }}></div>
+          <div className="absolute w-40 h-40 border border-white/3 rounded-full" style={{ animation: 'ripple-expand 4.1s ease-out infinite', animationDelay: '1.9s' }}></div>
+        </div>
+
+        {/* Top-right ripples */}
+        <div className="absolute top-1/3 right-1/3 transform -translate-x-1/2 -translate-y-1/2">
+          <div className="absolute w-4 h-4 border border-white/6 rounded-full" style={{ animation: 'ripple-expand 3.8s ease-out infinite', animationDelay: '0.6s' }}></div>
+          <div className="absolute w-8 h-8 border border-white/5 rounded-full" style={{ animation: 'ripple-expand 3.8s ease-out infinite', animationDelay: '1s' }}></div>
+          <div className="absolute w-16 h-16 border border-white/4 rounded-full" style={{ animation: 'ripple-expand 3.8s ease-out infinite', animationDelay: '1.4s' }}></div>
+          <div className="absolute w-32 h-32 border border-white/3 rounded-full" style={{ animation: 'ripple-expand 3.8s ease-out infinite', animationDelay: '1.8s' }}></div>
+        </div>
+
+        {/* Bottom-right ripples */}
+        <div className="absolute bottom-1/4 right-1/4 transform -translate-x-1/2 -translate-y-1/2">
+          <div className="absolute w-3 h-3 border border-white/7 rounded-full" style={{ animation: 'ripple-expand 4.5s ease-out infinite', animationDelay: '0.2s' }}></div>
+          <div className="absolute w-7 h-7 border border-white/6 rounded-full" style={{ animation: 'ripple-expand 4.5s ease-out infinite', animationDelay: '0.8s' }}></div>
+          <div className="absolute w-14 h-14 border border-white/5 rounded-full" style={{ animation: 'ripple-expand 4.5s ease-out infinite', animationDelay: '1.4s' }}></div>
+          <div className="absolute w-28 h-28 border border-white/4 rounded-full" style={{ animation: 'ripple-expand 4.5s ease-out infinite', animationDelay: '2s' }}></div>
+          <div className="absolute w-56 h-56 border border-white/3 rounded-full" style={{ animation: 'ripple-expand 4.5s ease-out infinite', animationDelay: '2.6s' }}></div>
+        </div>
+
+        {/* Bottom-left ripples */}
+        <div className="absolute bottom-1/3 left-1/5 transform -translate-x-1/2 -translate-y-1/2">
+          <div className="absolute w-2 h-2 border border-white/8 rounded-full" style={{ animation: 'ripple-expand 5.2s ease-out infinite', animationDelay: '0.4s' }}></div>
+          <div className="absolute w-6 h-6 border border-white/6 rounded-full" style={{ animation: 'ripple-expand 5.2s ease-out infinite', animationDelay: '1s' }}></div>
+          <div className="absolute w-12 h-12 border border-white/5 rounded-full" style={{ animation: 'ripple-expand 5.2s ease-out infinite', animationDelay: '1.6s' }}></div>
+          <div className="absolute w-24 h-24 border border-white/4 rounded-full" style={{ animation: 'ripple-expand 5.2s ease-out infinite', animationDelay: '2.2s' }}></div>
+          <div className="absolute w-48 h-48 border border-white/3 rounded-full" style={{ animation: 'ripple-expand 5.2s ease-out infinite', animationDelay: '2.8s' }}></div>
+        </div>
+
+        {/* Additional random ripple points */}
+        <div className="absolute top-1/6 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <div className="absolute w-1 h-1 border border-white/9 rounded-full" style={{ animation: 'ripple-expand 3.5s ease-out infinite', animationDelay: '0.1s' }}></div>
+          <div className="absolute w-4 h-4 border border-white/7 rounded-full" style={{ animation: 'ripple-expand 3.5s ease-out infinite', animationDelay: '0.5s' }}></div>
+          <div className="absolute w-9 h-9 border border-white/5 rounded-full" style={{ animation: 'ripple-expand 3.5s ease-out infinite', animationDelay: '0.9s' }}></div>
+          <div className="absolute w-18 h-18 border border-white/4 rounded-full" style={{ animation: 'ripple-expand 3.5s ease-out infinite', animationDelay: '1.3s' }}></div>
+        </div>
+
+        <div className="absolute top-2/3 right-1/6 transform -translate-x-1/2 -translate-y-1/2">
+          <div className="absolute w-2 h-2 border border-white/8 rounded-full" style={{ animation: 'ripple-expand 4.8s ease-out infinite', animationDelay: '0.7s' }}></div>
+          <div className="absolute w-5 h-5 border border-white/6 rounded-full" style={{ animation: 'ripple-expand 4.8s ease-out infinite', animationDelay: '1.2s' }}></div>
+          <div className="absolute w-11 h-11 border border-white/5 rounded-full" style={{ animation: 'ripple-expand 4.8s ease-out infinite', animationDelay: '1.7s' }}></div>
+          <div className="absolute w-22 h-22 border border-white/4 rounded-full" style={{ animation: 'ripple-expand 4.8s ease-out infinite', animationDelay: '2.2s' }}></div>
+        </div>
+
+        <div className="absolute bottom-1/6 left-2/3 transform -translate-x-1/2 -translate-y-1/2">
+          <div className="absolute w-3 h-3 border border-white/7 rounded-full" style={{ animation: 'ripple-expand 3.7s ease-out infinite', animationDelay: '0.2s' }}></div>
+          <div className="absolute w-7 h-7 border border-white/5 rounded-full" style={{ animation: 'ripple-expand 3.7s ease-out infinite', animationDelay: '0.6s' }}></div>
+          <div className="absolute w-15 h-15 border border-white/4 rounded-full" style={{ animation: 'ripple-expand 3.7s ease-out infinite', animationDelay: '1s' }}></div>
+          <div className="absolute w-30 h-30 border border-white/3 rounded-full" style={{ animation: 'ripple-expand 3.7s ease-out infinite', animationDelay: '1.4s' }}></div>
+        </div>
+
+        {/* Subtle grid pattern with very low opacity */}
+        <div 
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)
+            `,
+            backgroundSize: '40px 40px'
+          }}
+        />
+      </div>
+
+      {/* CSS Animation Keyframes */}
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @keyframes ripple-expand {
+            0% {
+              transform: scale(0);
+              opacity: 1;
+            }
+            50% {
+              opacity: 0.8;
+            }
+            100% {
+              transform: scale(1);
+              opacity: 0;
+            }
+          }
+        `
+      }} />
 
       {/* Center */}
       <div className="relative z-10 flex h-full w-full items-center justify-center">
