@@ -1466,30 +1466,32 @@ export default function ResonantiaInterface() {
     };
   }, [isVisitorModalOpen]);
 
-  // Physiological metrics animation
+  // Physiological metrics animation - using deterministic values
   useEffect(() => {
     const interval = setInterval(() => {
-      // Heart rate: 70-75 BPM with slight variation
+      const now = Date.now();
+      
+      // Heart rate: 70-75 BPM with deterministic variation
       setHeartRate(prev => {
-        const variation = (Math.random() - 0.5) * 2;
-        return Math.max(70, Math.min(75, prev + variation));
+        const variation = Math.sin(now / 3000) * 1; // Deterministic sine wave
+        return Math.max(70, Math.min(75, 72.5 + variation));
       });
       
-      // Temperature: 36.3-36.7°C with minimal variation
+      // Temperature: 36.3-36.7°C with deterministic variation
       setTemperature(prev => {
-        const variation = (Math.random() - 0.5) * 0.2;
-        return Math.max(36.3, Math.min(36.7, prev + variation));
+        const variation = Math.sin(now / 5000) * 0.1; // Deterministic sine wave
+        return Math.max(36.3, Math.min(36.7, 36.5 + variation));
       });
       
-      // Blood oxygen: 97-99% with small variation
+      // Blood oxygen: 97-99% with deterministic variation
       setBloodOxygen(prev => {
-        const variation = (Math.random() - 0.5) * 1;
-        return Math.max(97, Math.min(99, prev + variation));
+        const variation = Math.sin(now / 4000) * 0.5; // Deterministic sine wave
+        return Math.max(97, Math.min(99, 98 + variation));
       });
       
-      // Neural oscillation: 8.0-9.0 Hz with wave-like variation
+      // Neural oscillation: 8.0-9.0 Hz with deterministic variation
       setNeuralOscillation(prev => {
-        const variation = Math.sin(Date.now() / 1000) * 0.3;
+        const variation = Math.sin(now / 2000) * 0.3; // Deterministic sine wave
         return Math.max(8.0, Math.min(9.0, 8.5 + variation));
       });
     }, 2000); // Update every 2 seconds
