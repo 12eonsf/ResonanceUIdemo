@@ -24,7 +24,7 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
       "Establishing neural link…",
       "Neural link: SYNCHRONIZED [100%]",
       "Deploying AR modules…",
-      "Querying user biometric streams… HR 68 | HRV 41 | Temp 36.6℃",
+      "Querying user biometric streams…",
       "Cognitive guardrails: NOMINAL",
       "Model selected: resonantia-echo-enhanced v3.5",
       "Echo amplifier: WARMING",
@@ -271,7 +271,7 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
       {/* Footer */}
       <div className="absolute bottom-10 left-0 right-0 z-20 flex items-center justify-center text-[11px] uppercase tracking-[0.2em] text-neutral-500">
         <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
-          <span className="mr-3">Visitor ID: ███-Δ</span>
+          <span className="mr-3">Visitor ID: ⊚-████</span>
           <span>Permission: MEDIUM</span>
         </div>
       </div>
