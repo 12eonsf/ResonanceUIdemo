@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 
 export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: { onComplete?: () => void; minDurationMs?: number }) {
   const [progress, setProgress] = useState(0);
+  const [hasReached100, setHasReached100] = useState(false);
   const [showAccessButton, setShowAccessButton] = useState(false);
   const [isGlitching, setIsGlitching] = useState(false);
   const bootMessages = useMemo(
@@ -42,14 +43,17 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
       const elapsed = t - start;
       const base = Math.min(1, elapsed / minDurationMs);
       
-      // Smooth progress that reaches 100%
+      // Smooth progress that reaches 100% and stays there
       let progressValue;
-      if (base >= 0.99) {
-        // Ensure we reach 100% when close to completion
+      if (hasReached100 || base >= 0.95) {
+        // Once we reach 100%, never go back
         progressValue = 100;
+        if (!hasReached100) {
+          setHasReached100(true);
+        }
       } else {
-        // Add subtle wobble only during loading, not at the end
-        const wobble = base < 0.9 ? Math.sin(elapsed / 140) * 0.01 : 0;
+        // Add subtle wobble only during early loading phase
+        const wobble = base < 0.8 ? Math.sin(elapsed / 140) * 0.01 : 0;
         progressValue = Math.min(100, Math.round((base + wobble) * 100));
       }
       
