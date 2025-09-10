@@ -50,60 +50,42 @@ const WaveNavigation: React.FC = () => {
   return (
     <div className="flex flex-col items-center">
       {/* Three Wave Lines Icon */}
-      <motion.button
+      <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="relative w-8 h-6 bg-transparent border-none text-white/80 hover:text-white transition-all duration-300 group overflow-hidden flex flex-col justify-center items-center"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
+        className="relative w-8 h-6 bg-transparent border-none text-white/80 hover:text-white transition-colors duration-300 flex flex-col justify-center items-center"
       >
-        {/* Three wave lines */}
+        {/* Three static wave lines */}
         <svg 
           className="w-full h-full pointer-events-none" 
           viewBox="0 0 32 24" 
           preserveAspectRatio="none"
         >
           {/* Top wave line */}
-          <motion.path
+          <path
             d="M0,6 Q8,2 16,6 T32,6"
             stroke="currentColor"
             strokeWidth="1.5"
             fill="none"
             opacity="0.8"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           />
           {/* Middle wave line */}
-          <motion.path
+          <path
             d="M0,12 Q8,8 16,12 T32,12"
             stroke="currentColor"
             strokeWidth="1.5"
             fill="none"
             opacity="0.6"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
           />
           {/* Bottom wave line */}
-          <motion.path
+          <path
             d="M0,18 Q8,14 16,18 T32,18"
             stroke="currentColor"
             strokeWidth="1.5"
             fill="none"
             opacity="0.4"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
           />
         </svg>
-        {/* Hover glow effect */}
-        <motion.div
-          className="absolute inset-0 bg-white/5 rounded-sm"
-          initial={{ opacity: 0 }}
-          whileHover={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-        />
-      </motion.button>
+      </button>
 
       {/* Expanded Navigation */}
       <motion.div
