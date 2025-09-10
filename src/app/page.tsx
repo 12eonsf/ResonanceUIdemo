@@ -1439,7 +1439,7 @@ export default function ResonantiaInterface() {
     return () => clearInterval(interval);
   }, []);
 
-  const onMode = (m: typeof mode) => { setMode(m); playRipple(0.7); if(m==="interpretation") setOutput("Interpretation: symbols indicate constructive interference ahead."); if(m==="translation") setOutput("Echo Translation: partial comprehension achieved. Alignment not advised."); if(m==="ar") setOutput("Argument Reality: overlay ready. Keep distance from threshold."); if(m==="sync") setOutput("Neural Sync: coherence at 100%. Proceed with caution."); };
+  const onMode = (m: typeof mode) => { setMode(m); playRipple(0.7); if(m==="interpretation") setOutput("Interpretation: symbols indicate constructive interference ahead."); if(m==="translation") setOutput("Echo Translation: partial comprehension achieved. Alignment not advised."); if(m==="ar") setOutput("Augument Reality: overlay ready. Keep distance from threshold."); if(m==="sync") setOutput("Neural Sync: coherence at 100%. Proceed with caution."); };
 
   // Handle send button click
   const handleSend = () => {
@@ -1597,6 +1597,7 @@ All attempts to define *Resonantia* will converge to recursion.`);
             <div>
               <div className="text-white/60 mb-2">Version</div>
               <div className="text-white">Δ Resonantia 1.1</div>
+              <div className="text-white/80 mt-1">Model: resonantia-echo-enhanced 3.0</div>
             </div>
             
             {/* System Dashboard and Visitor Status */}
@@ -1745,7 +1746,7 @@ All attempts to define *Resonantia* will converge to recursion.`);
                       <Globe2 className="h-4 w-4 text-white/80" />
                     </div>
                     <div>
-                      <div className="text-sm font-medium text-white">Argument Reality</div>
+                      <div className="text-sm font-medium text-white">Augument Reality</div>
                       <div className="text-xs text-white/60">Reality overlay</div>
                     </div>
                   </div>

@@ -223,7 +223,7 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
                   transition={{ ease: "easeOut", duration: 0.3 }}
                 />
               </div>
-              <div className="mt-2 text-[11px] text-neutral-500">
+              <div className="mt-2 text-[11px] text-neutral-500 h-4 flex items-center">
                 <span className="font-mono">{currentMessage}</span>
               </div>
             </div>
