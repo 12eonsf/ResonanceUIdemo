@@ -14,7 +14,6 @@ import { motion } from "framer-motion";
 
 export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: { onComplete?: () => void; minDurationMs?: number }) {
   const [progress, setProgress] = useState(0);
-  const [hasReached100, setHasReached100] = useState(false);
   const [showAccessButton, setShowAccessButton] = useState(false);
   const [isGlitching, setIsGlitching] = useState(false);
   const bootMessages = useMemo(
@@ -43,18 +42,14 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
       const elapsed = t - start;
       const base = Math.min(1, elapsed / minDurationMs);
       
-      // Smooth progress that reaches 100% and stays there
+      // Simple, reliable progress calculation - no wobble, no regression
       let progressValue;
-      if (hasReached100 || base >= 0.95) {
-        // Once we reach 100%, never go back
+      if (base >= 0.85) {
+        // In the final 15%, always show 100% to prevent any regression
         progressValue = 100;
-        if (!hasReached100) {
-          setHasReached100(true);
-        }
       } else {
-        // Add subtle wobble only during early loading phase
-        const wobble = base < 0.8 ? Math.sin(elapsed / 140) * 0.01 : 0;
-        progressValue = Math.min(100, Math.round((base + wobble) * 100));
+        // During loading, smooth linear progress
+        progressValue = Math.min(100, Math.round(base * 100));
       }
       
       setProgress(progressValue);
@@ -62,7 +57,7 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
       const idx = Math.min(bootMessages.length - 1, Math.floor(bootMessages.length * base));
       setCurrentMessage(bootMessages[idx]);
 
-      if (elapsed >= minDurationMs && progressValue >= 100) {
+      if (elapsed >= minDurationMs) {
         setShowAccessButton(true);
         return;
       }
