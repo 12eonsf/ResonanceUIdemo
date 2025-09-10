@@ -1443,6 +1443,23 @@ export default function ResonantiaInterface() {
     return () => clearInterval(interval);
   }, []);
 
+  // Handle ESC key to close modal
+  useEffect(() => {
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isVisitorModalOpen) {
+        setIsVisitorModalOpen(false);
+      }
+    };
+
+    if (isVisitorModalOpen) {
+      document.addEventListener('keydown', handleEscKey);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscKey);
+    };
+  }, [isVisitorModalOpen]);
+
   const onMode = (m: typeof mode) => { setMode(m); playRipple(0.7); if(m==="interpretation") setOutput("Interpretation: symbols indicate constructive interference ahead."); if(m==="translation") setOutput("Echo Translation: partial comprehension achieved. Alignment not advised."); if(m==="ar") setOutput("Augument Reality: overlay ready. Keep distance from threshold."); if(m==="sync") setOutput("Neural Sync: coherence at 100%. Proceed with caution."); };
 
   // Handle send button click
@@ -2029,13 +2046,30 @@ export default function ResonantiaInterface() {
 
       {/* Visitor Access Modal */}
       {isVisitorModalOpen && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div 
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setIsVisitorModalOpen(false);
+            }
+          }}
+        >
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            className="bg-white/5 border border-white/20 rounded-lg p-6 w-full max-w-md backdrop-blur-sm"
+            className="bg-white/5 border border-white/20 rounded-lg p-6 w-full max-w-md backdrop-blur-sm relative"
           >
+            {/* Close Button */}
+            <button
+              onClick={() => setIsVisitorModalOpen(false)}
+              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 rounded-full transition-all duration-300"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
             <div className="space-y-6">
               {/* Header */}
               <div className="text-center">
