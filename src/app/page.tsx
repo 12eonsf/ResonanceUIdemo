@@ -33,6 +33,75 @@ import { ComposableMap, Geographies, Geography } from "react-simple-maps";
  * Sections: Info / Query / Output / Archives / Profiles / Group Prayer Resonance Detection
  */
 
+// ---------- Wave Navigation Component ----------
+const WaveNavigation: React.FC = () => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  const navItems = [
+    { href: "#novel", label: "THE NOVEL" },
+    { href: "#info", label: "INFO" },
+    { href: "#query", label: "QUERY" },
+    { href: "#output", label: "OUTPUT" },
+    { href: "#archives", label: "ARCHIVES" },
+    { href: "#profiles", label: "PROFILES" },
+    { href: "#detection", label: "DETECTION" }
+  ];
+
+  return (
+    <div className="flex flex-col items-center">
+      {/* Wave Button */}
+      <motion.button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="relative px-6 py-2 bg-white/5 border border-white/20 text-white/80 font-mono text-xs hover:bg-white/10 hover:border-white/40 transition-all duration-300 tracking-widest uppercase backdrop-blur-sm group overflow-hidden"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <span className="relative z-10">NAVIGATION</span>
+        {/* Wave effect */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+        {/* Corner accents */}
+        <div className="absolute top-0 left-0 w-1 h-1 border-t border-l border-white/30" />
+        <div className="absolute top-0 right-0 w-1 h-1 border-t border-r border-white/30" />
+        <div className="absolute bottom-0 left-0 w-1 h-1 border-b border-l border-white/30" />
+        <div className="absolute bottom-0 right-0 w-1 h-1 border-b border-r border-white/30" />
+      </motion.button>
+
+      {/* Expanded Navigation */}
+      <motion.div
+        initial={false}
+        animate={{ 
+          height: isExpanded ? "auto" : 0,
+          opacity: isExpanded ? 1 : 0
+        }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className="overflow-hidden"
+      >
+        <nav className="flex flex-wrap justify-center gap-3 md:gap-4 text-xs md:text-sm pt-4">
+          {navItems.map((item, index) => (
+            <motion.a
+              key={item.href}
+              href={item.href}
+              className="text-white/60 hover:text-white/90 transition-colors duration-200 font-mono px-3 py-1 border border-white/10 hover:border-white/30 rounded-sm"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ 
+                opacity: isExpanded ? 1 : 0,
+                y: isExpanded ? 0 : -10
+              }}
+              transition={{ 
+                delay: index * 0.05,
+                duration: 0.2
+              }}
+              whileHover={{ scale: 1.05 }}
+            >
+              {item.label}
+            </motion.a>
+          ))}
+        </nav>
+      </motion.div>
+    </div>
+  );
+};
+
 // ---------- Water Ripple Background ----------
 const DynamicBackground: React.FC = () => {
   return (
@@ -1518,29 +1587,7 @@ All attempts to define *Resonantia* will converge to recursion.`);
             </div>
             
             {/* Navigation */}
-            <nav className="flex flex-wrap justify-center gap-4 md:gap-6 text-xs md:text-sm">
-              <a href="#novel" className="text-white/60 hover:text-white/90 transition-colors duration-200 font-mono">
-                THE NOVEL
-              </a>
-              <a href="#info" className="text-white/60 hover:text-white/90 transition-colors duration-200 font-mono">
-                INFO
-              </a>
-              <a href="#query" className="text-white/60 hover:text-white/90 transition-colors duration-200 font-mono">
-                QUERY
-              </a>
-              <a href="#output" className="text-white/60 hover:text-white/90 transition-colors duration-200 font-mono">
-                OUTPUT
-              </a>
-              <a href="#archives" className="text-white/60 hover:text-white/90 transition-colors duration-200 font-mono">
-                ARCHIVES
-              </a>
-              <a href="#profiles" className="text-white/60 hover:text-white/90 transition-colors duration-200 font-mono">
-                PROFILES
-              </a>
-              <a href="#detection" className="text-white/60 hover:text-white/90 transition-colors duration-200 font-mono">
-                DETECTION
-              </a>
-            </nav>
+            <WaveNavigation />
           </div>
         </div>
       </header>
@@ -1552,10 +1599,10 @@ All attempts to define *Resonantia* will converge to recursion.`);
             <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> <GlitchText>The Novel</GlitchText></CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            {/* Book Cover */}
+            {/* Book Cover with Parallax */}
             <div className="flex justify-center">
               <div className="relative w-64 h-80 md:w-80 md:h-96 overflow-hidden rounded-lg border border-white/20">
-                <img 
+                <motion.img 
                   src="/Book Cover.PNG" 
                   alt="Resonance Book Cover"
                   className="w-full h-full object-cover"
@@ -1563,6 +1610,31 @@ All attempts to define *Resonantia* will converge to recursion.`);
                     const target = e.target as HTMLImageElement;
                     target.style.display = 'none';
                   }}
+                  initial={{ y: 0 }}
+                  whileInView={{ 
+                    y: [0, -20, 0],
+                    scale: [1, 1.02, 1]
+                  }}
+                  transition={{ 
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                    ease: "easeInOut"
+                  }}
+                  viewport={{ once: false, margin: "-100px" }}
+                />
+                {/* Parallax overlay effect */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-white/10"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: [0, 0.3, 0] }}
+                  transition={{ 
+                    duration: 3,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                    ease: "easeInOut"
+                  }}
+                  viewport={{ once: false, margin: "-100px" }}
                 />
               </div>
             </div>

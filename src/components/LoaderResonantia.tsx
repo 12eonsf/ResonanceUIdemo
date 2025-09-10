@@ -41,7 +41,7 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
     const tick = (t: number) => {
       const elapsed = t - start;
       const base = Math.min(1, elapsed / minDurationMs);
-      const wobble = Math.sin(elapsed / 140) * 0.03 + Math.random() * 0.01;
+      const wobble = Math.sin(elapsed / 140) * 0.03;
       const p = Math.min(1, base * (0.96 + wobble));
       setProgress(Math.round(p * 100));
 
@@ -222,16 +222,14 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
             </div>
           ) : (
             <motion.button
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0 }}
               animate={{ 
-                opacity: 1, 
-                y: 0,
+                opacity: 1,
                 x: isGlitching ? [0, -2, 2, -1, 1, 0] : 0,
                 scale: isGlitching ? [1, 1.02, 0.98, 1] : 1
               }}
               transition={{ 
-                duration: 0.8, 
-                ease: "easeOut",
+                opacity: { duration: 1.2, ease: "easeOut" },
                 x: isGlitching ? { duration: 0.3, repeat: 2 } : undefined,
                 scale: isGlitching ? { duration: 0.3, repeat: 2 } : undefined
               }}
