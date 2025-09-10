@@ -1863,7 +1863,7 @@ All attempts to define *Resonantia* will converge to recursion.`);
             <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> <GlitchText>The Novel</GlitchText></CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            {/* Book Cover with Parallax */}
+            {/* Book Cover with Glitch Effect */}
             <div className="w-full">
               <div className="relative w-full h-80 md:h-96 overflow-hidden rounded-lg border border-white/20">
                 <motion.img 
@@ -1874,29 +1874,77 @@ All attempts to define *Resonantia* will converge to recursion.`);
                     const target = e.target as HTMLImageElement;
                     target.style.display = 'none';
                   }}
-                  initial={{ y: 0 }}
+                  initial={{ 
+                    x: 0,
+                    y: 0,
+                    scale: 1,
+                    filter: "hue-rotate(0deg) saturate(1) brightness(1)"
+                  }}
                   whileInView={{ 
-                    y: [0, -20, 0],
-                    scale: [1, 1.02, 1]
+                    x: [0, -2, 2, -1, 1, 0, -3, 3, -2, 2, 0],
+                    y: [0, 1, -1, 2, -2, 0, 1, -1, 2, -2, 0],
+                    scale: [1, 1.01, 0.99, 1.02, 0.98, 1, 1.01, 0.99, 1.02, 0.98, 1],
+                    filter: [
+                      "hue-rotate(0deg) saturate(1) brightness(1)",
+                      "hue-rotate(10deg) saturate(1.2) brightness(1.1)",
+                      "hue-rotate(-5deg) saturate(0.8) brightness(0.9)",
+                      "hue-rotate(15deg) saturate(1.3) brightness(1.2)",
+                      "hue-rotate(-10deg) saturate(0.7) brightness(0.8)",
+                      "hue-rotate(0deg) saturate(1) brightness(1)"
+                    ]
                   }}
                   transition={{ 
-                    duration: 2,
+                    duration: 4,
                     repeat: Infinity,
-                    repeatType: "reverse",
+                    repeatType: "loop",
                     ease: "easeInOut"
                   }}
                   viewport={{ once: false, margin: "-100px" }}
                 />
-                {/* Parallax overlay effect */}
+                {/* Glitch overlay effects */}
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-white/10"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: [0, 0.3, 0] }}
+                  className="absolute inset-0 bg-red-500/20 mix-blend-screen"
+                  initial={{ opacity: 0, x: 0 }}
+                  whileInView={{ 
+                    opacity: [0, 0.3, 0, 0.2, 0, 0.4, 0, 0.1, 0],
+                    x: [0, -3, 3, -2, 2, -4, 4, -1, 1, 0]
+                  }}
                   transition={{ 
                     duration: 3,
                     repeat: Infinity,
-                    repeatType: "reverse",
+                    repeatType: "loop",
                     ease: "easeInOut"
+                  }}
+                  viewport={{ once: false, margin: "-100px" }}
+                />
+                <motion.div
+                  className="absolute inset-0 bg-cyan-500/20 mix-blend-screen"
+                  initial={{ opacity: 0, x: 0 }}
+                  whileInView={{ 
+                    opacity: [0, 0.2, 0, 0.3, 0, 0.1, 0, 0.4, 0],
+                    x: [0, 2, -2, 3, -3, 1, -1, 4, -4, 0]
+                  }}
+                  transition={{ 
+                    duration: 3.5,
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    ease: "easeInOut",
+                    delay: 0.5
+                  }}
+                  viewport={{ once: false, margin: "-100px" }}
+                />
+                {/* Scan line effect */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-b from-transparent via-white/10 to-transparent h-1"
+                  initial={{ y: "-100%" }}
+                  whileInView={{ 
+                    y: ["-100%", "100%", "-100%"]
+                  }}
+                  transition={{ 
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    ease: "linear"
                   }}
                   viewport={{ once: false, margin: "-100px" }}
                 />
