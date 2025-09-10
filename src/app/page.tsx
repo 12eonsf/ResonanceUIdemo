@@ -1423,6 +1423,7 @@ export default function ResonantiaInterface() {
   const [systemHallucination, setSystemHallucination] = useState(73);
   const [visitorHallucination, setVisitorHallucination] = useState(42);
   const [neuralSyncProgress, setNeuralSyncProgress] = useState(0);
+  const [isAnalysisExpanded, setIsAnalysisExpanded] = useState(false);
 
   // Neural Sync progress animation
   useEffect(() => {
@@ -1703,81 +1704,92 @@ export default function ResonantiaInterface() {
             </div>
             
             {/* Analysis Modes */}
-            <div className="space-y-4">
-              <div className="text-white/60 text-sm">Analysis Mode</div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="space-y-3">
+              <button
+                onClick={() => setIsAnalysisExpanded(!isAnalysisExpanded)}
+                className="flex items-center justify-between w-full text-left md:hidden"
+              >
+                <div className="text-white/60 text-sm">Analysis Mode</div>
+                <div className="text-white/40 text-xs">
+                  {isAnalysisExpanded ? '−' : '+'}
+                </div>
+              </button>
+              <div className="hidden md:block text-white/60 text-sm">Analysis Mode</div>
+              <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-3 transition-all duration-300 ${
+                isAnalysisExpanded ? 'block' : 'hidden md:grid'
+              }`}>
                 <div 
                   onClick={() => onMode("interpretation")} 
-                  className={`p-4 rounded-lg cursor-pointer transition-all duration-200 ${
+                  className={`p-3 md:p-4 rounded-lg cursor-pointer transition-all duration-200 ${
                     mode === 'interpretation' 
                       ? 'bg-white/10 border border-white/20' 
                       : 'bg-white/5 hover:bg-white/8 border border-transparent hover:border-white/10'
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded border border-white/20 bg-black/40 flex items-center justify-center">
-                      <FileText className="h-4 w-4 text-white/80" />
+                  <div className="flex items-center gap-2 md:gap-3">
+                    <div className="w-6 h-6 md:w-8 md:h-8 rounded border border-white/20 bg-black/40 flex items-center justify-center">
+                      <FileText className="h-3 w-3 md:h-4 md:w-4 text-white/80" />
                     </div>
                     <div>
-                      <div className="text-sm font-medium text-white">Interpretation</div>
-                      <div className="text-xs text-white/60">Symbolic analysis</div>
+                      <div className="text-xs md:text-sm font-medium text-white">Interpretation</div>
+                      <div className="text-[10px] md:text-xs text-white/60">Symbolic analysis</div>
                     </div>
                   </div>
                 </div>
                 
                 <div 
                   onClick={() => onMode("translation")} 
-                  className={`p-4 rounded-lg cursor-pointer transition-all duration-200 ${
+                  className={`p-3 md:p-4 rounded-lg cursor-pointer transition-all duration-200 ${
                     mode === 'translation' 
                       ? 'bg-white/10 border border-white/20' 
                       : 'bg-white/5 hover:bg-white/8 border border-transparent hover:border-white/10'
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded border border-white/20 bg-black/40 flex items-center justify-center">
-                      <Languages className="h-4 w-4 text-white/80" />
+                  <div className="flex items-center gap-2 md:gap-3">
+                    <div className="w-6 h-6 md:w-8 md:h-8 rounded border border-white/20 bg-black/40 flex items-center justify-center">
+                      <Languages className="h-3 w-3 md:h-4 md:w-4 text-white/80" />
                     </div>
                     <div>
-                      <div className="text-sm font-medium text-white">Echo Translation</div>
-                      <div className="text-xs text-white/60">Linguistic decoding</div>
+                      <div className="text-xs md:text-sm font-medium text-white">Echo Translation</div>
+                      <div className="text-[10px] md:text-xs text-white/60">Linguistic decoding</div>
                     </div>
                   </div>
                 </div>
                 
                 <div 
                   onClick={() => onMode("ar")} 
-                  className={`p-4 rounded-lg cursor-pointer transition-all duration-200 ${
+                  className={`p-3 md:p-4 rounded-lg cursor-pointer transition-all duration-200 ${
                     mode === 'ar' 
                       ? 'bg-white/10 border border-white/20' 
                       : 'bg-white/5 hover:bg-white/8 border border-transparent hover:border-white/10'
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded border border-white/20 bg-black/40 flex items-center justify-center">
-                      <Globe2 className="h-4 w-4 text-white/80" />
+                  <div className="flex items-center gap-2 md:gap-3">
+                    <div className="w-6 h-6 md:w-8 md:h-8 rounded border border-white/20 bg-black/40 flex items-center justify-center">
+                      <Globe2 className="h-3 w-3 md:h-4 md:w-4 text-white/80" />
                     </div>
                     <div>
-                      <div className="text-sm font-medium text-white">Augument Reality</div>
-                      <div className="text-xs text-white/60">Reality overlay</div>
+                      <div className="text-xs md:text-sm font-medium text-white">Augument Reality</div>
+                      <div className="text-[10px] md:text-xs text-white/60">Reality overlay</div>
                     </div>
                   </div>
                 </div>
                 
                 <div 
                   onClick={() => onMode("sync")} 
-                  className={`p-4 rounded-lg cursor-pointer transition-all duration-200 ${
+                  className={`p-3 md:p-4 rounded-lg cursor-pointer transition-all duration-200 ${
                     mode === 'sync' 
                       ? 'bg-white/10 border border-white/20' 
                       : 'bg-white/5 hover:bg-white/8 border border-transparent hover:border-white/10'
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded border border-white/20 bg-black/40 flex items-center justify-center">
-                      <Brain className="h-4 w-4 text-white/80" />
+                  <div className="flex items-center gap-2 md:gap-3">
+                    <div className="w-6 h-6 md:w-8 md:h-8 rounded border border-white/20 bg-black/40 flex items-center justify-center">
+                      <Brain className="h-3 w-3 md:h-4 md:w-4 text-white/80" />
                     </div>
                     <div>
-                      <div className="text-sm font-medium text-white">Neural Sync</div>
-                      <div className="text-xs text-white/60">Cognitive sync</div>
+                      <div className="text-xs md:text-sm font-medium text-white">Neural Sync</div>
+                      <div className="text-[10px] md:text-xs text-white/60">Cognitive sync</div>
                     </div>
                   </div>
                 </div>
