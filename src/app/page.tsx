@@ -1839,12 +1839,22 @@ export default function ResonantiaInterface() {
                             }`}>
                               {resonanceIndex.toFixed(2)}
                             </span>
-                            <details className="group">
+                            <details className="group relative">
                               <summary className="cursor-pointer text-white/40 hover:text-white/60 text-xs transition-colors">
                                 *
                               </summary>
-                              <div className="absolute bottom-full right-0 mb-2 w-64 p-2 bg-black/80 border border-white/20 rounded text-xs text-white/80 font-mono backdrop-blur-sm z-10">
-                                RI = θ–γ 耦合强度 × α 抑制率 × δ 异常相位比
+                              <div className="absolute bottom-full right-0 mb-2 w-80 p-3 bg-black/90 border border-white/20 rounded text-xs text-white/80 font-mono backdrop-blur-sm z-20">
+                                <div className="space-y-2">
+                                  <div className="font-semibold text-white">RI Calculation Formula:</div>
+                                  <div>RI = |θ–γ| coupling strength × |α| inhibition rate × |δ| abnormal phase ratio</div>
+                                  <div className="pt-2 border-t border-white/10">
+                                    <div className="font-semibold text-white">Status Index:</div>
+                                    <div>RI &lt; 0.8 → Normal</div>
+                                    <div>0.8 ≤ RI &lt; 1.2 → Weak Echo Sensitivity</div>
+                                    <div>1.2 ≤ RI &lt; 1.5 → Moderate Resonance</div>
+                                    <div>RI ≥ 1.5 → Danger</div>
+                                  </div>
+                                </div>
                               </div>
                             </details>
                           </div>
@@ -1858,10 +1868,10 @@ export default function ResonantiaInterface() {
                             resonanceIndex < 1.5 ? 'bg-orange-400/20 text-orange-300 border border-orange-400/30' : 
                             'bg-red-400/20 text-red-300 border border-red-400/30'
                           }`}>
-                            {resonanceIndex < 0.8 ? '正常' :
-                             resonanceIndex < 1.2 ? '弱Echo感应，偶发视觉/语言幻觉' :
-                             resonanceIndex < 1.5 ? '中度共振，可解读Echo Script，频繁的癫痫和幻觉，出现意识塌缩风险' :
-                             '危险，强Echo显影，可能触发死亡和共振传染'}
+                            {resonanceIndex < 0.8 ? 'Normal' :
+                             resonanceIndex < 1.2 ? 'Weak Echo Sensitivity, Occasional Visual/Language Hallucinations' :
+                             resonanceIndex < 1.5 ? 'Moderate Resonance, Echo Script Decodable, Frequent Epilepsy and Hallucinations, Consciousness Collapse Risk' :
+                             'Danger, Strong Echo Manifestation, Potential Death and Resonance Contagion'}
                           </div>
                         </div>
                       </div>
