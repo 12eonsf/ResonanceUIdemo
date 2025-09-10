@@ -38,53 +38,25 @@ const WaveNavigation: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   
   const navItems = [
-    { href: "#novel", label: "THE NOVEL" },
     { href: "#info", label: "INFO" },
     { href: "#query", label: "QUERY" },
     { href: "#output", label: "OUTPUT" },
     { href: "#archives", label: "ARCHIVES" },
     { href: "#profiles", label: "PROFILES" },
-    { href: "#detection", label: "DETECTION" }
+    { href: "#detection", label: "DETECTION" },
+    { href: "#novel", label: "THE NOVEL" }
   ];
 
   return (
     <div className="flex flex-col items-center">
-      {/* Three Wave Lines Icon */}
+      {/* Navigation Symbol Icon */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="relative w-8 h-6 bg-transparent border-none text-white/80 hover:text-white transition-colors duration-300 flex flex-col justify-center items-center"
+        className="relative w-8 h-8 bg-transparent border border-white/30 text-white/80 hover:text-white hover:border-white/60 transition-all duration-300 flex items-center justify-center rounded-sm"
       >
-        {/* Three static wave lines */}
-        <svg 
-          className="w-full h-full pointer-events-none" 
-          viewBox="0 0 32 24" 
-          preserveAspectRatio="none"
-        >
-          {/* Top wave line */}
-          <path
-            d="M0,6 Q8,2 16,6 T32,6"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            fill="none"
-            opacity="0.8"
-          />
-          {/* Middle wave line */}
-          <path
-            d="M0,12 Q8,8 16,12 T32,12"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            fill="none"
-            opacity="0.6"
-          />
-          {/* Bottom wave line */}
-          <path
-            d="M0,18 Q8,14 16,18 T32,18"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            fill="none"
-            opacity="0.4"
-          />
-        </svg>
+        <span className="text-lg font-mono">
+          {isExpanded ? '∞' : '≋'}
+        </span>
       </button>
 
       {/* Expanded Navigation */}
