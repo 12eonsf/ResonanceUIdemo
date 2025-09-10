@@ -2172,24 +2172,24 @@ export default function ResonantiaInterface() {
       {/* Floating Hallucination Monitor - Auto-collapsed */}
       <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-[9999]" style={{ position: 'fixed', bottom: '1rem', right: '1rem' }}>
         <details className="group">
-          <summary className="cursor-pointer bg-black/90 border border-white/20 rounded-lg p-2 md:p-3 backdrop-blur-sm hover:bg-black/95 transition-colors">
+          <summary className="cursor-pointer bg-black/90 border border-white/20 rounded-lg p-2 md:p-3 backdrop-blur-sm hover:bg-black/95 transition-colors w-32 md:w-36">
             <div className="text-xs text-white/60 font-mono">HALLUCINATION MONITOR</div>
-            <div className="flex items-center justify-between gap-2 md:gap-4 mt-1 md:mt-2">
+            <div className="flex items-center justify-between gap-2 mt-1">
               <div className="text-xs text-white/70 font-mono">S:{systemHallucination} V:{visitorHallucination}</div>
               <div className="text-xs text-white/40 font-mono">▼</div>
             </div>
           </summary>
-          <div className="mt-2 bg-black/90 border border-white/20 rounded-lg p-3 md:p-4 backdrop-blur-sm">
+          <div className="mt-2 bg-black/90 border border-white/20 rounded-lg p-3 backdrop-blur-sm w-40 md:w-44">
             <div className="space-y-3">
-              <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center justify-between">
                 <div className="text-xs text-white/70 font-mono">System</div>
-                <div className="text-lg font-mono">
+                <div className="text-lg font-mono w-8 text-right">
                   {systemHallucination}
                 </div>
               </div>
-              <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center justify-between">
                 <div className="text-xs text-white/70 font-mono">Visitor</div>
-                <div className="text-lg font-mono">
+                <div className="text-lg font-mono w-8 text-right">
                   {visitorHallucination}
                 </div>
               </div>
@@ -2204,7 +2204,7 @@ export default function ResonantiaInterface() {
                   <span className="ml-2 text-red-400/60 group-open:hidden">[Click to expand]</span>
                   <span className="ml-2 text-red-400/60 hidden group-open:inline">[Click to collapse]</span>
                 </summary>
-                <div className="absolute bottom-full right-0 mb-2 w-72 md:w-80 p-3 bg-red-900/60 border border-red-500/30 rounded text-xs text-red-100 font-mono backdrop-blur-sm z-10">
+                <div className="absolute bottom-full right-0 mb-2 w-64 md:w-72 p-3 bg-red-900/60 border border-red-500/30 rounded text-xs text-red-100 font-mono backdrop-blur-sm z-10">
                   Maintain low hallucination levels at all times. If values exceed 50, seek medical department for anti-hallucinogenic medication. Rapid hallucination spikes may trigger epilepsy and mania.
                 </div>
               </details>
