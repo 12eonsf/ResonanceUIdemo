@@ -38,14 +38,55 @@ const WaveNavigation: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   
   const navItems = [
-    { href: "#info", label: "INFO" },
-    { href: "#query", label: "QUERY" },
-    { href: "#output", label: "OUTPUT" },
-    { href: "#archives", label: "ARCHIVES" },
-    { href: "#profiles", label: "PROFILES" },
-    { href: "#detection", label: "DETECTION" },
-    { href: "#novel", label: "THE NOVEL" }
+    { id: "info", label: "INFO" },
+    { id: "query", label: "QUERY" },
+    { id: "output", label: "OUTPUT" },
+    { id: "archives", label: "ARCHIVES" },
+    { id: "profiles", label: "PROFILES" },
+    { id: "detection", label: "DETECTION" },
+    { id: "novel", label: "THE NOVEL" }
   ];
+
+  // Smooth scroll to section function
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      // Get current scroll position
+      const currentScrollY = window.scrollY;
+      
+      // Calculate header height dynamically
+      const header = document.querySelector('header');
+      const headerHeight = header ? header.offsetHeight + 20 : 120; // Add 20px padding
+      
+      // Get element position relative to document
+      const elementRect = element.getBoundingClientRect();
+      const elementPosition = currentScrollY + elementRect.top - headerHeight;
+      
+      // Smooth scroll to position
+      window.scrollTo({
+        top: Math.max(0, elementPosition), // Ensure we don't scroll to negative position
+        behavior: 'smooth'
+      });
+      
+      // Close navigation after clicking
+      setIsExpanded(false);
+      
+      // Optional: Add visual feedback
+      element.style.transition = 'box-shadow 0.3s ease';
+      element.style.boxShadow = '0 0 20px rgba(255, 255, 255, 0.1)';
+      setTimeout(() => {
+        element.style.boxShadow = '';
+      }, 1000);
+    }
+  };
+
+  // Handle keyboard navigation
+  const handleKeyDown = (event: React.KeyboardEvent, sectionId: string) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      scrollToSection(sectionId);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center">
@@ -71,10 +112,11 @@ const WaveNavigation: React.FC = () => {
       >
         <nav className="flex flex-wrap justify-center gap-3 md:gap-4 text-xs md:text-sm pt-4">
           {navItems.map((item, index) => (
-            <motion.a
-              key={item.href}
-              href={item.href}
-              className="text-white/60 hover:text-white/90 transition-colors duration-200 font-mono px-3 py-1 border border-white/10 hover:border-white/30 rounded-sm"
+            <motion.button
+              key={item.id}
+              onClick={() => scrollToSection(item.id)}
+              onKeyDown={(e) => handleKeyDown(e, item.id)}
+              className="text-white/60 hover:text-white/90 focus:text-white/90 focus:outline-none focus:ring-2 focus:ring-white/30 transition-colors duration-200 font-mono px-3 py-1 border border-white/10 hover:border-white/30 focus:border-white/30 rounded-sm cursor-pointer"
               initial={{ opacity: 0, y: -10 }}
               animate={{ 
                 opacity: isExpanded ? 1 : 0,
@@ -85,9 +127,11 @@ const WaveNavigation: React.FC = () => {
                 duration: 0.2
               }}
               whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label={`Navigate to ${item.label} section`}
             >
               {item.label}
-            </motion.a>
+            </motion.button>
           ))}
         </nav>
       </motion.div>

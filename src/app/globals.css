@@ -86,3 +86,20 @@ body {
     display: block;
   }
 }
+
+/* Smooth scrolling for navigation */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Navigation scroll offset compensation */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Ensure proper scroll positioning */
+section[id], div[id], article[id] {
+  scroll-margin-top: 120px;
+}
