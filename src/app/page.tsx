@@ -1432,8 +1432,8 @@ All attempts to define *Resonantia* will converge to recursion.`);
 
       {/* Header */}
       <header className="sticky top-0 z-40 border-b border-white/10 bg-black/70 backdrop-blur">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-center">
-          <div className="flex flex-col items-center gap-3">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex flex-col items-center gap-4">
             <div className="flex items-center gap-3">
               <div className="relative w-10 h-10 md:w-12 md:h-12">
                 <svg viewBox="0 0 100 100" className="absolute inset-0">
@@ -1516,13 +1516,35 @@ All attempts to define *Resonantia* will converge to recursion.`);
             <div className="text-xs text-white/40 font-mono">
               Noesis Institute
             </div>
+            
+            {/* Navigation */}
+            <nav className="flex flex-wrap justify-center gap-4 md:gap-6 text-xs md:text-sm">
+              <a href="#info" className="text-white/60 hover:text-white/90 transition-colors duration-200 font-mono">
+                INFO
+              </a>
+              <a href="#query" className="text-white/60 hover:text-white/90 transition-colors duration-200 font-mono">
+                QUERY
+              </a>
+              <a href="#output" className="text-white/60 hover:text-white/90 transition-colors duration-200 font-mono">
+                OUTPUT
+              </a>
+              <a href="#archives" className="text-white/60 hover:text-white/90 transition-colors duration-200 font-mono">
+                ARCHIVES
+              </a>
+              <a href="#profiles" className="text-white/60 hover:text-white/90 transition-colors duration-200 font-mono">
+                PROFILES
+              </a>
+              <a href="#detection" className="text-white/60 hover:text-white/90 transition-colors duration-200 font-mono">
+                DETECTION
+              </a>
+            </nav>
           </div>
         </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-4 py-8 space-y-10">
         {/* Info */}
-        <Card className="bg-white/5 border-white/10">
+        <Card id="info" className="bg-white/5 border-white/10">
           <CardHeader className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> <GlitchText>Info</GlitchText></CardTitle>
           </CardHeader>
@@ -1591,7 +1613,7 @@ All attempts to define *Resonantia* will converge to recursion.`);
         </Card>
 
         {/* Query */}
-        <Card className="bg-white/5 border-white/10">
+        <Card id="query" className="bg-white/5 border-white/10">
           <CardHeader className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> <GlitchText>Query</GlitchText></CardTitle>
           </CardHeader>
@@ -1709,7 +1731,7 @@ All attempts to define *Resonantia* will converge to recursion.`);
         </Card>
 
         {/* Output */}
-        <Card className="bg-white/5 border-white/10">
+        <Card id="output" className="bg-white/5 border-white/10">
           <CardHeader className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> <GlitchText>Output</GlitchText></CardTitle>
           </CardHeader>
@@ -1721,7 +1743,7 @@ All attempts to define *Resonantia* will converge to recursion.`);
         </Card>
 
         {/* Archives */}
-        <Card className="bg-white/5 border-white/10">
+        <Card id="archives" className="bg-white/5 border-white/10">
           <CardHeader className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> <GlitchText>Archives</GlitchText></CardTitle>
           </CardHeader>
@@ -1737,7 +1759,7 @@ All attempts to define *Resonantia* will converge to recursion.`);
         </Card>
 
         {/* Profiles */}
-        <Card className="bg-white/5 border-white/10">
+        <Card id="profiles" className="bg-white/5 border-white/10">
           <CardHeader className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> <GlitchText>Profiles</GlitchText></CardTitle>
           </CardHeader>
@@ -1787,7 +1809,9 @@ All attempts to define *Resonantia* will converge to recursion.`);
         </Card>
 
         {/* Group Prayer Resonance Detection */}
-        <ResonanceObserver city={city} onCity={setCity} rate={rate} />
+        <div id="detection">
+          <ResonanceObserver city={city} onCity={setCity} rate={rate} />
+        </div>
 
 
         <footer className="pt-6 border-t border-white/10 text-center text-xs text-white/60 space-y-2">

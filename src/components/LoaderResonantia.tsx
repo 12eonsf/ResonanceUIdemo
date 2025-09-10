@@ -63,7 +63,7 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-black text-neutral-200">
       {/* Dynamic Background - same as main page */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         {/* Multiple random ripple points with varying sizes and ultra-subtle colors */}
         
         {/* Center point ripples */}

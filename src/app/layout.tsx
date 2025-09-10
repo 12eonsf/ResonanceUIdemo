@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Delta Resonantia Interface",
+  title: "Resonantia",
   description: "Internal interface for resonance analysis and monitoring",
 };
 
