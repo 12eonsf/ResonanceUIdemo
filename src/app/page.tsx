@@ -1432,7 +1432,8 @@ export default function ResonantiaInterface() {
   const [heartRate, setHeartRate] = useState(72);
   const [temperature, setTemperature] = useState(36.5);
   const [bloodOxygen, setBloodOxygen] = useState(98);
-  const [neuralOscillation, setNeuralOscillation] = useState(8.5);
+  const [oscillation, setOscillation] = useState(8.5);
+  const [resonanceIndex, setResonanceIndex] = useState(0.6);
 
   // Neural Sync progress animation
   useEffect(() => {
@@ -1492,10 +1493,19 @@ export default function ResonantiaInterface() {
         return Math.max(97, Math.min(99, 98 + variation));
       });
       
-      // Neural oscillation: 8.0-9.0 Hz with deterministic variation
-      setNeuralOscillation(prev => {
+      // Oscillation: 8.0-9.0 Hz with deterministic variation
+      setOscillation(prev => {
         const variation = Math.sin(now / 2000) * 0.3; // Deterministic sine wave
         return Math.max(8.0, Math.min(9.0, 8.5 + variation));
+      });
+      
+      // Resonance Index: 0-2.0 with complex variation
+      setResonanceIndex(prev => {
+        const theta = Math.sin(now / 3000) * 0.4; // θ–γ coupling strength
+        const gamma = Math.sin(now / 2500) * 0.3; // α inhibition rate
+        const alpha = Math.sin(now / 4000) * 0.2; // δ abnormal phase ratio
+        const ri = Math.abs(theta - gamma) * Math.abs(alpha) * Math.abs(alpha);
+        return Math.max(0, Math.min(2.0, ri));
       });
     }, 2000); // Update every 2 seconds
 
@@ -1751,10 +1761,10 @@ export default function ResonantiaInterface() {
                     </div>
                   </div>
 
-                  {/* Physiological Metrics - Only show after loading */}
+                  {/* Biometrics - Only show after loading */}
                   {!isLoading && (
                     <div className="pt-3 border-t border-white/10">
-                      <div className="text-white/60 text-xs mb-2">Physiological Metrics</div>
+                      <div className="text-white/60 text-xs mb-2">Biometrics</div>
                       <div className="grid grid-cols-2 gap-3">
                         {/* Heart Rate */}
                         <div className="flex items-center justify-between">
@@ -1783,7 +1793,7 @@ export default function ResonantiaInterface() {
                           <span className="text-white font-mono text-sm">{Math.round(bloodOxygen)}%</span>
                         </div>
 
-                        {/* Neural Oscillation */}
+                        {/* Oscillation */}
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <div className="w-2 h-2 bg-purple-400 rounded-full">
@@ -1793,9 +1803,66 @@ export default function ResonantiaInterface() {
                                 transition={{ duration: 2, repeat: Infinity }}
                               />
                             </div>
-                            <span className="text-white/70 text-xs">Neural</span>
+                            <span className="text-white/70 text-xs">Oscillation</span>
                           </div>
-                          <span className="text-white font-mono text-sm">{neuralOscillation.toFixed(1)} Hz</span>
+                          <span className="text-white font-mono text-sm">{oscillation.toFixed(1)} Hz</span>
+                        </div>
+
+                        {/* Resonance Index */}
+                        <div className="flex items-center justify-between col-span-2">
+                          <div className="flex items-center gap-2">
+                            <div className={`w-2 h-2 rounded-full ${
+                              resonanceIndex < 0.8 ? 'bg-green-400' :
+                              resonanceIndex < 1.2 ? 'bg-yellow-400' :
+                              resonanceIndex < 1.5 ? 'bg-orange-400' : 'bg-red-400'
+                            }`}>
+                              <motion.div 
+                                className={`w-full h-full rounded-full ${
+                                  resonanceIndex < 0.8 ? 'bg-green-400' :
+                                  resonanceIndex < 1.2 ? 'bg-yellow-400' :
+                                  resonanceIndex < 1.5 ? 'bg-orange-400' : 'bg-red-400'
+                                }`}
+                                animate={{ 
+                                  scale: resonanceIndex >= 1.2 ? [1, 1.3, 1] : [1, 1.1, 1],
+                                  opacity: resonanceIndex >= 1.5 ? [1, 0.5, 1] : [1, 0.8, 1]
+                                }}
+                                transition={{ duration: 1.5, repeat: Infinity }}
+                              />
+                            </div>
+                            <span className="text-white/70 text-xs">Resonance Index (RI)</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className={`font-mono text-sm ${
+                              resonanceIndex < 0.8 ? 'text-green-400' :
+                              resonanceIndex < 1.2 ? 'text-yellow-400' :
+                              resonanceIndex < 1.5 ? 'text-orange-400' : 'text-red-400'
+                            }`}>
+                              {resonanceIndex.toFixed(2)}
+                            </span>
+                            <details className="group">
+                              <summary className="cursor-pointer text-white/40 hover:text-white/60 text-xs transition-colors">
+                                *
+                              </summary>
+                              <div className="absolute bottom-full right-0 mb-2 w-64 p-2 bg-black/80 border border-white/20 rounded text-xs text-white/80 font-mono backdrop-blur-sm z-10">
+                                RI = θ–γ 耦合强度 × α 抑制率 × δ 异常相位比
+                              </div>
+                            </details>
+                          </div>
+                        </div>
+
+                        {/* Status Indicator */}
+                        <div className="col-span-2 mt-2">
+                          <div className={`text-xs font-mono px-2 py-1 rounded ${
+                            resonanceIndex < 0.8 ? 'bg-green-400/20 text-green-300 border border-green-400/30' :
+                            resonanceIndex < 1.2 ? 'bg-yellow-400/20 text-yellow-300 border border-yellow-400/30' :
+                            resonanceIndex < 1.5 ? 'bg-orange-400/20 text-orange-300 border border-orange-400/30' : 
+                            'bg-red-400/20 text-red-300 border border-red-400/30'
+                          }`}>
+                            {resonanceIndex < 0.8 ? '正常' :
+                             resonanceIndex < 1.2 ? '弱Echo感应，偶发视觉/语言幻觉' :
+                             resonanceIndex < 1.5 ? '中度共振，可解读Echo Script，频繁的癫痫和幻觉，出现意识塌缩风险' :
+                             '危险，强Echo显影，可能触发死亡和共振传染'}
+                          </div>
                         </div>
                       </div>
                     </div>
