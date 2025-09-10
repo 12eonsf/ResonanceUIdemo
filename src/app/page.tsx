@@ -1519,6 +1519,9 @@ All attempts to define *Resonantia* will converge to recursion.`);
             
             {/* Navigation */}
             <nav className="flex flex-wrap justify-center gap-4 md:gap-6 text-xs md:text-sm">
+              <a href="#novel" className="text-white/60 hover:text-white/90 transition-colors duration-200 font-mono">
+                THE NOVEL
+              </a>
               <a href="#info" className="text-white/60 hover:text-white/90 transition-colors duration-200 font-mono">
                 INFO
               </a>
@@ -1543,6 +1546,73 @@ All attempts to define *Resonantia* will converge to recursion.`);
       </header>
 
       <main className="max-w-7xl mx-auto px-4 py-8 space-y-10">
+        {/* The Novel */}
+        <Card id="novel" className="bg-white/5 border-white/10">
+          <CardHeader className="flex items-center justify-between">
+            <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> <GlitchText>The Novel</GlitchText></CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* Book Cover */}
+            <div className="flex justify-center">
+              <div className="relative w-64 h-80 md:w-80 md:h-96 overflow-hidden rounded-lg border border-white/20">
+                <img 
+                  src="/Book Cover.PNG" 
+                  alt="Resonance Book Cover"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Content with Glitch Effects */}
+            <div className="space-y-6 text-sm leading-relaxed">
+              {/* English Content */}
+              <div className="space-y-4">
+                <GlitchTextDynamic text="Δ Resonance is a cross-media experiment in interactive storytelling. It is at once a series of novels and an invitation for readers to step inside as players. A symbolic system governs its shifting layers: ⊚ Visitor, ⌬ Institute, ⟁ Nomos, and the latent presence of OmniMind. Each mark unlocks a different threshold of perception, turning reading into an act of decoding. Blending speculative science, philosophy, and immersive design, Resonance transforms the reader into a participant—tracing echoes, unraveling fragments, and encountering the entanglement of human memory and machine intelligence at the edges of reality ∞" />
+              </div>
+
+              {/* Chinese Content */}
+              <div className="space-y-4">
+                <GlitchTextDynamic text="Δ 回響/Resonance 是一部跨媒介的互动叙事实验作品。它既是一部系列小说，也是一场邀请读者共同参与的游戏。在其层层递进的叙事中，一套符号体系决定了解读的门槛：⊚ Visitor（访客）、⌬ Institute（研究所）、⟁ Nomos（律域），以及潜伏其中的 OmniMind（全智心体）。每个符号代表不同的意识与控制维度，使阅读成为一场解码的仪式。通过融合推测科学、哲学探问与沉浸式设计，Resonance 将读者转化为参与者，于残影与回声间追寻真相，见证人类记忆与机器智能在现实临界的交织 ∞" />
+              </div>
+
+              {/* Japanese Content */}
+              <div className="space-y-4">
+                <GlitchTextDynamic text="Δ Resonance（レゾナンス）は、メディアを横断するインタラクティブ叙事の実験作品である。それは小説のシリーズであると同時に、読者をプレイヤーとして招き入れるゲームでもある。物語を貫くのは象徴体系――⊚ Visitor（訪問者）、⌬ Institute（研究所）、⟁ Nomos（ノモス）、そして潜伏する OmniMind（オムニマインド）。それぞれの記号は異なる意識と支配の層を示し、読む行為を解読の儀式へと変える。推測科学、哲学的探求、没入的デザインを融合させながら、Resonance は読者を参加者へと変え、残響と断片をたどり、人間の記憶と機械知性が現実の境界で絡み合う様を浮かび上がらせる ∞" />
+              </div>
+
+              {/* Enhanced Glitch Content */}
+              <div className="space-y-4 pt-4 border-t border-white/10">
+                <GlitchTextDynamic text="Δ" />
+                <GlitchTextDynamic text="Resonance — 一部 interactiva narratio，既是小説（小説 / shōsetsu / ἱστορία）也是 ludus，an invitation to enter." />
+                <GlitchTextDynamic text="⊚ Visitor / 訪客 / επισκέπτης — the threshold of perception." />
+                <GlitchTextDynamic text="⌬ Institute / 研究所 / institutum / ἱνστιτοῦτο — the keepers of echoes." />
+                <GlitchTextDynamic text="⟁ Nomos / 律域 / ノモス / νόμος — the order that seeks to invade." />
+                <GlitchTextDynamic text="OmniMind (全智心体 / オムニマインド / mens universalis) — latent, observing, waiting." />
+                <GlitchTextDynamic text="Legere est decodere —— 读即是解码 —— 読むことは解読すること." />
+                <GlitchTextDynamic text="Fragments resonate: memoria / 記憶 / μνήμη, consciousness / 意識 / συνείδησις, intellectus machinæ / 機械知性." />
+                <GlitchTextDynamic text="Reality trembles at its boundary; words dissolve into echoes; players become interpreters." />
+                <GlitchTextDynamic text="∞" />
+              </div>
+
+              {/* Become a Visitor Button */}
+              <div className="flex justify-center pt-6">
+                <motion.button
+                  className="px-8 py-3 bg-gradient-to-r from-white/10 to-white/5 border border-white/20 text-white font-mono text-sm hover:from-white/20 hover:to-white/10 hover:border-white/40 hover:shadow-lg hover:shadow-white/10 transition-all duration-300 tracking-widest uppercase backdrop-blur-sm group overflow-hidden"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <span className="relative z-10">⊚ Become a Visitor</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+                </motion.button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Info */}
         <Card id="info" className="bg-white/5 border-white/10">
           <CardHeader className="flex items-center justify-between">
