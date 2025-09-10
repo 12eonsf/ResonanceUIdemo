@@ -52,11 +52,13 @@ const WaveNavigation: React.FC = () => {
       {/* Navigation Symbol Icon */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="relative w-8 h-8 bg-transparent border border-white/30 text-white/80 hover:text-white hover:border-white/60 transition-all duration-300 flex items-center justify-center rounded-sm"
+        className="relative w-8 h-8 bg-transparent text-white/60 hover:text-white hover:bg-white/10 transition-all duration-300 flex items-center justify-center rounded-lg group"
       >
-        <span className="text-lg font-mono">
+        <span className="text-lg font-mono relative z-10 group-hover:scale-110 transition-transform duration-200">
           {isExpanded ? '∞' : '≋'}
         </span>
+        {/* Subtle background highlight */}
+        <div className="absolute inset-0 bg-white/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </button>
 
       {/* Expanded Navigation */}
