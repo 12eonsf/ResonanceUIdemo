@@ -1424,6 +1424,9 @@ export default function ResonantiaInterface() {
   const [visitorHallucination, setVisitorHallucination] = useState(42);
   const [neuralSyncProgress, setNeuralSyncProgress] = useState(0);
   const [isAnalysisExpanded, setIsAnalysisExpanded] = useState(false);
+  const [isVisitorModalOpen, setIsVisitorModalOpen] = useState(false);
+  const [visitorForm, setVisitorForm] = useState({ name: '', email: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Neural Sync progress animation
   useEffect(() => {
@@ -1471,6 +1474,31 @@ export default function ResonantiaInterface() {
     } catch (error) {
       console.error('AI API Error:', error);
       setOutput("Resonance disrupted. The lattice trembles... Please try again.");
+    }
+  };
+
+  // Handle visitor form submission
+  const handleVisitorSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!visitorForm.name.trim() || !visitorForm.email.trim()) return;
+    
+    setIsSubmitting(true);
+    
+    try {
+      // Simulate API call - replace with actual endpoint
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Show success message
+      alert(`Welcome, ${visitorForm.name}! Your visitor access has been granted. Check your email for further instructions.`);
+      
+      // Reset form and close modal
+      setVisitorForm({ name: '', email: '' });
+      setIsVisitorModalOpen(false);
+      
+    } catch (error) {
+      alert('Access request failed. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -1936,6 +1964,7 @@ export default function ResonantiaInterface() {
               {/* Become a Visitor Button */}
               <div className="flex justify-center pt-6">
                 <motion.button
+                  onClick={() => setIsVisitorModalOpen(true)}
                   className="px-8 py-3 bg-gradient-to-r from-white/10 to-white/5 border border-white/20 text-white font-mono text-sm hover:from-white/20 hover:to-white/10 hover:border-white/40 hover:shadow-lg hover:shadow-white/10 transition-all duration-300 tracking-widest uppercase backdrop-blur-sm group overflow-hidden"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -1997,6 +2026,84 @@ export default function ResonantiaInterface() {
           </div>
         </details>
       </div>
+
+      {/* Visitor Access Modal */}
+      {isVisitorModalOpen && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="bg-white/5 border border-white/20 rounded-lg p-6 w-full max-w-md backdrop-blur-sm"
+          >
+            <div className="space-y-6">
+              {/* Header */}
+              <div className="text-center">
+                <div className="text-white font-mono text-lg tracking-widest uppercase mb-2">
+                  ⊚ Visitor Access
+                </div>
+                <div className="text-white/60 text-sm">
+                  Request access to the Resonance universe
+                </div>
+              </div>
+
+              {/* Form */}
+              <form onSubmit={handleVisitorSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-white/80 text-sm font-mono mb-2">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    value={visitorForm.name}
+                    onChange={(e) => setVisitorForm(prev => ({ ...prev, name: e.target.value }))}
+                    className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:border-white/40 focus:outline-none transition-colors"
+                    placeholder="Enter your name"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-white/80 text-sm font-mono mb-2">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    value={visitorForm.email}
+                    onChange={(e) => setVisitorForm(prev => ({ ...prev, email: e.target.value }))}
+                    className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:border-white/40 focus:outline-none transition-colors"
+                    placeholder="Enter your email"
+                    required
+                  />
+                </div>
+
+                {/* Buttons */}
+                <div className="flex gap-3 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setIsVisitorModalOpen(false)}
+                    className="flex-1 bg-transparent border border-white/20 text-white/80 hover:text-white hover:border-white/40 transition-all duration-300 px-4 py-3 rounded-lg font-mono text-sm tracking-widest uppercase"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting || !visitorForm.name.trim() || !visitorForm.email.trim()}
+                    className="flex-1 bg-gradient-to-r from-white/10 to-white/5 border border-white/20 text-white hover:from-white/20 hover:to-white/10 hover:border-white/40 transition-all duration-300 px-4 py-3 rounded-lg font-mono text-sm tracking-widest uppercase disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? 'Processing...' : 'Request Access'}
+                  </button>
+                </div>
+              </form>
+
+              {/* Footer */}
+              <div className="text-center text-white/40 text-xs">
+                By requesting access, you agree to the terms of the Noesis Institute
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }
