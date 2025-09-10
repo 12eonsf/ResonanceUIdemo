@@ -1442,24 +1442,35 @@ export default function ResonantiaInterface() {
   const onMode = (m: typeof mode) => { setMode(m); playRipple(0.7); if(m==="interpretation") setOutput("Interpretation: symbols indicate constructive interference ahead."); if(m==="translation") setOutput("Echo Translation: partial comprehension achieved. Alignment not advised."); if(m==="ar") setOutput("Augument Reality: overlay ready. Keep distance from threshold."); if(m==="sync") setOutput("Neural Sync: coherence at 100%. Proceed with caution."); };
 
   // Handle send button click
-  const handleSend = () => {
-    if (inputText.trim() === "What is Δ Resonantia?") {
-      setOutput(`Resonantia is not a concept.  
-It is a **state of interference** — where memory, perception, and quantum trace overlap.  
-It cannot be observed without altering its form.  
-It cannot be named without invoking its echo.  
-
-Residual analysis suggests:
-「Δ — the fracture where silence speaks」  
-「∴ echoes entwined with forgotten prayers」  
-「 ███ the lattice closes ███  ʘ  Δ  Ψ  」
-
-<span style="color: #ff4444;">Warning: Exposure risk [HIGH].</span>  
-All attempts to define *Resonantia* will converge to recursion.`);
-    } else {
-      setOutput("Processing query... Analysis incomplete. Try: 'What is Δ Resonantia?'");
-    }
+  const handleSend = async () => {
+    if (!inputText.trim()) return;
+    
+    // Show loading state
+    setOutput("Δ Resonantia processing... Echoes converging...");
     playRipple(0.8);
+    
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: inputText.trim()
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setOutput(data.response || "Echo lost in the void...");
+      
+    } catch (error) {
+      console.error('AI API Error:', error);
+      setOutput("Resonance disrupted. The lattice trembles... Please try again.");
+    }
   };
 
   // Handle page click to reduce hallucination values
