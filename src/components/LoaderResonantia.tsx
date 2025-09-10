@@ -44,12 +44,13 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
       
       // Smooth progress that reaches 100%
       let progressValue;
-      if (base >= 1) {
+      if (base >= 0.99) {
+        // Ensure we reach 100% when close to completion
         progressValue = 100;
       } else {
         // Add subtle wobble only during loading, not at the end
         const wobble = base < 0.9 ? Math.sin(elapsed / 140) * 0.01 : 0;
-        progressValue = Math.min(100, Math.floor((base + wobble) * 100));
+        progressValue = Math.min(100, Math.round((base + wobble) * 100));
       }
       
       setProgress(progressValue);
@@ -57,7 +58,7 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
       const idx = Math.min(bootMessages.length - 1, Math.floor(bootMessages.length * base));
       setCurrentMessage(bootMessages[idx]);
 
-      if (elapsed >= minDurationMs && base >= 1) {
+      if (elapsed >= minDurationMs && progressValue >= 100) {
         setShowAccessButton(true);
         return;
       }
