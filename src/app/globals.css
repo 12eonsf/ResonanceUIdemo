@@ -33,3 +33,56 @@ body {
   color: hsl(var(--foreground));
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* iOS PWA Fullscreen Support */
+html {
+  height: 100%;
+  height: -webkit-fill-available;
+}
+
+body {
+  min-height: 100%;
+  min-height: -webkit-fill-available;
+}
+
+/* iOS Safe Area Support */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+    padding-top: max(0px, env(safe-area-inset-top));
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
+  }
+}
+
+/* iOS Status Bar Background */
+@supports (padding: max(0px)) {
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: env(safe-area-inset-top);
+    background: #000000;
+    z-index: 9999;
+  }
+}
+
+/* Prevent iOS bounce scrolling */
+body {
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* iOS Web App specific styles */
+@media screen and (display-mode: standalone) {
+  body {
+    background: #000000;
+  }
+  
+  /* Hide address bar area */
+  body::before {
+    display: block;
+  }
+}
