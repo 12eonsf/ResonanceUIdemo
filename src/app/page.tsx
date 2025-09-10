@@ -1427,6 +1427,12 @@ export default function ResonantiaInterface() {
   const [isVisitorModalOpen, setIsVisitorModalOpen] = useState(false);
   const [visitorForm, setVisitorForm] = useState({ name: '', email: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Physiological metrics state
+  const [heartRate, setHeartRate] = useState(72);
+  const [temperature, setTemperature] = useState(36.5);
+  const [bloodOxygen, setBloodOxygen] = useState(98);
+  const [neuralOscillation, setNeuralOscillation] = useState(8.5);
 
   // Neural Sync progress animation
   useEffect(() => {
@@ -1459,6 +1465,37 @@ export default function ResonantiaInterface() {
       document.removeEventListener('keydown', handleEscKey);
     };
   }, [isVisitorModalOpen]);
+
+  // Physiological metrics animation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Heart rate: 70-75 BPM with slight variation
+      setHeartRate(prev => {
+        const variation = (Math.random() - 0.5) * 2;
+        return Math.max(70, Math.min(75, prev + variation));
+      });
+      
+      // Temperature: 36.3-36.7°C with minimal variation
+      setTemperature(prev => {
+        const variation = (Math.random() - 0.5) * 0.2;
+        return Math.max(36.3, Math.min(36.7, prev + variation));
+      });
+      
+      // Blood oxygen: 97-99% with small variation
+      setBloodOxygen(prev => {
+        const variation = (Math.random() - 0.5) * 1;
+        return Math.max(97, Math.min(99, prev + variation));
+      });
+      
+      // Neural oscillation: 8.0-9.0 Hz with wave-like variation
+      setNeuralOscillation(prev => {
+        const variation = Math.sin(Date.now() / 1000) * 0.3;
+        return Math.max(8.0, Math.min(9.0, 8.5 + variation));
+      });
+    }, 2000); // Update every 2 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   const onMode = (m: typeof mode) => { setMode(m); playRipple(0.7); if(m==="interpretation") setOutput("Interpretation: symbols indicate constructive interference ahead."); if(m==="translation") setOutput("Echo Translation: partial comprehension achieved. Alignment not advised."); if(m==="ar") setOutput("Augument Reality: overlay ready. Keep distance from threshold."); if(m==="sync") setOutput("Neural Sync: coherence at 100%. Proceed with caution."); };
 
@@ -1706,6 +1743,54 @@ export default function ResonantiaInterface() {
                         <div className="w-3 h-3 bg-white/80 rounded-full absolute right-0.5 top-0.5"></div>
                       </div>
                       <span className="text-white/80 text-xs font-mono">ON</span>
+                    </div>
+                  </div>
+
+                  {/* Physiological Metrics */}
+                  <div className="pt-3 border-t border-white/10">
+                    <div className="text-white/60 text-xs mb-2">Physiological Metrics</div>
+                    <div className="grid grid-cols-2 gap-3">
+                      {/* Heart Rate */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+                          <span className="text-white/70 text-xs">HR</span>
+                        </div>
+                        <span className="text-white font-mono text-sm">{Math.round(heartRate)} BPM</span>
+                      </div>
+
+                      {/* Temperature */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
+                          <span className="text-white/70 text-xs">Temp</span>
+                        </div>
+                        <span className="text-white font-mono text-sm">{temperature.toFixed(1)}°C</span>
+                      </div>
+
+                      {/* Blood Oxygen */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                          <span className="text-white/70 text-xs">SpO₂</span>
+                        </div>
+                        <span className="text-white font-mono text-sm">{Math.round(bloodOxygen)}%</span>
+                      </div>
+
+                      {/* Neural Oscillation */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full">
+                            <motion.div 
+                              className="w-full h-full bg-purple-400 rounded-full"
+                              animate={{ scale: [1, 1.2, 1] }}
+                              transition={{ duration: 2, repeat: Infinity }}
+                            />
+                          </div>
+                          <span className="text-white/70 text-xs">Neural</span>
+                        </div>
+                        <span className="text-white font-mono text-sm">{neuralOscillation.toFixed(1)} Hz</span>
+                      </div>
                     </div>
                   </div>
                 </div>
