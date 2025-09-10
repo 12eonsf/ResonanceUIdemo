@@ -403,8 +403,8 @@ const DeltaLogo: React.FC = () => {
   
   return (
     <div className="flex items-center gap-3 select-none">
-      <div className="relative w-12 h-12">
-        <svg viewBox="0 0 100 100" className="absolute inset-0">
+      <div className="relative w-12 h-12 overflow-visible">
+        <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full">
           <defs>
             <linearGradient id="dg1" x1="0" x2="1" y1="0" y2="1">
               <stop offset="0%" stopColor="#fff" stopOpacity={0.95} />
@@ -1606,8 +1606,8 @@ export default function ResonantiaInterface() {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex flex-col items-center gap-4">
             <div className="flex items-center gap-3">
-              <div className="relative w-10 h-10 md:w-12 md:h-12">
-                <svg viewBox="0 0 100 100" className="absolute inset-0">
+              <div className="relative w-12 h-12 md:w-16 md:h-16 overflow-visible">
+                <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full">
                   <defs>
                     <linearGradient id="dg-header1" x1="0" x2="1" y1="0" y2="1">
                       <stop offset="0%" stopColor="#fff" stopOpacity={0.95} />
