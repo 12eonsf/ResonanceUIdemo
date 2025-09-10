@@ -41,14 +41,23 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
     const tick = (t: number) => {
       const elapsed = t - start;
       const base = Math.min(1, elapsed / minDurationMs);
-      const wobble = Math.sin(elapsed / 140) * 0.03;
-      const p = Math.min(1, base * (0.96 + wobble));
-      setProgress(Math.round(p * 100));
+      
+      // Smooth progress that reaches 100%
+      let progressValue;
+      if (base >= 1) {
+        progressValue = 100;
+      } else {
+        // Add subtle wobble only during loading, not at the end
+        const wobble = base < 0.9 ? Math.sin(elapsed / 140) * 0.01 : 0;
+        progressValue = Math.min(100, Math.floor((base + wobble) * 100));
+      }
+      
+      setProgress(progressValue);
 
-      const idx = Math.min(bootMessages.length - 1, Math.floor(bootMessages.length * p));
+      const idx = Math.min(bootMessages.length - 1, Math.floor(bootMessages.length * base));
       setCurrentMessage(bootMessages[idx]);
 
-      if (elapsed >= minDurationMs && p >= 0.995) {
+      if (elapsed >= minDurationMs && base >= 1) {
         setShowAccessButton(true);
         return;
       }
@@ -58,7 +67,6 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
     return () => cancelAnimationFrame(raf);
   }, [minDurationMs, onComplete, bootMessages]);
 
-  const stability = Math.max(0, 100 - progress + Math.sin(progress / 6) * 2);
 
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-black text-neutral-200">
@@ -215,9 +223,8 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
                   transition={{ ease: "easeOut", duration: 0.3 }}
                 />
               </div>
-              <div className="mt-2 flex items-center justify-between text-[11px] text-neutral-500">
+              <div className="mt-2 text-[11px] text-neutral-500">
                 <span className="font-mono">{currentMessage}</span>
-                <span>System Stability: {stability.toFixed(0)}%</span>
               </div>
             </div>
           ) : (
