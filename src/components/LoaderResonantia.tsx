@@ -16,6 +16,7 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
   const [progress, setProgress] = useState(0);
   const [showAccessButton, setShowAccessButton] = useState(false);
   const [isGlitching, setIsGlitching] = useState(false);
+  const [hasStartedLoading, setHasStartedLoading] = useState(false);
   const bootMessages = useMemo(
     () => [
       "Initializing core protocols…",
@@ -38,9 +39,29 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
   useEffect(() => {
     let raf: number;
     const start = performance.now();
+    const initialDelay = 800; // 800ms initial delay before starting progress
+    
     const tick = (t: number) => {
       const elapsed = t - start;
-      const base = Math.min(1, elapsed / minDurationMs);
+      
+      // Wait for initial delay before starting progress
+      if (elapsed < initialDelay) {
+        setProgress(0);
+        setCurrentMessage(bootMessages[0]);
+        setHasStartedLoading(false);
+        raf = requestAnimationFrame(tick);
+        return;
+      }
+      
+      // Start loading after delay
+      if (!hasStartedLoading) {
+        setHasStartedLoading(true);
+      }
+      
+      // Calculate progress based on remaining time after delay
+      const loadingElapsed = elapsed - initialDelay;
+      const loadingDuration = minDurationMs - initialDelay;
+      const base = Math.min(1, loadingElapsed / loadingDuration);
       
       // Simple, reliable progress calculation - no wobble, no regression
       let progressValue;
@@ -65,7 +86,7 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [minDurationMs, onComplete, bootMessages]);
+  }, [minDurationMs, onComplete, bootMessages, hasStartedLoading]);
 
 
   return (
@@ -211,22 +232,49 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
 
           {/* Progress / Stability or Access Button */}
           {!showAccessButton ? (
-            <div className="w-[min(560px,90vw)]">
+            <motion.div 
+              className="w-[min(560px,90vw)]"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
               <div className="mb-2 flex items-center justify-between text-xs text-neutral-400">
                 <span>Boot sequence</span>
-                <span>{progress}%</span>
+                <motion.span
+                  animate={{ 
+                    opacity: hasStartedLoading ? 1 : 0.6,
+                    scale: hasStartedLoading ? 1 : 0.95
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {progress}%
+                </motion.span>
               </div>
               <div className="relative h-2 overflow-hidden rounded-full bg-white/10">
                 <motion.div
                   className="absolute left-0 top-0 h-full bg-white/70"
-                  animate={{ width: `${progress}%` }}
-                  transition={{ ease: "easeOut", duration: 0.3 }}
+                  animate={{ 
+                    width: `${progress}%`,
+                    opacity: hasStartedLoading ? 1 : 0.3
+                  }}
+                  transition={{ 
+                    width: { ease: "easeOut", duration: 0.3 },
+                    opacity: { duration: 0.5 }
+                  }}
                 />
               </div>
               <div className="mt-2 text-[11px] text-neutral-500 h-4 flex items-center">
-                <span className="font-mono">{currentMessage}</span>
+                <motion.span 
+                  className="font-mono"
+                  animate={{ 
+                    opacity: hasStartedLoading ? 1 : 0.7
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {currentMessage}
+                </motion.span>
               </div>
-            </div>
+            </motion.div>
           ) : (
             <motion.button
               initial={{ opacity: 0 }}
