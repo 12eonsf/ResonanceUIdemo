@@ -1511,6 +1511,33 @@ export default function ResonantiaInterface() {
     };
   }, [isVisitorModalOpen]);
 
+  // Handle mobile input focus to prevent zoom and alignment issues
+  const handleInputFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    // Prevent iOS zoom by ensuring viewport is properly set
+    const viewport = document.querySelector('meta[name="viewport"]');
+    if (viewport) {
+      viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+    }
+    
+    // Fix cursor alignment on mobile
+    const input = e.target;
+    input.style.transform = 'translateZ(0)';
+    input.style.webkitTransform = 'translateZ(0)';
+    
+    // Ensure proper positioning
+    setTimeout(() => {
+      input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+  };
+
+  const handleInputBlur = () => {
+    // Restore normal viewport after input loses focus
+    const viewport = document.querySelector('meta[name="viewport"]');
+    if (viewport) {
+      viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, viewport-fit=cover');
+    }
+  };
+
   // Physiological metrics animation - only start after loading is complete
   useEffect(() => {
     // Don't start physiological metrics until loading is complete
@@ -2260,7 +2287,7 @@ export default function ResonantiaInterface() {
       {/* Visitor Access Modal */}
       {isVisitorModalOpen && (
         <div 
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 modal-container"
           onClick={(e) => {
             if (e.target === e.currentTarget) {
               setIsVisitorModalOpen(false);
@@ -2271,7 +2298,7 @@ export default function ResonantiaInterface() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            className="bg-white/5 border border-white/20 rounded-lg p-6 w-full max-w-md backdrop-blur-sm relative"
+            className="bg-white/5 border border-white/20 rounded-lg p-6 w-full max-w-md backdrop-blur-sm relative modal-content"
           >
             {/* Close Button */}
             <button
@@ -2304,9 +2331,15 @@ export default function ResonantiaInterface() {
                     type="text"
                     value={visitorForm.name}
                     onChange={(e) => setVisitorForm(prev => ({ ...prev, name: e.target.value }))}
-                    className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:border-white/40 focus:outline-none transition-colors"
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
+                    className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:border-white/40 focus:outline-none transition-colors text-base md:text-sm"
                     placeholder="Enter your name"
                     required
+                    autoComplete="name"
+                    autoCapitalize="words"
+                    autoCorrect="off"
+                    spellCheck="false"
                   />
                 </div>
 
@@ -2318,9 +2351,15 @@ export default function ResonantiaInterface() {
                     type="email"
                     value={visitorForm.email}
                     onChange={(e) => setVisitorForm(prev => ({ ...prev, email: e.target.value }))}
-                    className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:border-white/40 focus:outline-none transition-colors"
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
+                    className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:border-white/40 focus:outline-none transition-colors text-base md:text-sm"
                     placeholder="Enter your email"
                     required
+                    autoComplete="email"
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    spellCheck="false"
                   />
                 </div>
 
