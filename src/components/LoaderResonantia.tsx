@@ -237,12 +237,7 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
 
           {/* Progress / Stability or Access Button */}
           {!showAccessButton ? (
-            <motion.div 
-              className="w-[min(560px,90vw)]"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            >
+            <div className="w-[min(560px,90vw)]">
               <div className="mb-2 flex items-center justify-between text-xs text-neutral-400">
                 <span>Boot sequence</span>
                 <motion.span
@@ -279,7 +274,7 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
                   {currentMessage}
                 </motion.span>
               </div>
-            </motion.div>
+            </div>
           ) : (
             <motion.button
               initial={{ opacity: 0 }}
