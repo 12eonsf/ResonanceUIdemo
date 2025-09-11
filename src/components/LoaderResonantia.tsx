@@ -40,6 +40,7 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
     let raf: number;
     const start = performance.now();
     const initialDelay = 800; // 800ms initial delay before starting progress
+    let hasStarted = false; // Local variable to track loading state
     
     const tick = (t: number) => {
       const elapsed = t - start;
@@ -48,14 +49,18 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
       if (elapsed < initialDelay) {
         setProgress(0);
         setCurrentMessage(bootMessages[0]);
-        setHasStartedLoading(false);
+        if (hasStarted) {
+          setHasStartedLoading(false);
+          hasStarted = false;
+        }
         raf = requestAnimationFrame(tick);
         return;
       }
       
       // Start loading after delay
-      if (!hasStartedLoading) {
+      if (!hasStarted) {
         setHasStartedLoading(true);
+        hasStarted = true;
       }
       
       // Calculate progress based on remaining time after delay
@@ -86,7 +91,7 @@ export default function LoaderResonantia({ onComplete, minDurationMs = 3000 }: {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [minDurationMs, onComplete, bootMessages, hasStartedLoading]);
+  }, [minDurationMs, onComplete, bootMessages]);
 
 
   return (
