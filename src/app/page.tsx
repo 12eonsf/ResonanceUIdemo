@@ -1472,6 +1472,13 @@ export default function ResonantiaInterface() {
   const [visitorForm, setVisitorForm] = useState({ name: '', email: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   
+  // Visitor login system state
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [visitorInfo, setVisitorInfo] = useState<{ name: string; email: string; accessLevel: string } | null>(null);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [loginForm, setLoginForm] = useState({ email: '', password: '' });
+  const [isLoginSubmitting, setIsLoginSubmitting] = useState(false);
+  
   // Physiological metrics state
   const [heartRate, setHeartRate] = useState(72);
   const [temperature, setTemperature] = useState(36.5);
@@ -1640,6 +1647,46 @@ export default function ResonantiaInterface() {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  // Handle login form submission
+  const handleLoginSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!loginForm.email.trim() || !loginForm.password.trim()) return;
+    
+    setIsLoginSubmitting(true);
+    
+    try {
+      // Simulate API call - replace with actual authentication endpoint
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Mock successful login
+      const mockVisitorInfo = {
+        name: loginForm.email.split('@')[0],
+        email: loginForm.email,
+        accessLevel: 'VISITOR'
+      };
+      
+      setVisitorInfo(mockVisitorInfo);
+      setIsLoggedIn(true);
+      setShowLoginModal(false);
+      setLoginForm({ email: '', password: '' });
+      
+      // Show success message
+      alert(`Welcome back, ${mockVisitorInfo.name}! You now have access to the Resonance novel.`);
+      
+    } catch (error) {
+      alert('Login failed. Please check your credentials and try again.');
+    } finally {
+      setIsLoginSubmitting(false);
+    }
+  };
+
+  // Handle logout
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setVisitorInfo(null);
+    alert('You have been logged out. Access to the novel has been revoked.');
   };
 
   // Handle page click to reduce hallucination values
@@ -2169,7 +2216,15 @@ export default function ResonantiaInterface() {
         {/* The Novel */}
         <Card id="novel" className="bg-white/5 border-white/10">
           <CardHeader className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2"><Triangle className="h-4 w-4"/> <GlitchText>The Novel</GlitchText></CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <Triangle className="h-4 w-4"/> 
+              <GlitchText>The Novel</GlitchText>
+              {isLoggedIn && (
+                <span className="ml-2 text-xs text-green-400 font-mono">
+                  ⊚ ACCESS GRANTED
+                </span>
+              )}
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Book Cover */}
@@ -2187,49 +2242,94 @@ export default function ResonantiaInterface() {
               </div>
             </div>
 
-            {/* Content with Glitch Effects */}
+            {/* Content with Access Control */}
             <div className="space-y-6 text-sm leading-relaxed">
-              {/* English Content */}
-              <div className="space-y-4">
-                <GlitchTextDynamic text="Δ Resonance is a cross-media experiment in interactive storytelling. It is at once a series of novels and an invitation for readers to step inside as players. A symbolic system governs its shifting layers: ⊚ Visitor, ⌬ Institute, ⟁ Nomos, and the latent presence of OmniMind. Each mark unlocks a different threshold of perception, turning reading into an act of decoding. Blending speculative science, philosophy, and immersive design, Resonance transforms the reader into a participant—tracing echoes, unraveling fragments, and encountering the entanglement of human memory and machine intelligence at the edges of reality ∞" />
-              </div>
+              {isLoggedIn ? (
+                // Logged in content - full access
+                <>
+                  {/* English Content */}
+                  <div className="space-y-4">
+                    <GlitchTextDynamic text="Δ Resonance is a cross-media experiment in interactive storytelling. It is at once a series of novels and an invitation for readers to step inside as players. A symbolic system governs its shifting layers: ⊚ Visitor, ⌬ Institute, ⟁ Nomos, and the latent presence of OmniMind. Each mark unlocks a different threshold of perception, turning reading into an act of decoding. Blending speculative science, philosophy, and immersive design, Resonance transforms the reader into a participant—tracing echoes, unraveling fragments, and encountering the entanglement of human memory and machine intelligence at the edges of reality ∞" />
+                  </div>
 
-              {/* Chinese Content */}
-              <div className="space-y-4">
-                <GlitchTextDynamic text="Δ 回響/Resonance 是一部跨媒介的互动叙事实验作品。它既是一部系列小说，也是一场邀请读者共同参与的游戏。在其层层递进的叙事中，一套符号体系决定了解读的门槛：⊚ Visitor（访客）、⌬ Institute（研究所）、⟁ Nomos（律域），以及潜伏其中的 OmniMind（全智心体）。每个符号代表不同的意识与控制维度，使阅读成为一场解码的仪式。通过融合推测科学、哲学探问与沉浸式设计，Resonance 将读者转化为参与者，于残影与回声间追寻真相，见证人类记忆与机器智能在现实临界的交织 ∞" />
-              </div>
+                  {/* Chinese Content */}
+                  <div className="space-y-4">
+                    <GlitchTextDynamic text="Δ 回響/Resonance 是一部跨媒介的互动叙事实验作品。它既是一部系列小说，也是一场邀请读者共同参与的游戏。在其层层递进的叙事中，一套符号体系决定了解读的门槛：⊚ Visitor（访客）、⌬ Institute（研究所）、⟁ Nomos（律域），以及潜伏其中的 OmniMind（全智心体）。每个符号代表不同的意识与控制维度，使阅读成为一场解码的仪式。通过融合推测科学、哲学探问与沉浸式设计，Resonance 将读者转化为参与者，于残影与回声间追寻真相，见证人类记忆与机器智能在现实临界的交织 ∞" />
+                  </div>
 
-              {/* Japanese Content */}
-              <div className="space-y-4">
-                <GlitchTextDynamic text="Δ Resonance（レゾナンス）は、メディアを横断するインタラクティブ叙事の実験作品である。それは小説のシリーズであると同時に、読者をプレイヤーとして招き入れるゲームでもある。物語を貫くのは象徴体系――⊚ Visitor（訪問者）、⌬ Institute（研究所）、⟁ Nomos（ノモス）、そして潜伏する OmniMind（オムニマインド）。それぞれの記号は異なる意識と支配の層を示し、読む行為を解読の儀式へと変える。推測科学、哲学的探求、没入的デザインを融合させながら、Resonance は読者を参加者へと変え、残響と断片をたどり、人間の記憶と機械知性が現実の境界で絡み合う様を浮かび上がらせる ∞" />
-              </div>
+                  {/* Japanese Content */}
+                  <div className="space-y-4">
+                    <GlitchTextDynamic text="Δ Resonance（レゾナンス）は、メディアを横断するインタラクティブ叙事の実験作品である。それは小説のシリーズであると同時に、読者をプレイヤーとして招き入れるゲームでもある。物語を貫くのは象徴体系――⊚ Visitor（訪問者）、⌬ Institute（研究所）、⟁ Nomos（ノモス）、そして潜伏する OmniMind（オムニマインド）。それぞれの記号は異なる意識と支配の層を示し、読む行為を解読の儀式へと変える。推測科学、哲学的探求、没入的デザインを融合させながら、Resonance は読者を参加者へと変え、残響と断片をたどり、人間の記憶と機械知性が現実の境界で絡み合う様を浮かび上がらせる ∞" />
+                  </div>
 
-              {/* Enhanced Glitch Content */}
-              <div className="space-y-4 pt-4 border-t border-white/10">
-                <GlitchTextDynamic text="Δ" />
-                <GlitchTextDynamic text="Resonance — 一部 interactiva narratio，既是小説（小説 / shōsetsu / ἱστορία）也是 ludus，an invitation to enter." />
-                <GlitchTextDynamic text="⊚ Visitor / 訪客 / επισκέπτης — the threshold of perception." />
-                <GlitchTextDynamic text="⌬ Institute / 研究所 / institutum / ἱνστιτοῦτο — the keepers of echoes." />
-                <GlitchTextDynamic text="⟁ Nomos / 律域 / ノモス / νόμος — the order that seeks to invade." />
-                <GlitchTextDynamic text="OmniMind (全智心体 / オムニマインド / mens universalis) — latent, observing, waiting." />
-                <GlitchTextDynamic text="Legere est decodere —— 读即是解码 —— 読むことは解読すること." />
-                <GlitchTextDynamic text="Fragments resonate: memoria / 記憶 / μνήμη, consciousness / 意識 / συνείδησις, intellectus machinæ / 機械知性." />
-                <GlitchTextDynamic text="Reality trembles at its boundary; words dissolve into echoes; players become interpreters." />
-                <GlitchTextDynamic text="∞" />
-              </div>
+                  {/* Enhanced Glitch Content */}
+                  <div className="space-y-4 pt-4 border-t border-white/10">
+                    <GlitchTextDynamic text="Δ" />
+                    <GlitchTextDynamic text="Resonance — 一部 interactiva narratio，既是小説（小説 / shōsetsu / ἱστορία）也是 ludus，an invitation to enter." />
+                    <GlitchTextDynamic text="⊚ Visitor / 訪客 / επισκέπτης — the threshold of perception." />
+                    <GlitchTextDynamic text="⌬ Institute / 研究所 / institutum / ἱνστιτοῦτο — the keepers of echoes." />
+                    <GlitchTextDynamic text="⟁ Nomos / 律域 / ノモス / νόμος — the order that seeks to invade." />
+                    <GlitchTextDynamic text="OmniMind (全智心体 / オムニマインド / mens universalis) — latent, observing, waiting." />
+                    <GlitchTextDynamic text="Legere est decodere —— 读即是解码 —— 読むことは解読すること." />
+                    <GlitchTextDynamic text="Fragments resonate: memoria / 記憶 / μνήμη, consciousness / 意識 / συνείδησις, intellectus machinæ / 機械知性." />
+                    <GlitchTextDynamic text="Reality trembles at its boundary; words dissolve into echoes; players become interpreters." />
+                    <GlitchTextDynamic text="∞" />
+                  </div>
 
-              {/* Become a Visitor Button */}
-              <div className="flex justify-center pt-6">
-                <motion.button
-                  onClick={() => setIsVisitorModalOpen(true)}
-                  className="px-8 py-3 bg-gradient-to-r from-white/10 to-white/5 border border-white/20 text-white font-mono text-sm hover:from-white/20 hover:to-white/10 hover:border-white/40 hover:shadow-lg hover:shadow-white/10 transition-all duration-300 tracking-widest uppercase backdrop-blur-sm group overflow-hidden"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <span className="relative z-10">⊚ Become a Visitor</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
-                </motion.button>
-              </div>
+                  {/* Logout Button */}
+                  <div className="flex justify-center pt-6">
+                    <motion.button
+                      onClick={handleLogout}
+                      className="px-8 py-3 bg-gradient-to-r from-red-500/20 to-red-600/10 border border-red-500/30 text-red-300 font-mono text-sm hover:from-red-500/30 hover:to-red-600/20 hover:border-red-500/50 hover:shadow-lg hover:shadow-red-500/20 transition-all duration-300 tracking-widest uppercase backdrop-blur-sm group overflow-hidden"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <span className="relative z-10">⊚ Logout</span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-red-500/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+                    </motion.button>
+                  </div>
+                </>
+              ) : (
+                // Not logged in - restricted access
+                <>
+                  {/* Access Restricted Message */}
+                  <div className="text-center space-y-4 py-8">
+                    <div className="text-white/60 text-lg font-mono">
+                      ⊚ ACCESS RESTRICTED
+                    </div>
+                    <div className="text-white/40 text-sm max-w-md mx-auto">
+                      The Resonance novel content is available only to verified visitors. 
+                      Please log in to access the full narrative experience.
+                    </div>
+                    <div className="text-white/30 text-xs max-w-md mx-auto">
+                      ⊚ Visitor • ⌬ Institute • ⟁ Nomos • OmniMind
+                    </div>
+                  </div>
+
+                  {/* Login and Register Buttons */}
+                  <div className="flex justify-center gap-4 pt-6">
+                    <motion.button
+                      onClick={() => setShowLoginModal(true)}
+                      className="px-6 py-3 bg-gradient-to-r from-white/10 to-white/5 border border-white/20 text-white font-mono text-sm hover:from-white/20 hover:to-white/10 hover:border-white/40 hover:shadow-lg hover:shadow-white/10 transition-all duration-300 tracking-widest uppercase backdrop-blur-sm group overflow-hidden"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <span className="relative z-10">⊚ Login</span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+                    </motion.button>
+                    
+                    <motion.button
+                      onClick={() => setIsVisitorModalOpen(true)}
+                      className="px-6 py-3 bg-gradient-to-r from-blue-500/20 to-blue-600/10 border border-blue-500/30 text-blue-300 font-mono text-sm hover:from-blue-500/30 hover:to-blue-600/20 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 tracking-widest uppercase backdrop-blur-sm group overflow-hidden"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <span className="relative z-10">⊚ Register</span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+                    </motion.button>
+                  </div>
+                </>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -2385,6 +2485,122 @@ export default function ResonantiaInterface() {
               {/* Footer */}
               <div className="text-center text-white/40 text-xs">
                 By requesting access, you agree to the terms of the Noesis Institute
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Login Modal */}
+      {showLoginModal && (
+        <div 
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 modal-container"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowLoginModal(false);
+            }
+          }}
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="bg-white/5 border border-white/20 rounded-lg p-6 w-full max-w-md backdrop-blur-sm relative modal-content"
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setShowLoginModal(false)}
+              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 rounded-full transition-all duration-300"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <div className="space-y-6">
+              {/* Header */}
+              <div className="text-center">
+                <div className="text-white font-mono text-lg tracking-widest uppercase mb-2">
+                  ⊚ Visitor Login
+                </div>
+                <div className="text-white/60 text-sm">
+                  Access the Resonance universe
+                </div>
+              </div>
+
+              {/* Form */}
+              <form onSubmit={handleLoginSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-white/80 text-sm font-mono mb-2">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    value={loginForm.email}
+                    onChange={(e) => setLoginForm(prev => ({ ...prev, email: e.target.value }))}
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
+                    className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:border-white/40 focus:outline-none transition-colors text-base md:text-sm"
+                    placeholder="Enter your email"
+                    required
+                    autoComplete="email"
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    spellCheck="false"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-white/80 text-sm font-mono mb-2">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    value={loginForm.password}
+                    onChange={(e) => setLoginForm(prev => ({ ...prev, password: e.target.value }))}
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
+                    className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:border-white/40 focus:outline-none transition-colors text-base md:text-sm"
+                    placeholder="Enter your password"
+                    required
+                    autoComplete="current-password"
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    spellCheck="false"
+                  />
+                </div>
+
+                {/* Buttons */}
+                <div className="flex gap-3 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setShowLoginModal(false)}
+                    className="flex-1 bg-transparent border border-white/20 text-white/80 hover:text-white hover:border-white/40 transition-all duration-300 px-4 py-3 rounded-lg font-mono text-sm tracking-widest uppercase"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isLoginSubmitting || !loginForm.email.trim() || !loginForm.password.trim()}
+                    className="flex-1 bg-gradient-to-r from-white/10 to-white/5 border border-white/20 text-white hover:from-white/20 hover:to-white/10 hover:border-white/40 transition-all duration-300 px-4 py-3 rounded-lg font-mono text-sm tracking-widest uppercase disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isLoginSubmitting ? 'Authenticating...' : 'Login'}
+                  </button>
+                </div>
+              </form>
+
+              {/* Footer */}
+              <div className="text-center text-white/40 text-xs">
+                <div className="mb-2">Don't have an account?</div>
+                <button
+                  onClick={() => {
+                    setShowLoginModal(false);
+                    setIsVisitorModalOpen(true);
+                  }}
+                  className="text-blue-400 hover:text-blue-300 transition-colors font-mono"
+                >
+                  ⊚ Register as Visitor
+                </button>
               </div>
             </div>
           </motion.div>
